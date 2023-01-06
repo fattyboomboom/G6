@@ -1,26 +1,29 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <v-app>
+    <!-- <v-app-bar color="black"></v-app-bar> -->
+    <Navbar></Navbar>
+    <v-main>
+      <ProfileAvatarVue/>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// import HelloWorld from "./components/HelloWorld.vue";
+import Navbar from "./components/NavBar.vue";
+import ProfileAvatarVue from "./components/ProfileAvatar.vue";
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
+  name: "App",
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+  components: {
+    // HelloWorld,
+    Navbar,
+    ProfileAvatarVue,
+  },
+
+  data: () => ({
+    //
+  }),
+};
+</script>
