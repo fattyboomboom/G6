@@ -1,5 +1,6 @@
 <template>
-  <v-navigation-drawer expand-on-hover rail color="black">
+  <!-- This nav drawer is set to permanent. will always be available on every screen size. -->
+  <v-navigation-drawer expand-on-hover rail color="black" permanent="">
     <v-list>
       <v-list-item
         prepend-avatar="https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg"
@@ -37,11 +38,11 @@
     </v-list>
     <v-divider color="white"></v-divider>
     <v-list density="compact" nav>
-    <v-list-item
-      prepend-icon="mdi-logout"
-      title="Sign Out"
-      value="signout"
-    ></v-list-item>
+      <v-list-item
+        prepend-icon="mdi-logout"
+        title="Sign Out"
+        value="signout"
+      ></v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>
