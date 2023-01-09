@@ -3,7 +3,7 @@
     <!-- <v-app-bar color="black"></v-app-bar> -->
     <Navbar></Navbar>
     <v-main>
-      <ProfileAvatarVue/>
+      <ProfileAvatarVue name="Tom Anderson" major="Computer Science" />
     </v-main>
   </v-app>
 </template>
