@@ -9,9 +9,10 @@
         </v-avatar>
       </center>
       <v-divider color="white" thickness="2"></v-divider>
-      <h2>Name:</h2>
+      <h2>Name: {{ name }}</h2>
+
       <v-divider color="white" thickness="2"></v-divider>
-      <h2>Major:</h2>
+      <h2>Major: {{ major }}</h2>
     </v-card>
   </v-col>
 </template>
@@ -19,5 +20,9 @@
 <script>
 export default {
   name: "ProfileAvatar",
+  props: ["name", "major"],
+  data() {
+    return {};
+  },
 };
 </script>
