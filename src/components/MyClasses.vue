@@ -1,11 +1,17 @@
 <template>
-  <v-col cols="3">
-    <v-card variant="outlined">
+  <span>
+    <v-card class="classcard mx-4 mt-3" variant="outlined" width="300">
       <v-list>
-        <center>
-          <VListItemTitle color="black"><h2>My Classes</h2></VListItemTitle>
-          <VDivider color="black" thickness="2"></VDivider>
-        </center>
+        <section>
+          <VListItemTitle color="black">
+            <!-- <VBtn color="indigo" rounded="" >
+              <v-icon>mdi-plus</v-icon>
+            </VBtn> -->
+            <h2>My Classes</h2>
+          </VListItemTitle>
+        </section>
+        <VDivider color="black" thickness="2"></VDivider>
+
         <VListItem v-for="classes in schedule" :key="classes.id">
           <li>
             <a href="class page">{{ classes.id }} </a>
@@ -13,7 +19,7 @@
         </VListItem>
       </v-list>
     </v-card>
-  </v-col>
+  </span>
 </template>
 
 <script>
@@ -51,3 +57,14 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+span {
+  position: absolute;
+  right: 0%;
+}
+
+h2 {
+  text-align: center;
+}
+</style>

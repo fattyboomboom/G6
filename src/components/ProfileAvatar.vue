@@ -1,7 +1,7 @@
 <template>
   <v-col cols="3">
-    <v-card color="black" position="absolute" border="true"
-      ><center>
+    <v-card class="avatar" color="black"  border="true" width="300">
+      <center>
         <v-avatar
           image="https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg"
           size="200"
@@ -20,9 +20,26 @@
 <script>
 export default {
   name: "ProfileAvatar",
-  props: ["name", "major"],
+  props: {
+    name: {
+      type: String,
+      required: true,
+    },
+    major: {
+      type: String,
+      required: false,
+      default: "Undecided",
+    },
+  },
   data() {
     return {};
   },
 };
 </script>
+<style scoped>
+.avatar {
+    position: absolute;
+    left: 6%;
+    top: 5%;
+}
+</style>
