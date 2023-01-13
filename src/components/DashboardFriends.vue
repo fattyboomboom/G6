@@ -1,23 +1,15 @@
 <template>
   <VRow>
-    <VCol cols="3" >
-      <VCard
-        :border="true"
-        
-        class="friendslist"
-        variant="outlined"
-        width="300"
-      >
+    <VCol cols="3">
+      <VCard :border="true" class="friendslist" variant="outlined">
         <VCardTitle> <h2>Friends</h2> </VCardTitle>
         <VDivider color="black" thickness="2"></VDivider>
-
         <v-row no-gutters="true">
-          <v-col v-for="n in 6" :key="n" cols="4" align-self="stretch">
+          <v-col v-for="n in friendsProfile" :key="n" cols="4" align-self="stretch">
             <VCard color="white" density="">
               <a href="profile">
                 <v-img
-                  :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
-                  :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
+                  :src="n.image"
                   aspect-ratio="1"
                   cover
                   class="bg-grey-lighten-2"
@@ -36,7 +28,7 @@
                   </template> </v-img
               ></a>
               <VDivider color="white" thickness="2"></VDivider>
-              <center><p>Name</p></center>
+              <center><p>{{ n.name }}</p></center>
             </VCard>
           </v-col>
         </v-row>
@@ -48,6 +40,42 @@
 <script>
 export default {
   name: "DashFriends",
+  data() {
+    return {
+      friendsProfile: [
+        {
+          id: 0,
+          image: "https://randomuser.me/api/portraits/men/58.jpg",
+          name: "Name 1",
+        },
+        {
+          id: 0,
+          image: "https://randomuser.me/api/portraits/women/3.jpg",
+          name: "Name 2",
+        },
+        {
+          id: 0,
+          image: "https://randomuser.me/api/portraits/men/86.jpg",
+          name: "Name 3",
+        },
+        {
+          id: 0,
+          image: "https://randomuser.me/api/portraits/women/18.jpg",
+          name: "Name 4",
+        },
+        {
+          id: 0,
+          image: "https://randomuser.me/api/portraits/men/4.jpg",
+          name: "Name 5",
+        },
+        {
+          id: 0,
+          image: "https://randomuser.me/api/portraits/women/90.jpg",
+          name: "Name 6",
+        },
+      ],
+    };
+  },
 };
 </script>
 
@@ -57,8 +85,10 @@ h2 {
 }
 
 .friendslist {
-    position: absolute;
-    left:6%;
-    top: 55%;
+  position: fixed;
+  left: 6%;
+  top: 55%;
+  width: 25%;
+  margin: 5px;
 }
 </style>

@@ -16,11 +16,11 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .v-container {
-  width: 550px;
-  color: black;
-  position: absolute;
-  left: 32%;
+  width: 40%;
+  position: fixed;
+  left: 33%;
+  
 }
 </style>

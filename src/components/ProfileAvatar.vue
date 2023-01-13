@@ -1,6 +1,6 @@
 <template>
   <v-col cols="3">
-    <v-card class="avatar" color="black"  border="true" width="300">
+    <v-card class="avatar" color="black" border="true">
       <center>
         <v-avatar
           image="https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg"
@@ -38,8 +38,10 @@ export default {
 </script>
 <style scoped>
 .avatar {
-    position: absolute;
-    left: 6%;
-    top: 5%;
+  position: fixed;
+  left: 6%;
+  
+  width: 25%;
+  margin: 5px;
 }
 </style>

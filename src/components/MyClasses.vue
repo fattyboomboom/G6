@@ -1,6 +1,6 @@
 <template>
   <span>
-    <v-card class="classcard mx-4 mt-3" variant="outlined" width="300">
+    <v-card class="classcard mx-4 mt-3" variant="outlined">
       <v-list>
         <section>
           <VListItemTitle color="black">
@@ -18,6 +18,12 @@
           </li>
         </VListItem>
       </v-list>
+      <VBtn class="addclass" color="blue" width="50%" rounded="0" @click="add"
+        >Add</VBtn
+      >
+      <VBtn class="deleteclass" color="red" width="50%" rounded="0"
+        >Delete</VBtn
+      >
     </v-card>
   </span>
 </template>
@@ -60,11 +66,19 @@ export default {
 
 <style scoped>
 span {
-  position: absolute;
+  position: fixed;
   right: 0%;
+  width: 25%;
 }
 
 h2 {
   text-align: center;
+}
+
+.addclass {
+  left: 0%;
+}
+.deleteclass {
+  right: 0%;
 }
 </style>
