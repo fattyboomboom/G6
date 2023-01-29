@@ -1,36 +1,17 @@
 <template>
   <v-app>
-    <v-sheet style="max-width: 3000px; position: relative;" class="flex">
-      <v-menu v-model="menu" offset-y>
-        <template v-slot:activator="{ on }">
-          <v-btn block v-on="on" color="primary" elevation="2">
-            Select Course
-          </v-btn>
-        </template>
-
-        <v-list>
-          <v-list-item
-            v-for="course in courses"
-            :key="course"
-            @click="selectCourse(course)"
-          >
-            <v-list-item-title>{{ course }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-    </v-sheet>
+    <filterMenu></filterMenu>
     <v-content>
-      <v-container fill-height grid-list-md class="ml-5">
-        <v-layout row>
+      <v-container>
           <v-row>
             <v-col
               align="center"
-              sm="3"
               col="3"
+              sm="3"
               v-for="note in notes"
               :key="note.id"
             >
-              <v-card :class="{ 'elevation-12': hover }" class="mt-16">
+              <v-card :class="{ 'elevation-12': hover }">
                 <v-img
                   :src="require('@/assets/' + note.image)"
                   :aspect-ratio="1"
@@ -38,15 +19,16 @@
               </v-card>
             </v-col>
           </v-row>
-        </v-layout>
       </v-container>
     </v-content>
   </v-app>
 </template>
 
 <script>
+import filterMenu from '@/globalcomponents/BookListingsFilter.vue'
 export default {
   components: {
+    filterMenu,
   },
 
   data() {
@@ -123,4 +105,5 @@ export default {
 .v-card.v-hover {
   background-color: blue;
 }
+
 </style>

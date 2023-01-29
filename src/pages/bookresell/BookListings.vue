@@ -1,34 +1,49 @@
 <template>
-  <v-row>
-    <v-col v-for="book in books" :key="book" class="d-flex child-flex" cols="3">
-      <VCard class="bookcards">
-        <a href="profile">
-          <v-img :src="book.bookimage" cover class="bimage">
-            <template v-slot:placeholder>
-              <v-row class="fill-height ma-0" align="center" justify="center">
-                <v-progress-circular
-                  indeterminate
-                  color="grey-lighten-5"
-                ></v-progress-circular>
-              </v-row>
-            </template> </v-img
-        ></a>
-        <VDivider thickness="2"></VDivider>
-        <p>{{ book.bookname }}</p>
-        <VDivider class="dividers"></VDivider>
-        <p>{{ book.bookclass }}</p>
-        <VDivider class="dividers"></VDivider>
-        <p>{{ book.price }}</p>
-        <VDivider class="dividers"></VDivider>
-        <p>{{ book.date }}</p>
-      </VCard>
-    </v-col>
-  </v-row>
+  <v-app class="d-flex">
+    <filterMenu></filterMenu>
+    <v-row>
+      <v-col
+        v-for="book in books"
+        :key="book"
+        class="d-flex child-flex"
+        cols="3"
+      >
+        <VCard class="bookcards">
+          <a href="profile">
+            <v-img :src="book.bookimage" cover class="bimage">
+              <template v-slot:placeholder>
+                <v-row class="fill-height ma-0" align="center" justify="center">
+                  <v-progress-circular
+                    indeterminate
+                    color="grey-lighten-5"
+                  ></v-progress-circular>
+                </v-row>
+              </template> </v-img
+          ></a>
+          <VDivider thickness="2"></VDivider>
+          <p>{{ book.bookname }}</p>
+          <VDivider class="dividers"></VDivider>
+          <p>{{ book.bookclass }}</p>
+          <VDivider class="dividers"></VDivider>
+          <p>{{ book.price }}</p>
+          <VDivider class="dividers"></VDivider>
+          <p>{{ book.date }}</p>
+        </VCard>
+      </v-col>
+    </v-row>
+  </v-app>
 </template>
 
 <script>
+import filterMenu from "@/globalcomponents/BookListingsFilter.vue";
+
 export default {
   name: "BookListings",
+
+  components: {
+    filterMenu,
+  },
+
   data() {
     return {
       books: [
