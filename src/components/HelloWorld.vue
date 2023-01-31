@@ -203,19 +203,6 @@ function onClick () {
 
 </script>
 
-<script>
-  export default {
-    data: () => ({
-      items: [
-        { title: 'Click Me' },
-        { title: 'Click Me' },
-        { title: 'Click Me' },
-        { title: 'Click Me 2' },
-      ],
-    }),
-  }
-</script>
-
 <style>
   .v-card--reveal {
     align-items: center;
