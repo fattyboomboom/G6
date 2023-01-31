@@ -120,8 +120,51 @@
               rounded="lg"
             >
             <center>
+              <br><h1><b>UNR Disability Resource Center</b></h1>
+              <div>
+
+        <v-card-text class="pt-6">
+
+          <div class="font-weight-light text-h6 mb-2">
+            <i>Assisting students with disabilities in higher education.</i>
+          </div>
+
+          <h3 class="text-h6 font-weight-light text-blue mb-2">
+            (775) 784-6000 <br> 
+            William N. Pennington Student Achievement Center Room 230
+          </h3>
+
+        </v-card-text>
+
+    <v-hover v-slot="{ isHovering, props }">
+      <v-card
+        class="mx-auto"
+        color="grey-lighten-4"
+        max-width="600"
+        v-bind="props"
+      >
+        <v-img
+
+          :aspect-ratio="7/10"
+          cover
+          src="https://www.unr.edu/main/images/divisions/administration-finance/parking-services/images/campus-ada-access.jpg"
+        >
+          <v-expand-transition>
+            <div
+              v-if="isHovering"
+              class="d-flex transition-fast-in-fast-out bg-blue-darken-2 v-card--reveal text-body-1"
+              style="height: 100%;"
+            >
+              <caption><b>Alt Text:</b> University of Nevada, Reno map of ADA parking and pathways.</caption>
               <br>
-              
+            </div>
+          </v-expand-transition>
+        </v-img>
+
+        
+      </v-card>
+    </v-hover>
+  </div>
             </center>
               <!--  -->
             </v-sheet>
@@ -159,3 +202,27 @@ function onClick () {
 }
 
 </script>
+
+<script>
+  export default {
+    data: () => ({
+      items: [
+        { title: 'Click Me' },
+        { title: 'Click Me' },
+        { title: 'Click Me' },
+        { title: 'Click Me 2' },
+      ],
+    }),
+  }
+</script>
+
+<style>
+  .v-card--reveal {
+    align-items: center;
+    bottom: 0;
+    justify-content: center;
+    opacity: .9;
+    position: absolute;
+    width: 100%;
+  }
+</style>
