@@ -1,5 +1,5 @@
 <template>
-    <v-app class="app">
+    <v-app class="ExplorePage">
       <v-main>
         <NavBar />
         <ExploreBanner />
@@ -8,8 +8,8 @@
             <v-col class="post-col" xs="12" md="8">
              <PostComp />
             </v-col>
-            <v-spacer md="1"/> 
-            <v-col class="wall-col" xs="12" md="3" style="padding-right: 2rem;">
+            
+            <v-col class="wall-col" xs="12" md="4" style="padding-right: 2rem;">
             <WallCards />
           </v-col>
         
@@ -24,7 +24,7 @@
    import PostComp from "./PostComp.vue"
    import ExploreBanner from "./ExploreBanner.vue"
   export default {
-    name: "App",
+    name: "ExplorePage",
     
     components: {
       NavBar,
