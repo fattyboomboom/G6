@@ -1,7 +1,5 @@
 <template>
-
-   
-
+  
         <v-card class="mt-12" color="#C4A484" theme="dark">
               <div class="d-flex flex-wrap justify-space-between">
                 <div>
