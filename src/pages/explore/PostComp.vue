@@ -27,6 +27,8 @@
         </div>
         <template v-slot:append>
           <div class="justify-self-end">
+            <span class="subtitle me-2">{{ post.date }}</span>
+            <span class="me-2">·</span>
             <span class="subtitle me-2">{{ post.time }}</span>
             <span class="me-2">·</span>
             <v-icon class="me-1" icon="mdi-heart"></v-icon>
@@ -47,36 +49,41 @@
         posts: [
           {
             name: "John Smith",
-            time: "11:15 AM",
+            date: "1/1/23",
+            time: "9:00 PM",
             category: "Gaming",
             likes: 256,
             content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
           },
           {
             name: "Jenny Jones",
-            time: "2:45 PM",
+            date: "1/1/23",
+            time: "6:00 PM",
             category: "Coding",
             likes: 98,
             content: "Dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
           },
           {
             name: "Sam Smith",
-            time: "6:00 PM",
+            date: "1/1/23",
+            time: "2:45 PM",
             category: "Cooking",
             likes: 325,
             content: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
           },
           {
             name: "Alice Smith",
-            time: "7:00 PM",
-            category: "Travelling",
+            date: "1/1/23",
+            time: "12:00 PM",
+            category: "Movies",
             likes: 500,
             content: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
           },
           {
             name: "Bob Smith",
-            time: "9:00 PM",
-            category: "Sports",
+            date: "1/1/23",
+            time: "11:15 AM",
+            category: "Music",
             likes: 150,
             content: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
           },

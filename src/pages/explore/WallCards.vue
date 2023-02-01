@@ -1,6 +1,6 @@
 
 <template>
-  <v-container class="mt-12" color="grey-lighten-1" style="overflow-x: hidden; overflow-y: scroll; max-width: 100%; max-height: 500px;">
+  <v-container class="mt-12" color="grey-lighten-1" style="overflow-x: hidden; overflow-y: scroll; max-width: 100%; max-height: 580px;">
     <v-card-title class="text-h4 bottom-border" style="text-align:center;">Community Walls</v-card-title>
     <v-card v-for="category in categories" :key="category.title" class="mt-2" color="grey-lighten-1">
       <div class="d-flex flex-wrap justify-space-between">
@@ -29,7 +29,7 @@ export default {
       {title: 'Art', icon: 'mdi-palette', fill: false},
       {title: 'Cars', icon: 'mdi-car', fill: false},
       {title: 'Coding', icon: 'mdi-code-tags', fill: false},
-      {title: 'Food', icon: 'mdi-food', fill: false},
+      {title: 'Cooking', icon: 'mdi-food', fill: false},
       {title: 'Gaming', icon: 'mdi-gamepad-variant', fill: false},
       {title: 'Movies', icon: 'mdi-movie', fill: false},
       {title: 'Music', icon: 'mdi-music-note', fill: false},
