@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Feb 01, 2023 at 12:16 AM
+-- Generation Time: Feb 04, 2023 at 06:16 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.19
 
@@ -24,12 +24,37 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `account`
+--
+
+CREATE TABLE `account` (
+  `user_id` int NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `last_login` date NOT NULL,
+  `creation_date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `answers`
 --
 
 CREATE TABLE `answers` (
   `answer_id` int NOT NULL,
   `answer_value` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `blocked_list`
+--
+
+CREATE TABLE `blocked_list` (
+  `user_id` int NOT NULL,
+  `blocked_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -57,6 +82,7 @@ CREATE TABLE `books` (
 CREATE TABLE `book_publication` (
   `publication_id` int NOT NULL,
   `publication_text` text NOT NULL,
+  `publication_date` date NOT NULL,
   `publication_photo` varchar(50) DEFAULT NULL,
   `book_id` int NOT NULL,
   `user_id` int NOT NULL
@@ -181,7 +207,9 @@ CREATE TABLE `study_sessions` (
   `ss_place` varchar(50) NOT NULL,
   `ss_date` date NOT NULL,
   `ss_time` varchar(10) NOT NULL,
-  `build_id` int NOT NULL
+  `build_id` int NOT NULL,
+  `ss_class` int NOT NULL,
+  `ss_student_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -207,9 +235,10 @@ CREATE TABLE `users` (
   `user_name` int NOT NULL,
   `user_email` varchar(50) NOT NULL,
   `user_phone` int NOT NULL,
-  `user_password` varchar(50) NOT NULL,
-  `user_nshe` int DEFAULT NULL,
   `user_dob` date DEFAULT NULL,
+  `preferred_pronouns` varchar(50) NOT NULL,
+  `nickname` varchar(50) NOT NULL,
+  `profile_picture` varchar(100) NOT NULL COMMENT 'ask Vinh about the blob thing',
   `type_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -229,10 +258,23 @@ CREATE TABLE `user_type` (
 --
 
 --
+-- Indexes for table `account`
+--
+ALTER TABLE `account`
+  ADD PRIMARY KEY (`user_id`);
+
+--
 -- Indexes for table `answers`
 --
 ALTER TABLE `answers`
   ADD PRIMARY KEY (`answer_id`);
+
+--
+-- Indexes for table `blocked_list`
+--
+ALTER TABLE `blocked_list`
+  ADD PRIMARY KEY (`user_id`,`blocked_id`),
+  ADD KEY `FK_blocked_list_users_blocked_id` (`blocked_id`);
 
 --
 -- Indexes for table `books`
@@ -312,7 +354,9 @@ ALTER TABLE `students_class_list`
 --
 ALTER TABLE `study_sessions`
   ADD PRIMARY KEY (`ss_id`),
-  ADD KEY `FK_study_sessions_buildings_build_id` (`build_id`);
+  ADD KEY `FK_study_sessions_buildings_build_id` (`build_id`),
+  ADD KEY `FK_study_sessions_classes_class_id` (`ss_class`),
+  ADD KEY `FK_study_sessions_users_user_id` (`ss_student_id`);
 
 --
 -- Indexes for table `surveys`
@@ -354,6 +398,19 @@ ALTER TABLE `user_type`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `account`
+--
+ALTER TABLE `account`
+  ADD CONSTRAINT `FK_account_users_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Constraints for table `blocked_list`
+--
+ALTER TABLE `blocked_list`
+  ADD CONSTRAINT `FK_blocked_list_users_blocked_id` FOREIGN KEY (`blocked_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `FK_blocked_list_users_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `books`
@@ -419,7 +476,9 @@ ALTER TABLE `students_class_list`
 -- Constraints for table `study_sessions`
 --
 ALTER TABLE `study_sessions`
-  ADD CONSTRAINT `FK_study_sessions_buildings_build_id` FOREIGN KEY (`build_id`) REFERENCES `buildings` (`build_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `FK_study_sessions_buildings_build_id` FOREIGN KEY (`build_id`) REFERENCES `buildings` (`build_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `FK_study_sessions_classes_class_id` FOREIGN KEY (`ss_class`) REFERENCES `classes` (`class_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `FK_study_sessions_users_user_id` FOREIGN KEY (`ss_student_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `surveys`
