@@ -1,35 +1,18 @@
 <template>
-
-  <DashboardFriends />
-  <MyClasses />
-  <ProfileAvatar />
-  <WallPost />
-  <NavBar />
-
+  <div class="home">
+    <img alt="Vue logo" src="../assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import DashboardFriends from "@/components/Dashboard/DashboardFriends.vue";
-import MyClasses from "@/components/Dashboard/MyClasses.vue";
-import ProfileAvatar from "@/components/Dashboard/ProfileAvatar.vue";
-import WallPost from "@/components/Dashboard/WallPost.vue";
-import NavBar from "@/components/NavBar.vue";
+import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
-  name: "HomeView",
+  name: 'HomeView',
   components: {
-    DashboardFriends,
-    MyClasses,
-    ProfileAvatar,
-    WallPost,
-    NavBar,
-  },
-};
-</script>
-
-<style >
-body {
-  background-color: #fdf0d5;
+    HelloWorld
+  }
 }
-</style>
+</script>
