@@ -15,6 +15,7 @@ import LoginPage from './pages/login/WelcomeView.vue'
 import NavBar from './globalcomponents/NavBar.vue'
 import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
+import AnnouncementsDropdown from './globalcomponents/AnnouncementsDropdown.vue'
 
 loadFonts()
 
