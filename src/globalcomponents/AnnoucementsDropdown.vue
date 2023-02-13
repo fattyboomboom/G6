@@ -15,29 +15,32 @@
       items: [
         { type: 'subheader', title: <center>'Announcements'</center> },
         {
-          title: 'Item #1',
+          title: 'Quiz #1 - CS 365',
           value: 1,
         },
+        { type: 'divider' },
         {
-          title: 'Item #2',
+          title: 'Test 1 Study Session - 2/12/23',
           value: 2,
         },
+        { type: 'divider' },
         {
-          title: 'Item #3',
+          title: 'No class on 2/13/23',
           value: 3,
         },
         { type: 'divider' },
-        { type: 'subheader', title: 'Group #2' },
         {
-          title: 'Item #4',
+          title: 'Meeting on Zoom - 2/14/23',
           value: 4,
         },
+        { type: 'divider' },
         {
-          title: 'Item #5',
+          title: 'Homework Review - 2/16/23',
           value: 5,
         },
+        { type: 'divider' },
         {
-          title: 'Item #6',
+          title: 'Midterm Review Session - 2/21/23',
           value: 6,
         },
       ],
