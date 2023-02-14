@@ -1,6 +1,6 @@
 <template>
   <v-card class="classcard" variant="outlined">
-    <v-list bg-color="#003049">
+    <v-list bg-color="black">
       <VListItemTitle class="itemtitle">
         <!-- <VBtn color="indigo" rounded="" >
               <v-icon>mdi-plus</v-icon>
@@ -16,12 +16,15 @@
         </li>
       </VListItem>
     </v-list>
-    <!-- <VBtn class="addclass" color="blue" width="50%" rounded="0" @click="add"
-        >Add</VBtn
-      >
-      <VBtn class="deleteclass" color="red" width="50%" rounded="0"
-        >Delete</VBtn
-      > -->
+    <VBtn
+      class="addclass"
+      color="success"
+      width="50%"
+      rounded="0"
+      @click="addClass"
+      >Add</VBtn
+    >
+    <VBtn class="deleteclass" color="red" width="50%" rounded="0">Delete</VBtn>
   </v-card>
 </template>
 
@@ -58,6 +61,13 @@ export default {
       ],
     };
   },
+  methods: {
+    addClass() {
+      this.schedule.push({ id: this.newClass });
+      this.newClass = "";
+      this.dialog = false;
+    },
+  },
 };
 </script>
 
@@ -67,7 +77,7 @@ export default {
   right: 1%;
   width: 25%;
   top: 1%;
-  color: #003049;
+  color: #000000;
 }
 
 h2 {
@@ -82,21 +92,21 @@ h2 {
 }
 
 h2 {
-  background-color: #003049;
+  background-color: #000000;
   color: white;
 }
 
 .listitem {
-  background-color: #003049;
+  background-color: #000000;
   color: white;
 }
 a {
   color: white;
 }
 v-card {
-  background-color: #003049;
+  background-color: #000000;
 }
 .itemtitle {
-  background-color: #003049;
+  background-color: #000000;
 }
 </style>
