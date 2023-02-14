@@ -3,7 +3,6 @@
     <center>
       <v-avatar
         image="https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg"
-        size="200"
       >
       </v-avatar>
     </center>
@@ -22,6 +21,7 @@ export default {
     name: {
       type: String,
       required: true,
+      default: "Tom",
     },
     major: {
       type: String,
@@ -40,8 +40,13 @@ export default {
   position: fixed;
   margin-left: 1%;
   margin-top: 1%;
-  background-color: #003049;
+  background-color: #000000;
   width: 25%;
+}
+.v-avatar {
+  width: 50%;
+  height: auto;
+  margin: 0 auto 1rem;
 }
 
 body {
@@ -54,6 +59,8 @@ body {
 
 h2 {
   color: white;
-  margin-left: 2%;
+  font-size: 1.5rem;
+  margin: 0.5rem 0;
+  text-align: left;
 }
 </style>
