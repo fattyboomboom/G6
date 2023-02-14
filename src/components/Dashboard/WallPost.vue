@@ -24,6 +24,7 @@ export default {
   },
   methods: {
     submitPost() {
+     
       axios
         .post("/api/posts", { content: this.postContent })
         .then((response) => {
@@ -32,6 +33,8 @@ export default {
         .catch((error) => {
           console.error("Error saving post to database:", error);
         });
+
+      // Clear the textarea content
       this.postContent = "";
     },
   },
@@ -41,6 +44,8 @@ export default {
 <style scoped>
 .v-container {
   width: 40%;
+
+  /* margin-right: 25%; */
   margin-left: 30%;
 }
 </style>

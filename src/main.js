@@ -14,7 +14,7 @@ import AboutViewVue from './views/AboutView.vue'
 import WelcomeView from './views/WelcomeView.vue'
 import NotesView from './views/NotesCards.vue'
 import FilterMenu from './globalcomponents/BookListingsFilter.vue'
-import NavBar from './globalcomponents/NavBar.vue'
+
 
 
 const router = createRouter({
@@ -32,5 +32,4 @@ const router = createRouter({
 createApp(App).use(router)
   .use(vuetify)
   .mount('#app')
-  .component('nav-bar', NavBar)
   .component('filter-menu', FilterMenu)

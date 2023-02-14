@@ -6,7 +6,7 @@
 <script>
 import BookListings from "@/components/Resell/BookListings.vue";
 import BookListingsFilter from "@/globalcomponents/BookListingsFilter.vue";
-import NavBar from "@/globalcomponents/NavBar.vue";
+import NavBar from "@/components/Dashboard/NavBar.vue";
 
 export default {
   name: "BookResellView",
