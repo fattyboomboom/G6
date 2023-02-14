@@ -32,7 +32,7 @@ export default {
 
 <style scoped>
 .dropdowncontainer {
-  background-color: steelblue;
+  background-color: rgb(0, 0, 0);
 }
 
 .dropdown {
@@ -44,6 +44,6 @@ export default {
   width: 50%;
   height: 75%;
   margin: auto;
-  background-color: steelblue;
+  background-color: rgb(0, 0, 0);
 }
 </style>

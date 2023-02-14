@@ -37,7 +37,7 @@ export default {
           bookname: "History of the World Map by Map",
           bookclass: "HIST 310",
           bookimage: "https://m.media-amazon.com/images/I/81VTod4MpkL.jpg",
-          price: "Price",
+          price: "TEST ",
           edition: "NA",
           date: "2023-01-05",
         },
@@ -156,7 +156,7 @@ export default {
 .bookcards {
   background-color: whitesmoke;
   margin: 10%;
-  border-color: steelblue;
+  border-color: rgb(0, 0, 0);
   border-width: 3px;
 }
 

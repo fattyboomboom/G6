@@ -11,12 +11,12 @@
         :rules="[required]"
         class="mb-2"
         clearable
-        label="Email"
+        label="Emailed"
       ></v-text-field>
 
       <v-text-field
+        type="password"
         v-model="password"
-        :readonly="loading"
         :rules="[required]"
         clearable
         label="Password"
@@ -26,7 +26,6 @@
       <br />
 
       <v-btn
-        :disabled="!form"
         :loading="loading"
         block
         color="success"
@@ -37,12 +36,59 @@
         Sign In
       </v-btn>
     </v-form>
+    <SignUp>
+      <v-btn
+        class="mt-4"
+        block
+        color="primary"
+        size="large"
+        variant="elevated"
+        @click="onSignUpClick"
+      >
+        Sign Up
+      </v-btn>
+    </SignUp>
   </v-card>
 </template>
 
-<script scoped>
+<script>
+// import { ref } from 'vue';
+import SignUp from "./SignUp.vue";
+
 export default {
+  setup() {
+    // const popupTriggers = ref({
+    //   buttonTrigger: false,
+    // });
+
+    return {
+      SignUp,
+    };
+  },
   name: "LogIn",
+
+  data: () => ({
+    form: false,
+    email: null,
+    password: null,
+    loading: false,
+  }),
+
+  methods: {
+    onSubmit() {
+      if (!this.form) return;
+
+      this.loading = true;
+
+      setTimeout(() => (this.loading = false), 2000);
+    },
+    required(v) {
+      return !!v || "Field is required";
+    },
+    onSignUpClick() {
+      console.log("Sign up button clicked");
+    },
+  },
 };
 </script>
 
