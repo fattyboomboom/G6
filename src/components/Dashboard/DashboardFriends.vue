@@ -79,11 +79,11 @@ export default {
 <style scoped>
 .cardtitle {
   text-align: center;
-  background-color: #003049;
+  background-color: #000000;
 }
 p {
   text-align: center;
-  background-color: #003049;
+  background-color: #000000;
   color: white;
 }
 
