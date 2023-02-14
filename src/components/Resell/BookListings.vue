@@ -149,7 +149,7 @@ export default {
 
 <style scoped>
 .bimage {
-  height: 75%;
+  height: 65%;
   width: 100%;
 }
 
@@ -158,6 +158,10 @@ export default {
   margin: 10%;
   border-color: rgb(0, 0, 0);
   border-width: 3px;
+  padding: 0.5rem;
+  line-height: 1.5;
+  width: 100%;
+  height: 90%;
 }
 
 p {
