@@ -25,6 +25,13 @@ class Answers(Base):
     answer_id = Column(Integer, primary_key=True)
     answer_value = Column(Integer, nullable=False)
 
+    def __init__(self, answer_value):
+        self.answer_value=answer_value
+
+    def __repr__(self):
+            return f'Account({self.answer_value})'
+    
+
 class BlockedList(Base):
     __tablename__ = 'blocked_list'
     user_id = Column(Integer, primary_key=True)

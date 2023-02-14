@@ -23,7 +23,7 @@ pnpm-debug.log*
 *.sw?
 
 Assets/dockerStuff/data/*
-venv/*
+app/venv/*
 __pycache__/*
 
 python/venv/*
