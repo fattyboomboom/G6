@@ -4,4 +4,6 @@
   </v-app>
 </template>
 
-<script scoped></script>
+<script>
+
+</script>

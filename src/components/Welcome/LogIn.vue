@@ -3,7 +3,7 @@
     <h1>WolfCampus</h1>
   </section>
 
-  <v-card class="mx-auto px-6 py-8" max-width="344" border>
+  <v-card class="logincard"  border>
     <v-form v-model="form" @submit.prevent="onSubmit">
       <v-text-field
         v-model="email"
@@ -123,5 +123,10 @@ p {
 .v-card {
   border-color: #000000;
   margin: 10%;
+}
+.logincard {
+  width:35%;
+  margin-left: 30%;
+  
 }
 </style>
