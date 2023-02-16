@@ -1,4 +1,5 @@
 <template>
+ 
   <!-- This nav drawer is set to permanent. will always be available on every screen size. -->
   <v-navigation-drawer expand-on-hover rail color="black" permanent="">
     <v-list>
@@ -10,22 +11,19 @@
     </v-list>
     <v-divider color="white"></v-divider>
     <v-list density="compact" nav>
-      
-      <v-list-item
-        prepend-icon="mdi-home"
-        title="Home"
-        value="home"
-      ></v-list-item>
-   
+      <v-list-item prepend-icon="mdi-home" title="Home" value="home" to="/home">
+      </v-list-item>
       <v-list-item
         prepend-icon="mdi-domain"
         title="Explore"
         value="explore"
+        to="/explore"
       ></v-list-item>
       <v-list-item
         prepend-icon="mdi-tag"
         title="Book Resell"
         value="resell"
+        to="/bookresell"
       ></v-list-item>
       <v-list-item
         prepend-icon="mdi-pen"
@@ -36,14 +34,7 @@
         prepend-icon="mdi-note"
         title="Notes"
         value="notes"
-      ></v-list-item>
-    </v-list>
-    <v-divider color="white"></v-divider>
-    <v-list density="compact" nav>
-      <v-list-item
-        prepend-icon="mdi-logout"
-        title="Sign Out"
-        value="signout"
+        to="/notes"
       ></v-list-item>
     </v-list>
   </v-navigation-drawer>
@@ -55,6 +46,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
-
+<style scoped></style>

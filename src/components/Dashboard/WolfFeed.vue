@@ -121,8 +121,9 @@ export default {
 
 <style scoped>
 h1 {
-  width: 40%;
-  margin-left: 40%;
+  width: 15%;
+  margin-left: 45%;
+  color: rgb(0, 0, 0);
 }
 .news-feed {
   display: flex;
@@ -136,9 +137,9 @@ h1 {
   height: 500px;
   overflow-y: scroll;
   margin-top: 20px;
-  background-color: black;
+  background-color: rgb(0, 0, 0);
   width: 40%;
-  margin-left: 30%;
+  margin-left: 33%;
 }
 
 .post {

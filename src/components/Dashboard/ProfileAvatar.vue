@@ -38,7 +38,7 @@ export default {
 <style scoped>
 .avatar {
   position: fixed;
-  margin-left: 1%;
+  margin-left: 6%;
   margin-top: 1%;
   background-color: #000000;
   width: 25%;

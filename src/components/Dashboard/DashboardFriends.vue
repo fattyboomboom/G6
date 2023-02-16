@@ -92,7 +92,7 @@ h2 {
 }
 .friendslist {
   position: fixed;
-  left: 1%;
+  left: 6%;
   top: 50%;
   width: 25%;
 }

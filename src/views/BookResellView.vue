@@ -1,7 +1,10 @@
 <template>
-  <BookListingsFilter />
-  <BookListings />
-  <NavBar /></template>
+  <v-app>
+    <BookListingsFilter />
+    <BookListings />
+    <NavBar />
+  </v-app>
+</template>
 
 <script>
 import BookListings from "@/components/Resell/BookListings.vue";
@@ -13,9 +16,10 @@ export default {
   components: {
     BookListings,
     BookListingsFilter,
-    NavBar
+    NavBar,
   },
 };
 </script>
 
-
+<style scoped>
+</style>

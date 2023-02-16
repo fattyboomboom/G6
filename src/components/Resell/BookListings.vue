@@ -1,6 +1,6 @@
 <template>
-  <v-row align="stretch">
-    <v-col v-for="book in books" :key="book" class="d-flex child-flex" cols="3">
+  <v-row>
+    <v-col v-for="book in books" :key="book" class="d-flex" cols="3">
       <VCard class="bookcards">
         <a href="profile">
           <v-img :src="book.bookimage" cover class="bimage">
@@ -155,13 +155,16 @@ export default {
 
 .bookcards {
   background-color: whitesmoke;
-  margin: 10%;
+  /* margin: 10%; */
+  margin-top: 3%;
+  margin-right: 2%;
+  margin-left: 25%;
   border-color: rgb(0, 0, 0);
   border-width: 3px;
   padding: 0.5rem;
   line-height: 1.5;
   width: 100%;
-  height: 90%;
+  height: 100%;
 }
 
 p {

@@ -3,14 +3,7 @@
   <router-view />
 </template>
 
-<script>
-// import NavBar from './components/NavBar.vue';
+<script scoped>
 
-// export default {
-//   name: "AppView",
-//   components: {
-//     NavBar
-//   },
-// };
 </script>
 
