@@ -1,12 +1,12 @@
 <template>
-  <v-app>
+ 
     <DashboardFriends />
     <MyClasses />
     <ProfileAvatar />
     <WallPost />
     <NavBar />
     <WolfFeed />
-  </v-app>
+ 
 </template>
 
 <script>
