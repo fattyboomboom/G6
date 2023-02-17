@@ -2,7 +2,20 @@
   <section class="header">
     <h1>WolfCampus</h1>
   </section>
+  
+  
+  <SignUp @close="toggleModal" :modalActive="modalActive">
+    <v-card   border>
+      <div class="modal-content">
+        <form>
+          <v-text-field class="mb-2" label=" Name"></v-text-field>
+          <v-text-field label="E-mail"></v-text-field>
+        </form>
+      </div>
+    </v-card>
+    </SignUp>
 
+  
   <v-card class="logincard"  border>
     <v-form v-model="form" @submit.prevent="onSubmit">
       <v-text-field
@@ -11,7 +24,7 @@
         :rules="[required]"
         class="mb-2"
         clearable
-        label="Emailed"
+        label="Email"
       ></v-text-field>
 
       <v-text-field
@@ -36,60 +49,64 @@
         Sign In
       </v-btn>
     </v-form>
-    <SignUp>
-      <v-btn
+    
+    <v-btn
         class="mt-4"
         block
         color="primary"
         size="large"
         variant="elevated"
-        @click="onSignUpClick"
+        @click="toggleModal"
       >
         Sign Up
       </v-btn>
-    </SignUp>
   </v-card>
 </template>
 
 <script>
 // import { ref } from 'vue';
 import SignUp from "./SignUp.vue";
+import { ref } from "vue";
 
 export default {
-  setup() {
-    // const popupTriggers = ref({
-    //   buttonTrigger: false,
-    // });
-
-    return {
-      SignUp,
-    };
-  },
   name: "LogIn",
-
-  data: () => ({
-    form: false,
-    email: null,
-    password: null,
-    loading: false,
-  }),
-
-  methods: {
-    onSubmit() {
-      if (!this.form) return;
-
-      this.loading = true;
-
-      setTimeout(() => (this.loading = false), 2000);
-    },
-    required(v) {
-      return !!v || "Field is required";
-    },
-    onSignUpClick() {
-      console.log("Sign up button clicked");
-    },
+  components: {
+    SignUp
   },
-};
+  setup() {
+    const modalActive = ref(false);
+
+    const toggleModal = () => {
+      modalActive.value = !modalActive.value;
+    }
+
+    return { modalActive, toggleModal};
+    }
+  };
+
+//   data: () => ({
+//     form: false,
+//     email: null,
+//     password: null,
+//     loading: false,
+//   }),
+
+//   methods: {
+//     onSubmit() {
+//       if (!this.form) return;
+
+//       this.loading = true;
+
+//       setTimeout(() => (this.loading = false), 2000);
+//     },
+//     required(v) {
+//       return !!v || "Field is required";
+//     },
+//     onSignUpClick() {
+//       console.log("Sign up button clicked");
+//     },
+//   },
+// };
 </script>
 
 <style scoped>
@@ -128,5 +145,8 @@ p {
   width:35%;
   margin-left: 30%;
   
+}
+.modal-content {
+  width: 50%;
 }
 </style>
