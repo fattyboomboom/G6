@@ -1,11 +1,11 @@
-#http://localhost:5000/api/people
-#http://localhost:5000/api/ui
+#http://localhost:8000/api/people
+#http://localhost:8000/api/ui
 
 openapi: 3.0.0
 
 info:
   title: "RP Flask REST API"
-  description: "An API about people and notes"
+  description: "An API for our Wolfcampus"
   version: "1.0.0"
 
 servers:
@@ -13,19 +13,20 @@ servers:
 
 components:
   schemas:
-    Person:
+    Account:
       type: "object"
       required:
-        - lname
+        - email
+        - password
       properties:
-        fname:
+        email:
           type: "string"
-        lname:
+        password:
           type: "string"
   parameters:
-    lname:
-      name: "lname"
-      description: "Last name of the person to get"
+    email:
+      name: "email"
+      description: "Email of the account to get"
       in: path
       required: True
       schema:
@@ -34,7 +35,7 @@ components:
 paths:
   /login:
     get:
-      operationId: "users.read_all"
+      operationId: "account.read_all"
       tags:
         - "Login"
       summary: "Validate user"
@@ -42,66 +43,77 @@ paths:
         "200":
           description: "Active users"
 
-  /people:
+  /account:
     get:
-      operationId: "people.read_all"
+      operationId: "account.read_all"
       tags:
-        - "People"
-      summary: "Read the list of people"
+        - "Account"
+      summary: "Read the list of accounts"
       responses:
         "200":
-          description: "Successfully read people list"
+          description: "Successfully read acc list"
     post:
-      operationId: "people.create"
+      operationId: "acc.create"
       tags:
-        - People
-      summary: "Create a person"
+        - Account
+      summary: "Create an acc"
       requestBody:
-          description: "Person to create"
+          description: "Account to create"
           required: True
           content:
             application/json:
               schema:
-                x-body-name: "person"
-                $ref: "#/components/schemas/Person"
+                x-body-name: "Account"
+                $ref: "#/components/schemas/Account"
       responses:
         "201":
-          description: "Successfully created person"
+          description: "Successfully created Acc"
   
-  /people/{lname}:
+  /people/{email}:
     get:
-      operationId: "people.read_one"
+      operationId: "account.read_one"
       tags:
-        - People
-      summary: "Read one person"
+        - Account
+      summary: "Read one account"
       parameters:
-        - $ref: "#/components/parameters/lname"
+        - $ref: "#/components/parameters/email"
       responses:
         "200":
-          description: "Successfully read person"
+          description: "Successfully read acc"
     put:
       tags:
-        - People
-      operationId: "people.update"
-      summary: "Update a person"
+        - Account
+      operationId: "account.update"
+      summary: "Update an acc"
       parameters:
-        - $ref: "#/components/parameters/lname"
+        - $ref: "#/components/parameters/email"
       responses:
         "200":
-          description: "Successfully updated person"
+          description: "Successfully updated acc"
       requestBody:
         content:
           application/json:
             schema:
-              x-body-name: "person"
-              $ref: "#/components/schemas/Person"
+              x-body-name: "account"
+              $ref: "#/components/schemas/account"
     delete:
       tags:
-        - People
-      operationId: "people.delete"
-      summary: "Delete a person"
+        - Account
+      operationId: "account.delete"
+      summary: "Delete an acc"
       parameters:
-        - $ref: "#/components/parameters/lname"
+        - $ref: "#/components/parameters/email"
       responses:
         "204":
-          description: "Successfully deleted person"
+          description: "Successfully deleted acc"
+    validate:
+      tags:
+        -Account
+      operationId: "account.validate"
+      summary: "Validate an acc"
+      parameters:
+        - $ref: "#/components/parameters/email"
+        - $ref: "#/components/parameters/password"
+      responses:
+        "204":
+          description: "Successfully logged in acc"
