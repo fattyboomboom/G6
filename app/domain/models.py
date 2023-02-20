@@ -1,9 +1,8 @@
 from sqlalchemy import Column, Integer, String, Date, Double, Text, relationship, ForeignKey, SmallInteger
 from sqlalchemy.ext.declarative import declarative_base
+from engine import db
 
-Base = declarative_base()
-
-class Account(Base):
+class Account(db.Base):
     __tablename__ = 'account'
     user_id = Column(Integer, primary_key=True)
     password = Column(String(50), nullable=False)
@@ -20,7 +19,7 @@ class Account(Base):
     def __repr__(self) :
               return f'Account({self.email}, {self.password}, {self.last_login}, {self.creation_date})'
 
-class Answers(Base):
+class Answers(db.Base):
     __tablename__ = 'answers'
     answer_id = Column(Integer, primary_key=True)
     answer_value = Column(Integer, nullable=False)
@@ -32,7 +31,7 @@ class Answers(Base):
             return f'Account({self.answer_value})'
     
 
-class BlockedList(Base):
+class BlockedList(db.Base):
     __tablename__ = 'blocked_list'
     user_id = Column(Integer, primary_key=True)
     blocked_id = Column(Integer, nullable=False)
@@ -41,7 +40,7 @@ class BlockedList(Base):
     user_blockedListFK = relationship ("Users", back_populates = "BlockedList", uselist= False)# IS THIS ONE ON ONE?
     blockedUsersFK = relationship("Users") #one blocked list has many users
 
-class Books(Base):
+class Books(db.Base):
     __tablename__ = 'books'
     book_id = Column(Integer, primary_key=True)
     book_isbn = Column(String(50), nullable=False)
@@ -62,7 +61,7 @@ class Books(Base):
     def __repr__(self) :
         return f'Book ({self.book_isbn},{self.book_price},{self.book_author},{self.book_name}, {self.book_status}, {self.book_class})'
 
-class BookPublication(Base):
+class BookPublication(db.Base):
     __tablename__ = 'book_publication'
     publication_id = Column(Integer, primary_key=True)
     publication_text = Column(Text, nullable=False)
@@ -85,7 +84,7 @@ class BookPublication(Base):
     def __repr__ (self) :
         return f'Book Publications ({self.publication_text}, {self.publication_date},{ self.publication_photo},{self.book_id},{self.user_id} )'
 
-class Buildings(Base):
+class Buildings(db.Base):
     __tablename__ = 'buildings'
     build_id = Column(Integer, primary_key=True)
     build_name = Column(String(50), nullable=False)
@@ -102,7 +101,7 @@ class Buildings(Base):
     def __repr__(self):
         return f'Building ({self.build_code},{self.build_name},{self.build_location}{self.build_photo})'
 
-class Classes(Base):
+class Classes(db.Base):
     __tablename__ = 'classes'
     class_id = Column(Integer, primary_key=True)
     begin_end_class = Column(String(50), nullable=False)
@@ -122,7 +121,7 @@ class Classes(Base):
         self. section = section
         self.room = room
 
-class ClassNote(Base):
+class ClassNote(db.Base):
     __tablename__ = 'class_note'
     classnote_id = Column(Integer, primary_key=True)
     classnote_text = Column(Text, nullable=False)
@@ -130,12 +129,12 @@ class ClassNote(Base):
     classnote_status = Column(SmallInteger, nullable=False)
     class_id = Column(Integer, ForeignKey('classes.class_id'), nullable=False)
 
-class FriendList(Base):
+class FriendList(db.Base):
     __tablename__ = 'friend_list'
     user_id = Column(Integer, ForeignKey('users.user_id'), primary_key=True)
     friend_id = Column(Integer, ForeignKey('users.user_id'), primary_key=True)
 
-class Posts(Base):
+class Posts(db.Base):
     __tablename__ = 'posts'
     post_id = Column(Integer, primary_key=True)
     post_date = Column(Date, nullable=False)
@@ -154,25 +153,25 @@ class Posts(Base):
     def __repr__(self):
         return f'Post'({self.post_date},{self.post_photo},{self.post_text},{self.post_status},{self.user_id})
 
-class Profiles(Base):
+class Profiles(db.Base):
     __tablename__ = 'profiles'
     profile_id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.user_id'), nullable=False)
     post_id = Column(Integer, ForeignKey('posts.post_id'), nullable=False)
 
-class Reports(Base):
+class Reports(db.Base):
     __tablename__ = 'reports'
     report_id = Column(Integer, primary_key=True)
     report_status = Column(SmallInteger, nullable=False)
     post_id = Column(Integer, ForeignKey('posts.post_id'), nullable=False)
     classnote_id = Column(Integer, ForeignKey('class_note.classnote_id'), nullable=False)
 
-class StudentsClassList(Base):
+class StudentsClassList(db.Base):
     __tablename__ = 'students_class_list'
     class_id = Column(Integer, primary_key=True)
     user_id = Column(Integer, primary_key=True)
 
-class StudySessions(Base):
+class StudySessions(db.Base):
     __tablename__ = 'study_sessions'
     ss_id = Column(Integer, primary_key=True)
     ss_place = Column(String(50), nullable=False)
@@ -182,13 +181,13 @@ class StudySessions(Base):
     ss_class = Column(Integer, nullable=False)
     ss_student_id = Column(Integer, nullable=False)
 
-class Surveys(Base):
+class Surveys(db.Base):
     __tablename__ = 'surveys'
     survey_id = Column(Integer, primary_key=True)
     class_id = Column(Integer, nullable=False)
     answer_id = Column(Integer, nullable=False)
 
-class Users(Base):
+class Users(db.Base):
     __tablename__ = 'users'
     user_id = Column(Integer, primary_key=True)
     user_name = Column(String(50), nullable=False)
@@ -203,9 +202,13 @@ class Users(Base):
     #relationships
     
 
-class UserType(Base):
+class UserType(db.Base):
     __tablename__ = 'user_type'
     type_id = Column(Integer, primary_key=True)
     type = Column(String(50), nullable=False)
 
 #missing all relationships
+
+if __name__ == '__main__':
+    db.Base.metadata.drop_all(engine)
+    db.Base.metadata.create_all(engine)
