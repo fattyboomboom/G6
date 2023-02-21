@@ -4,12 +4,12 @@
   </section>
 
   <SignUp @close="toggleModal" :modalActive="modalActive">
-    <v-card  border>
+    <v-card border>
       <div class="modal-content">
         <form>
-          <v-text-field  label="First Name"></v-text-field>
-          <v-text-field  label="Last Name"></v-text-field>
-          <v-text-field  label="Major"></v-text-field>
+          <v-text-field label="First Name"></v-text-field>
+          <v-text-field label="Last Name"></v-text-field>
+          <v-text-field label="Major"></v-text-field>
           <v-text-field v-model="date" label="Date of Birth"></v-text-field>
           <v-text-field
             v-model="email"
@@ -27,7 +27,7 @@
           ></v-text-field>
 
           <v-btn
-          class="mt-4"
+            class="mt-4"
             :loading="loading"
             block
             color="success"
@@ -49,7 +49,6 @@
         :readonly="loading"
         :rules="[required]"
         class="mb-2"
-        
         label="Email"
       ></v-text-field>
 
@@ -57,7 +56,6 @@
         type="password"
         v-model="password"
         :rules="[required]"
-        
         label="Password"
         placeholder="Enter your password"
       ></v-text-field>
@@ -171,5 +169,4 @@ p {
   width: 35%;
   margin-left: 30%;
 }
-
 </style>

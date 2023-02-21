@@ -44,9 +44,9 @@ export default {
   width: 25%;
 }
 .v-avatar {
-  width: 50%;
+  width: 70%;
   height: auto;
-  margin: 0 auto 1rem;
+  margin: 0 auto;
 }
 
 body {
