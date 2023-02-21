@@ -21,3 +21,11 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+Assets/dockerStuff/data/*
+venv/*
+__pycache__/*
+
+python/venv/*
+python/__pycache__/*
+data/*
