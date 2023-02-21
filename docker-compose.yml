@@ -18,17 +18,25 @@ services:
       - ./.env.dev
     hostname: web
   
-  frontend:
+  vue:
     build:
       context: ./
       dockerfile: DockerfileVue
-    image: node:16-alpine
-    working_dir: /src
-    volumes:
-      - ./app/:/usr/src/
+    image: vueapp:0.0.2
+    container_name: "vue_app_container"
     ports:
-      - 7000:80
-    command: npx vite --host
+      - "7000:8000"
+  # frontend:
+  #   build:
+  #     context: ./
+  #     dockerfile: DockerfileVue
+  #   #image: node:16-alpine
+  #   working_dir: /src
+  #   volumes:
+  #     - ./app/:/usr/src/
+  #   ports:
+  #     - 7000:80
+  #   command: npx vite --host
 
   bases_de_datos:
     image: mysql
