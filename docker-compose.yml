@@ -26,18 +26,7 @@ services:
     container_name: "vue_app_container"
     ports:
       - "7000:8080"
-  # frontend:
-  #   build:
-  #     context: ./
-  #     dockerfile: DockerfileVue
-  #   #image: node:16-alpine
-  #   working_dir: /src
-  #   volumes:
-  #     - ./app/:/usr/src/
-  #   ports:
-  #     - 7000:80
-  #   command: npx vite --host
-
+  
   bases_de_datos:
     image: mysql
     command: --default-authentication-plugin=mysql_native_password

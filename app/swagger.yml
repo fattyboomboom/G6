@@ -1,5 +1,4 @@
-#http://localhost:8000/api/people
-#http://localhost:8000/api/ui
+#http://localhost:5000/api/ui
 
 openapi: 3.0.0
 
@@ -30,7 +29,6 @@ components:
       required: True
       schema:
         type: "string"
-    
     
 
 paths:
