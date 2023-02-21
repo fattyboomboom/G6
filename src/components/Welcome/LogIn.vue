@@ -2,21 +2,32 @@
   <section class="header">
     <h1>WolfCampus</h1>
   </section>
-  
-  
+
   <SignUp @close="toggleModal" :modalActive="modalActive">
-    <v-card   border>
+    <v-card border>
       <div class="modal-content">
         <form>
-          <v-text-field class="mb-2" label=" Name"></v-text-field>
+          <v-text-field class="" label=" First Name"></v-text-field>
+          <v-text-field class="mb-2" label="First Name"></v-text-field>
+          <v-text-field class="mb-2" label="Major"></v-text-field>
+          <v-text-field class="mb-2" label="Date of Birth"></v-text-field>
           <v-text-field label="E-mail"></v-text-field>
+          <v-btn
+            :loading="loading"
+            block
+            color="success"
+            size="large"
+            type="submit"
+            variant="elevated"
+          >
+            Submit
+          </v-btn>
         </form>
       </div>
     </v-card>
-    </SignUp>
+  </SignUp>
 
-  
-  <v-card class="logincard"  border>
+  <v-card class="logincard" border>
     <v-form v-model="form" @submit.prevent="onSubmit">
       <v-text-field
         v-model="email"
@@ -49,17 +60,17 @@
         Sign In
       </v-btn>
     </v-form>
-    
+
     <v-btn
-        class="mt-4"
-        block
-        color="primary"
-        size="large"
-        variant="elevated"
-        @click="toggleModal"
-      >
-        Sign Up
-      </v-btn>
+      class="mt-4"
+      block
+      color="primary"
+      size="large"
+      variant="elevated"
+      @click="toggleModal"
+    >
+      Sign Up
+    </v-btn>
   </v-card>
 </template>
 
@@ -71,18 +82,18 @@ import { ref } from "vue";
 export default {
   name: "LogIn",
   components: {
-    SignUp
+    SignUp,
   },
   setup() {
     const modalActive = ref(false);
 
     const toggleModal = () => {
       modalActive.value = !modalActive.value;
-    }
+    };
 
-    return { modalActive, toggleModal};
-    }
-  };
+    return { modalActive, toggleModal };
+  },
+};
 
 //   data: () => ({
 //     form: false,
@@ -142,9 +153,8 @@ p {
   margin: 10%;
 }
 .logincard {
-  width:35%;
+  width: 35%;
   margin-left: 30%;
-  
 }
 .modal-content {
   width: 50%;
