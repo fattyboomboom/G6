@@ -7,8 +7,8 @@
     <v-card  border>
       <div class="modal-content">
         <form>
-          <v-text-field  label=" First Name"></v-text-field>
           <v-text-field  label="First Name"></v-text-field>
+          <v-text-field  label="Last Name"></v-text-field>
           <v-text-field  label="Major"></v-text-field>
           <v-text-field v-model="date" label="Date of Birth"></v-text-field>
           <v-text-field
@@ -16,14 +16,12 @@
             :readonly="loading"
             :rules="[required]"
             class="mb-2"
-            clearable
             label="Email"
           ></v-text-field>
           <v-text-field
             type="password"
             v-model="password"
             :rules="[required]"
-            clearable
             label="Password"
             placeholder="Enter your password"
           ></v-text-field>
@@ -51,7 +49,7 @@
         :readonly="loading"
         :rules="[required]"
         class="mb-2"
-        clearable
+        
         label="Email"
       ></v-text-field>
 
@@ -59,7 +57,7 @@
         type="password"
         v-model="password"
         :rules="[required]"
-        clearable
+        
         label="Password"
         placeholder="Enter your password"
       ></v-text-field>
