@@ -13,11 +13,10 @@ servers:
 
 components:
   schemas:
-    Account:
+    Acc:
       type: "object"
       required:
         - email
-        - password
       properties:
         email:
           type: "string"
@@ -31,18 +30,10 @@ components:
       required: True
       schema:
         type: "string"
+    
+    
 
 paths:
-  /login:
-    get:
-      operationId: "account.read_all"
-      tags:
-        - "Login"
-      summary: "Validate user"
-      responses:
-        "200":
-          description: "Active users"
-
   /account:
     get:
       operationId: "account.read_all"
@@ -53,9 +44,9 @@ paths:
         "200":
           description: "Successfully read acc list"
     post:
-      operationId: "acc.create"
+      operationId: "account.create"
       tags:
-        - Account
+        - "Account"
       summary: "Create an acc"
       requestBody:
           description: "Account to create"
@@ -63,17 +54,27 @@ paths:
           content:
             application/json:
               schema:
-                x-body-name: "Account"
-                $ref: "#/components/schemas/Account"
+                x-body-name: "acc"
+                $ref: "#/components/schemas/Acc"
       responses:
         "201":
           description: "Successfully created Acc"
+    put:
+      tags:
+        - "Account"
+      operationId: "account.validate"
+      summary: "Validate an acc"
+      parameters:
+        - $ref: "#/components/schemas/Acc"
+      responses:
+        "204":
+          description: "Successfully logged in acc"
   
-  /people/{email}:
+  /account/{email}:
     get:
       operationId: "account.read_one"
       tags:
-        - Account
+        - "Account"
       summary: "Read one account"
       parameters:
         - $ref: "#/components/parameters/email"
@@ -82,7 +83,7 @@ paths:
           description: "Successfully read acc"
     put:
       tags:
-        - Account
+        - "Account"
       operationId: "account.update"
       summary: "Update an acc"
       parameters:
@@ -95,10 +96,10 @@ paths:
           application/json:
             schema:
               x-body-name: "account"
-              $ref: "#/components/schemas/account"
+              $ref: "#/components/schemas/Acc"
     delete:
       tags:
-        - Account
+        - "Account"
       operationId: "account.delete"
       summary: "Delete an acc"
       parameters:
@@ -106,14 +107,4 @@ paths:
       responses:
         "204":
           description: "Successfully deleted acc"
-    validate:
-      tags:
-        -Account
-      operationId: "account.validate"
-      summary: "Validate an acc"
-      parameters:
-        - $ref: "#/components/parameters/email"
-        - $ref: "#/components/parameters/password"
-      responses:
-        "204":
-          description: "Successfully logged in acc"
+

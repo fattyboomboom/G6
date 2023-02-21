@@ -68,18 +68,19 @@ def update(email, acc):
         abort(404, f"Acc with email {email} not found")
 
 
-def delete(email):
-    if email in ACCOUNT:
-        del ACCOUNT[email]
-        return make_response(f"{email} successfully deleted", 200)
-    else:
-        abort(404, f"Acc with email {email} not found")
+# def delete(email):
+#     if email in ACCOUNT:
+#         del ACCOUNT[email]
+#         return make_response(f"{email} successfully deleted", 200)
+#     else:
+#         abort(404, f"Acc with email {email} not found")
 
 def validate (acc):
     email = acc.get("email")
     password = acc.get("password")
     if email in ACCOUNT:
-        if password in ACCOUNT[email]
-        return make_response(f"{email} successfully logged in", 200)
-    else:
-        abort(404, f"Email or password incorrect")
+        if password in ACCOUNT[email]:
+            return make_response(f"{email} successfully logged in", 200) 
+        
+    abort(404, f"Email or password incorrect")
+     
