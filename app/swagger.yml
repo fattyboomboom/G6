@@ -43,6 +43,7 @@ paths:
       responses:
         "200":
           description: "Successfully read acc list"
+
     post:
       operationId: "account.create"
       tags:
@@ -64,8 +65,14 @@ paths:
         - "Account"
       operationId: "account.validate"
       summary: "Validate an acc"
-      parameters:
-        - $ref: "#/components/schemas/Acc"
+      requestBody:
+          description: "Account to validate"
+          required: True
+          content:
+            application/json:
+              schema:
+                x-body-name: "acc"
+                $ref: "#/components/schemas/Acc"
       responses:
         "204":
           description: "Successfully logged in acc"

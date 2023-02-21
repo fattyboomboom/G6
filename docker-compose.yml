@@ -7,13 +7,13 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    image: prueba-web
-    command: gunicorn entrypoint:app --bind 0.0.0.0:8000
+    image: prueba-web-mel
+    command: gunicorn entrypoint:app --bind 0.0.0.0:5000
     restart: always
     volumes:
       - ./app/:/usr/src/app/
     ports:
-      - 8000:8000
+      - 5000:5000
     env_file:
       - ./.env.dev
     hostname: web
@@ -22,10 +22,10 @@ services:
     build:
       context: ./
       dockerfile: DockerfileVue
-    image: vueapp:0.0.2
+    image: vueapp:Mel
     container_name: "vue_app_container"
     ports:
-      - "7000:8000"
+      - "7000:8080"
   # frontend:
   #   build:
   #     context: ./
@@ -57,10 +57,10 @@ services:
     image: phpmyadmin/phpmyadmin
     restart: always
     ports:
-      - 8080:80
+      - 9080:80
     environment:
       - PMA_ARBITRARY=1
-      - PMA_HOST=db
+      - PMA_HOST=bases_de_datos
     hostname: adminer
 
 # volumes:

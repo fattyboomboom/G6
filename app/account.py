@@ -1,7 +1,8 @@
 from datetime import datetime
 
 from flask import abort, make_response
-
+from domain.modelDemo import Account, accounts_schema, account_schema
+from config import db
 
 def get_timestamp():
     return datetime.now().strftime(("%Y-%m-%d %H:%M:%S"))
@@ -33,7 +34,8 @@ ACCOUNT = {
 
 
 def read_all():
-    return list(ACCOUNT.values())
+    cuentas = Account.query.all()
+    return accounts_schema.dump(cuentas)
 
 
 def create(acc):
@@ -78,9 +80,12 @@ def delete(email):
 def validate (acc):
     email = acc.get("email")
     password = acc.get("password")
-    if email in ACCOUNT:
-        if password in ACCOUNT[email]:
+
+    account = Account.query.filter(Account.email == email).one_or_none()
+
+    if account is not None:
+        if password == account_schema.dump(account).get('password'):
             return make_response(f"{email} successfully logged in", 200) 
-        
-    abort(404, f"Email or password incorrect")
+   
+    abort(404, "Email or password incorrect")
      

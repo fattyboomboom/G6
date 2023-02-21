@@ -1,14 +1,16 @@
-import connexion
 from flask import render_template
+import config
+from domain.modelDemo import Account
 
-app = connexion.App(__name__, specification_dir="./")
+app = config.connex_app
 app.add_api("swagger.yml")
 
 
 @app.route("/")
 def home():
-    return render_template("home.html")
+    account = Account.query.all()
+    return render_template("home.html", account=account)
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=9000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
