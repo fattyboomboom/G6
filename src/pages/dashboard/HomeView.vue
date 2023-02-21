@@ -20,7 +20,7 @@ export default {
     DashboardFriends,
     MyClasses,
     ProfileAvatar,
-    WallPost
+    WallPost,
   },
 };
 </script>

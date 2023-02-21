@@ -15,7 +15,7 @@
 import { ref } from 'vue';
 
 export default {
-  name: 'AnnouncementsDropdown',
+  name: "AnnouncementsDropdown",
   setup() {
     const isOpen = ref(false);
     const announcements = ref([
