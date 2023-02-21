@@ -4,15 +4,32 @@
   </section>
 
   <SignUp @close="toggleModal" :modalActive="modalActive">
-    <v-card border>
+    <v-card  border>
       <div class="modal-content">
         <form>
-          <v-text-field class="" label=" First Name"></v-text-field>
-          <v-text-field class="mb-2" label="First Name"></v-text-field>
-          <v-text-field class="mb-2" label="Major"></v-text-field>
-          <v-text-field class="mb-2" label="Date of Birth"></v-text-field>
-          <v-text-field label="E-mail"></v-text-field>
+          <v-text-field  label=" First Name"></v-text-field>
+          <v-text-field  label="First Name"></v-text-field>
+          <v-text-field  label="Major"></v-text-field>
+          <v-text-field v-model="date" label="Date of Birth"></v-text-field>
+          <v-text-field
+            v-model="email"
+            :readonly="loading"
+            :rules="[required]"
+            class="mb-2"
+            clearable
+            label="Email"
+          ></v-text-field>
+          <v-text-field
+            type="password"
+            v-model="password"
+            :rules="[required]"
+            clearable
+            label="Password"
+            placeholder="Enter your password"
+          ></v-text-field>
+
           <v-btn
+          class="mt-4"
             :loading="loading"
             block
             color="success"
@@ -156,7 +173,5 @@ p {
   width: 35%;
   margin-left: 30%;
 }
-.modal-content {
-  width: 50%;
-}
+
 </style>

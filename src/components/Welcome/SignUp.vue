@@ -41,7 +41,7 @@ export default {
   right: 0;
   bottom: 0;
   z-index: 99;
-  background-color: rgb(41, 46, 55);
+  background-color: rgb(65, 65, 65);
 
   display: flex;
   align-items: center;
