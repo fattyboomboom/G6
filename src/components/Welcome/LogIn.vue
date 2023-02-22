@@ -27,7 +27,6 @@
           ></v-text-field>
 
           <v-btn
-            class="mt-4"
             :loading="loading"
             block
             color="success"
@@ -43,13 +42,14 @@
   </SignUp>
 
   <v-card class="logincard" border>
-    <v-form v-model="form" @submit.prevent="onSubmit">
+    <v-form class="formdetail" v-model="form" @submit.prevent="onSubmit">
       <v-text-field
         v-model="email"
         :readonly="loading"
         :rules="[required]"
         class="mb-2"
         label="Email"
+        placeholder="NetID@nevada.unr.edu"
       ></v-text-field>
 
       <v-text-field
@@ -72,18 +72,18 @@
       >
         Sign In
       </v-btn>
-    </v-form>
 
-    <v-btn
-      class="mt-4"
-      block
-      color="primary"
-      size="large"
-      variant="elevated"
-      @click="toggleModal"
-    >
-      Sign Up
-    </v-btn>
+      <v-btn
+        class="mt-4"
+        block
+        color="primary"
+        size="large"
+        variant="elevated"
+        @click="toggleModal"
+      >
+        Sign Up
+      </v-btn>
+    </v-form>
   </v-card>
 </template>
 
@@ -162,11 +162,22 @@ p {
   color: white;
 }
 .v-card {
-  border-color: #000000;
+  box-shadow: 0 16px 56px rgba(0, 0, 0, 0.1), 0 16px 56px rgba(0, 0, 0, 0.1),
+    0 16px 56px rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 20px;
+  box-sizing: border-box;
   margin: 10%;
+  background-color: whitesmoke;
+  width: 396px;
 }
 .logincard {
   width: 35%;
   margin-left: 30%;
+  text-align: center;
+}
+
+.formdetail {
+  margin: 5%;
 }
 </style>

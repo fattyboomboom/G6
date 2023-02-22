@@ -8,10 +8,10 @@
         <h2>My Classes</h2>
       </VListItemTitle>
 
-      <VDivider color="black" thickness="2"></VDivider>
+      <VDivider color="white" thickness="2"></VDivider>
 
-      <VListItem class="listitem" v-for="classes in schedule" :key="classes.id">
-        <li>
+      <VListItem class="listitem" v-for="classes in schedule" :key="classes.id" draggable="true">
+        <li >
           <a href="class page">{{ classes.id }} </a>
         </li>
       </VListItem>
@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import { VDivider } from "vuetify/lib/components";
 
 export default {
   name: "MyClasses",
@@ -39,7 +38,7 @@ export default {
       required: false,
     },
   },
-  components: { VDivider },
+ 
   data() {
     return {
       schedule: [
@@ -53,10 +52,10 @@ export default {
           id: "CS: 425",
         },
         {
-          id: "CS 326",
+          id: "CS: 326",
         },
         {
-          id: "PHYS 181",
+          id: "PHYS: 181",
         },
       ],
     };
@@ -67,6 +66,7 @@ export default {
       this.newClass = "";
       this.dialog = false;
     },
+   
   },
 };
 </script>
@@ -75,9 +75,11 @@ export default {
 .classcard {
   position: fixed;
   right: 1%;
-  width: 25%;
+  width: 20%;
   top: 1%;
   color: #000000;
+  border: none;
+  border-radius: 25px;
 }
 
 h2 {
@@ -97,11 +99,18 @@ h2 {
 }
 
 .listitem {
-  background-color: #000000;
-  color: white;
+  background-color: snow;
+  /* color: white; */
+  width: 70%;
+  margin: 0 15%;
+  border: none;
+  border-radius: 5px;
+  list-style: none;
+  margin-top: 3%;
+  
 }
 a {
-  color: white;
+  color: rgb(0, 0, 0);
 }
 v-card {
   background-color: #000000;

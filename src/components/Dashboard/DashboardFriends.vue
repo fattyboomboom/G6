@@ -95,6 +95,8 @@ h2 {
   left: 6%;
   top: 50%;
   width: 25%;
+  border: none;
+  border-radius: 25px;
 }
 a {
   color: white;

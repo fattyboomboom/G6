@@ -42,6 +42,10 @@ export default {
   margin-top: 1%;
   background-color: #000000;
   width: 25%;
+
+  border: none;
+  border-radius: 25px;
+  box-sizing: border-box;
 }
 .v-avatar {
   width: 70%;
