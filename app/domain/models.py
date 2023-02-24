@@ -1,6 +1,5 @@
-from sqlalchemy import Column, Integer, String, Date, Double, Text, relationship, ForeignKey, SmallInteger
-from sqlalchemy.ext.declarative import declarative_base
-from engine import db
+from datetime import datetime
+from config import db, ma
 
 class Account(db.Base):
     __tablename__ = 'account'
@@ -18,6 +17,15 @@ class Account(db.Base):
 
     def __repr__(self) :
               return f'Account({self.email}, {self.password}, {self.last_login}, {self.creation_date})'
+    
+class AccountSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Account
+        load_instance = True
+        sqla_session = db.session
+
+account_schema = AccountSchema()
+accounts_schema = AccountSchema(many=True)
 
 class Answers(db.Base):
     __tablename__ = 'answers'
@@ -200,7 +208,28 @@ class Users(db.Base):
     type_id = Column(Integer, nullable=False)
 
     #relationships
+
+    def __init__(self, user_name, user_email, user_phone, user_dob, preferred_pronouns, nickname,profile_picture,type_id) :
+            self.user_name= user_name
+            self.user_email = user_email
+            self.user_phone = user_phone
+            self.user_dob=user_dob
+            self.preferred_pronouns=preferred_pronouns
+            self.nickname= nickname
+            self.profile_picture=profile_picture
+            self.type_id = type_id
+
+    def __repr__(self) :
+              return f'Account({self.user_name},{self.user_email},{self.user_phone}, {self.user_dob}, {self.preferred_pronouns}, {self.nickname},{self.profile_picture},{self.type_id})'
     
+class UserSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Users
+        load_instance = True
+        sqla_session = db.session
+
+user_schema = UserSchema()
+users_schema = UserSchema(many=True)    
 
 class UserType(db.Base):
     __tablename__ = 'user_type'

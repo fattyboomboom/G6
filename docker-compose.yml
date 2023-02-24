@@ -27,15 +27,15 @@ services:
     ports:
       - "7000:8080"
   
-  bases_de_datos:
+  database:
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: bw1L[{wezRx9
-      MYSQL_DATABASE: webtofly_asegurarse
-      MYSQL_USER: webtofly_db_user
-      MYSQL_PASSWORD: bw1L[{wezRx9
+      MYSQL_ROOT_PASSWORD: pochoclo
+      MYSQL_DATABASE: wolfcampus_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 1234
     ports:
       - 4306:3306
       - 43060:33060
@@ -49,7 +49,7 @@ services:
       - 9080:80
     environment:
       - PMA_ARBITRARY=1
-      - PMA_HOST=bases_de_datos
+      - PMA_HOST=database
     hostname: adminer
 
 # volumes:

@@ -9,7 +9,7 @@ from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 connex_app = connexion.App(__name__)
 
 app = connex_app.app
-app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+mysqldb://webtofly_db_user:bw1L[{wezRx9@bases_de_datos/webtofly_asegurarse'
+app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+mysqldb://user:1234@database/wolfcampus_db'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)

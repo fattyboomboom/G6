@@ -1,41 +1,16 @@
 from datetime import datetime
 
 from flask import abort, make_response
-from domain.models import Account, accounts_schema, account_schema
+from domain.models import Users, users_schema, user_schema
 from config import db
 
 def get_timestamp():
     return datetime.now().strftime(("%Y-%m-%d %H:%M:%S"))
 
 
-ACCOUNT = {
-    "Fairy": {
-        "user_id": "1",
-        "password": "password",
-        "email": "mail@demo",
-        "last_login": get_timestamp(),
-        "creation_date": get_timestamp()
-    },
-    "Ruprecht": {
-        "user_id": "2",
-        "password": "password",
-        "email": "mail@demo",
-        "last_login": get_timestamp(),
-        "creation_date": get_timestamp()
-    },
-    "Bunny": {
-        "user_id": "3",
-        "password": "password",
-        "email": "mail@demo",
-        "last_login": get_timestamp(),
-        "creation_date": get_timestamp()
-    },
-}
-
-
 def read_all():
-    cuentas = Account.query.all()
-    return accounts_schema.dump(cuentas)
+    user = Users.query.all()
+    return user_schema.dump(user)
 
 
 def create(acc):
