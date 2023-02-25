@@ -3,8 +3,8 @@
 import AWS from 'aws-sdk';
 
 AWS.config.update({
-  accessKeyId: 'AKIAZ6IIAQRWTCGQQWEA',
-  secretAccessKey: '', //PrivateKey temporarily omitted until AWS can be properly configured in the backend rather than front.
+  accessKeyId: '',
+  secretAccessKey: '', //Private key and access key temporarily omitted until AWS can be properly configured in the backend rather than front.
   region: 'us-west-2'
 });
 
