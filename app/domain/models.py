@@ -45,9 +45,9 @@ class BlockedList(db.Model):
     user_id = db.Column(db.Integer, primary_key=True)
     blocked_id = db.Column(db.Integer, nullable=False)
 
-    #relationships
-    user_blockedListFK = db.relationship ("Users", back_populates = "BlockedList", uselist= False)# IS THIS ONE ON ONE?
-    blockedUsersFK = db.relationship("Users") #one blocked list has many users
+    # #relationships
+    # user_blockedListFK = db.relationship ("Users", back_populates = "BlockedList", uselist= False)# IS THIS ONE ON ONE?
+    # blockedUsersFK = db.relationship("Users") #one blocked list has many users
 
 class Books(db.Model):
     __tablename__ = 'books'
