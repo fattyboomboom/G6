@@ -1,11 +1,9 @@
-import '@babel/polyfill'
-import 'mutationobserver-shim'
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
 import NoteCards from './pages/notes/NotesCards.vue'
 import BookResell from './pages/bookresell/BookListings.vue'
-import FilterMenu from './globalcomponents/BookListingsFilter.vue'
+// import FilterMenu from './globalcomponents/BookListingsFilter.vue'
 import TestPage from './pages/tester/testPage.vue'
 import DashBoard from './pages/dashboard/HomeView.vue'
 import DisabilityPage from './pages/DRC/HelloWorld.vue'
@@ -15,7 +13,10 @@ import LoginPage from './pages/login/WelcomeView.vue'
 import NavBar from './globalcomponents/NavBar.vue'
 import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
-import AnnouncementsDropdown from './globalcomponents/AnnouncementsDropdown.vue'
+import SuperUserDash from "./pages/superuser/SuperUserDash.vue"
+import ModEdit from "./pages/moderator/ModEdit.vue"
+import TestEmail from "./pages/temp/TestEmail.vue"
+//import AnnouncementsDropdown from './globalcomponents/AnnouncementsDropdown.vue'
 
 loadFonts()
 
@@ -29,7 +30,10 @@ const router = createRouter({
     { path: '/DRC', component: DisabilityPage },
     { path: '/about', component:  AboutPage },
     { path: '/explore', component:  ExplorePage },
-    { path: '/', component: LoginPage }
+    { path: '/', component: LoginPage },
+    { path: '/super', component: SuperUserDash},
+    { path: '/mod', component: ModEdit},
+    { path: '/email', component: TestEmail}
   ]
 });
 
@@ -38,7 +42,7 @@ createApp(App)
   .use(vuetify)
   .use(router)
   .component('note-cards', NoteCards)
-  .component('filter-menu', FilterMenu)
+  //.component('filter-menu', FilterMenu)
   .component('nav-bar', NavBar)
   .component ('announcements-dropdown', AnnouncementsDropdown)
   .mount('#app')
