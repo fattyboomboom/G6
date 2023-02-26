@@ -167,8 +167,11 @@ export default {
       // sending data
       axios
         .post("http://localhost:3000/signup", data)
-        .then(function (response) {
+        .then(response => {
           console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
         });
     },
 
@@ -182,8 +185,12 @@ export default {
       // sending data
       axios
         .post("http://localhost:3000/login", authdata)
-        .then(function (response) {
+        .then((response) => {
           console.log(response);
+          console.log(authdata);
+        })
+        .catch((error) => {
+          console.log(error);
         });
     },
   },
