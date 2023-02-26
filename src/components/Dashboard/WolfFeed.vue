@@ -99,6 +99,9 @@ export default {
       maxPosts: 20,
     };
   },
+  mounted() {
+
+  },
   methods: {
     formatDate(date) {
       return new Intl.DateTimeFormat("en-US", {

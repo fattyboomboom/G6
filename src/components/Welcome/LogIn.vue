@@ -6,16 +6,58 @@
 
   <!-- This is a pop up modal when the sign up button is pressed. -->
   <SignUp @close="toggleModal" :modalActive="modalActive">
-  
+    <v-card border>
+      <div class="modal-content">
+        <form>
+          <v-text-field
+            label="First Name"
+            v-model.trim="signup.firstname"
+          ></v-text-field>
+          <v-text-field
+            label="Last Name"
+            v-model.trim="signup.lastname"
+          ></v-text-field>
+          <v-text-field label="Major" v-model="signup.major"></v-text-field>
+          <v-text-field
+            v-model="signup.dob"
+            label="Date of Birth"
+          ></v-text-field>
+          <v-text-field
+            v-model.trim="signup.email"
+            :readonly="loading"
+            :rules="[required]"
+            class="mb-2"
+            label="Email"
+          ></v-text-field>
+          <v-text-field
+            type="password"
+            v-model="signup.password"
+            :rules="[required]"
+            label="Password"
+            placeholder="Enter your password"
+          ></v-text-field>
+
+          <v-btn
+            :loading="loading"
+            block
+            color="success"
+            size="large"
+            type="submit"
+            variant="elevated"
+            @click="saveNew"
+          >
+            Submit
+          </v-btn>
+        </form>
+      </div>
+    </v-card>
   </SignUp>
 
   <!-- log in card with a form to enter email and password -->
   <v-card class="logincard" border>
-    <v-form class="formdetail" v-model="form" @submit.prevent="onSubmit">
+    <v-form class="formdetail">
       <v-text-field
-        v-model="email"
-        :readonly="loading"
-        :rules="[required]"
+        v-model="login.email"
         class="mb-2"
         label="Email"
         placeholder="NetID@nevada.unr.edu"
@@ -23,7 +65,7 @@
 
       <v-text-field
         type="password"
-        v-model="password"
+        v-model="login.password"
         :rules="[required]"
         label="Password"
         placeholder="Enter your password"
@@ -32,7 +74,6 @@
       <br />
 
       <v-btn
-        :loading="loading"
         block
         color="success"
         size="large"
@@ -57,10 +98,10 @@
 </template>
 
 <script>
-// import { ref } from 'vue';
-// import axios from "axios";
 import SignUp from "./SignUp.vue";
 import { ref } from "vue";
+import axios from "axios";
+// import SignUpService from "@/dataservice";
 
 export default {
   name: "LogIn",
@@ -76,31 +117,54 @@ export default {
 
     return { modalActive, toggleModal };
   },
+
+  data: () => {
+    return {
+      login: {
+        email: null,
+        password: null,
+      },
+
+      signup: {
+        firstname: "",
+        lastname: "",
+        major: "",
+        dob: "",
+        email: "",
+        password: "",
+      },
+
+      loading: false,
+      required: true,
+    };
+  },
+
+  methods: {
+    saveNew() {
+      // var data = {
+      //   firstname: this.signup.firstname,
+      //   lastname: this.signup.lastname,
+      //   major: this.signup.major,
+      //   dob: this.signup.dob,
+      //   email: this.signup.email,
+      //   password: this.signup.password,
+      // };
+      // console.log(this.signup.lastname)
+      // SignUpService.create(data)
+      //   .then(response) => {
+      //     this.tutorial.id = response.data.id;
+      //     console.log(response.data);
+      //     this.submitted = true;
+      //   })
+      //   .catch(e => {
+      //     console.log(e);
+      //   });
+      axios.get("http://localhost:3000/home").then(function (response) {
+        console.log(response);
+      });
+    },
+  },
 };
-
-//   data: () => ({
-//     form: false,
-//     email: null,
-//     password: null,
-//     loading: false,
-//   }),
-
-//   methods: {
-//     onSubmit() {
-//       if (!this.form) return;
-
-//       this.loading = true;
-
-//       setTimeout(() => (this.loading = false), 2000);
-//     },
-//     required(v) {
-//       return !!v || "Field is required";
-//     },
-//     onSignUpClick() {
-//       console.log("Sign up button clicked");
-//     },
-//   },
-// };
 </script>
 
 <style scoped>

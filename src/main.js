@@ -18,7 +18,12 @@ import FilterMenu from './globalcomponents/ListingsFilter.vue'
 import NavBarVue from './globalcomponents/NavBar.vue'
 import ListingsFilter from './globalcomponents/ListingsFilter.vue'
 
+import axios from "axios";
 
+export default axios.create({
+  baseURL: "http://localhost:3000",
+  timeout: 1000
+});
 
 
 const router = createRouter({
@@ -34,7 +39,8 @@ const router = createRouter({
 
 });
 
-createApp(App).use(router)
+createApp(App)
+  .use(router)
   .use(vuetify)
   .component('filter-menu', FilterMenu)
   .component('nav-bar', NavBarVue) 

@@ -3,43 +3,8 @@
     <div v-show="modalActive" class="modal">
       <Transition name="modal-animation-inner">
         <div v-show="modalActive" class="modal-inner">
+          <button @click="close">X</button>
           <slot />
-          <v-card border>
-      <div class="modal-content">
-        <form>
-          <v-text-field label="First Name"></v-text-field>
-          <v-text-field label="Last Name"></v-text-field>
-          <v-text-field label="Major"></v-text-field>
-          <v-text-field v-model="date" label="Date of Birth"></v-text-field>
-          <v-text-field
-            v-model="email"
-            :readonly="loading"
-            :rules="[required]"
-            class="mb-2"
-            label="Email"
-          ></v-text-field>
-          <v-text-field
-            type="password"
-            v-model="password"
-            :rules="[required]"
-            label="Password"
-            placeholder="Enter your password"
-          ></v-text-field>
-
-          <v-btn
-            :loading="loading"
-            block
-            color="success"
-            size="large"
-            type="submit"
-            variant="elevated"
-          >
-            Submit
-          </v-btn>
-        </form>
-      </div>
-    </v-card>
-          <button @click="close">Close</button>
         </div>
       </Transition>
     </div>
@@ -47,6 +12,7 @@
 </template>
 
 <script>
+
 export default {
   name: "SignUp",
   props: ["modalActive"],
@@ -61,7 +27,8 @@ export default {
     const close = () => {
       emit("close");
     };
-
+  
+  
     return { close };
   },
 };
@@ -84,6 +51,13 @@ export default {
 
 .modal-inner {
   background: white;
-  width: 40%;
+  display: flex;
+  /* align-items: center; */
+}
+
+button {
+  position: fixed;
+  text-align: right;
+  color: red;
 }
 </style>
