@@ -1,9 +1,11 @@
 from flask import render_template
 import config
 from domain.models import Account
+from flask_cors import CORS
 
 app = config.connex_app
 app.add_api("swagger.yml")
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 
 @app.route("/")
