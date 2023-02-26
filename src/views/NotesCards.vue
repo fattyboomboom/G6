@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import filterMenu from "@/globalcomponents/BookListingsFilter.vue";
+import filterMenu from "@/globalcomponents/ListingsFilter.vue";
 export default {
   name: 'NotesView',
   components: {

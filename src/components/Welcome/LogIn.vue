@@ -1,46 +1,15 @@
 <template>
+  <!-- Heaer for out landing page -->
   <section class="header">
     <h1>WolfCampus</h1>
   </section>
 
+  <!-- This is a pop up modal when the sign up button is pressed. -->
   <SignUp @close="toggleModal" :modalActive="modalActive">
-    <v-card border>
-      <div class="modal-content">
-        <form>
-          <v-text-field label="First Name"></v-text-field>
-          <v-text-field label="Last Name"></v-text-field>
-          <v-text-field label="Major"></v-text-field>
-          <v-text-field v-model="date" label="Date of Birth"></v-text-field>
-          <v-text-field
-            v-model="email"
-            :readonly="loading"
-            :rules="[required]"
-            class="mb-2"
-            label="Email"
-          ></v-text-field>
-          <v-text-field
-            type="password"
-            v-model="password"
-            :rules="[required]"
-            label="Password"
-            placeholder="Enter your password"
-          ></v-text-field>
-
-          <v-btn
-            :loading="loading"
-            block
-            color="success"
-            size="large"
-            type="submit"
-            variant="elevated"
-          >
-            Submit
-          </v-btn>
-        </form>
-      </div>
-    </v-card>
+  
   </SignUp>
 
+  <!-- log in card with a form to enter email and password -->
   <v-card class="logincard" border>
     <v-form class="formdetail" v-model="form" @submit.prevent="onSubmit">
       <v-text-field

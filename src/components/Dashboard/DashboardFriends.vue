@@ -7,7 +7,7 @@
     <v-row no-gutters="true">
       <v-col v-for="n in friendsProfile" :key="n" cols="4" align-self="stretch">
         <VCard color="white" density="">
-          <a href="friends">
+          <a href="/profile">
             <v-img
               :src="n.image"
               aspect-ratio="1"

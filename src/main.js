@@ -9,11 +9,15 @@ import { createRouter, createWebHistory } from 'vue-router'
 loadFonts()
 
 import BookResellView from './views/BookResellView.vue'
+import ProfileView from './views/ProfileView.vue'
 import HomeView from './views/HomeView.vue'
 import AboutViewVue from './views/AboutView.vue'
 import WelcomeView from './views/WelcomeView.vue'
 import NotesView from './views/NotesCards.vue'
-import FilterMenu from './globalcomponents/BookListingsFilter.vue'
+import FilterMenu from './globalcomponents/ListingsFilter.vue'
+import NavBarVue from './globalcomponents/NavBar.vue'
+import ListingsFilter from './globalcomponents/ListingsFilter.vue'
+
 
 
 
@@ -25,11 +29,14 @@ const router = createRouter({
     { path: '/about', component: AboutViewVue },
     { path: '/', component: WelcomeView },
     { path: '/notes', component: NotesView },
+    { path: '/profile', component: ProfileView}
   ]
 
 });
 
 createApp(App).use(router)
   .use(vuetify)
-  .mount('#app')
   .component('filter-menu', FilterMenu)
+  .component('nav-bar', NavBarVue) 
+  .component('listings-filter', ListingsFilter)
+  .mount('#app')

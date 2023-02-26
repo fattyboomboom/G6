@@ -4,7 +4,7 @@
     <MyClasses />
     <ProfileAvatar />
     <WallPost />
-    <NavBar />
+    <nav-bar></nav-bar>
     <WolfFeed />
  
 </template>
@@ -15,7 +15,6 @@ import DashboardFriends from "@/components/Dashboard/DashboardFriends.vue";
 import MyClasses from "@/components/Dashboard/MyClasses.vue";
 import ProfileAvatar from "@/components/Dashboard/ProfileAvatar.vue";
 import WallPost from "@/components/Dashboard/WallPost.vue";
-import NavBar from "@/components/Dashboard/NavBar.vue";
 import WolfFeed from "@/components/Dashboard/WolfFeed.vue";
 
 export default {
@@ -25,7 +24,6 @@ export default {
     MyClasses,
     ProfileAvatar,
     WallPost,
-    NavBar,
     WolfFeed,
   },
 };
