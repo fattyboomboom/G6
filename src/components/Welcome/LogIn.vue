@@ -9,19 +9,25 @@
     <v-card border>
       <div class="modal-content">
         <form>
+          <!--Text input for entering first name and trim any whitespace-->
           <v-text-field
             label="First Name"
             v-model.trim="signup.firstname"
           ></v-text-field>
+
+          <!--Text input for entering last name and trim any whitespace-->
           <v-text-field
             label="Last Name"
             v-model.trim="signup.lastname"
           ></v-text-field>
+
+          <!--Text input for entering date of birth and trim any whitespace-->
           <v-text-field label="Major" v-model="signup.major"></v-text-field>
           <v-text-field
             v-model="signup.dob"
             label="Date of Birth"
           ></v-text-field>
+
           <v-text-field
             v-model.trim="signup.email"
             :readonly="loading"
@@ -29,6 +35,7 @@
             class="mb-2"
             label="Email"
           ></v-text-field>
+
           <v-text-field
             type="password"
             v-model="signup.password"
@@ -56,16 +63,18 @@
   <!-- log in card with a form to enter email and password -->
   <v-card class="logincard" border>
     <v-form class="formdetail">
+      <!-- Input for log in email -->
       <v-text-field
-        v-model="login.email"
+        v-model="auth.email"
         class="mb-2"
         label="Email"
         placeholder="NetID@nevada.unr.edu"
       ></v-text-field>
 
+      <!-- input for login password -->
       <v-text-field
         type="password"
-        v-model="login.password"
+        v-model="auth.password"
         :rules="[required]"
         label="Password"
         placeholder="Enter your password"
@@ -73,16 +82,19 @@
 
       <br />
 
+      <!-- button to submit log in information -->
       <v-btn
         block
         color="success"
         size="large"
         type="submit"
         variant="elevated"
+        @click="authuser"
       >
         Sign In
       </v-btn>
 
+      <!-- button to bring up sign up form -->
       <v-btn
         class="mt-4"
         block
@@ -101,7 +113,6 @@
 import SignUp from "./SignUp.vue";
 import { ref } from "vue";
 import axios from "axios";
-// import SignUpService from "@/dataservice";
 
 export default {
   name: "LogIn",
@@ -120,11 +131,13 @@ export default {
 
   data: () => {
     return {
-      login: {
+      // Data properties for authentication
+      auth: {
         email: null,
         password: null,
       },
 
+      // Data properties for sign up
       signup: {
         firstname: "",
         lastname: "",
@@ -140,28 +153,38 @@ export default {
   },
 
   methods: {
+    // method for capturing data from form
     saveNew() {
-      // var data = {
-      //   firstname: this.signup.firstname,
-      //   lastname: this.signup.lastname,
-      //   major: this.signup.major,
-      //   dob: this.signup.dob,
-      //   email: this.signup.email,
-      //   password: this.signup.password,
-      // };
-      // console.log(this.signup.lastname)
-      // SignUpService.create(data)
-      //   .then(response) => {
-      //     this.tutorial.id = response.data.id;
-      //     console.log(response.data);
-      //     this.submitted = true;
-      //   })
-      //   .catch(e => {
-      //     console.log(e);
-      //   });
-      axios.get("http://localhost:3000/home").then(function (response) {
-        console.log(response);
-      });
+      var data = {
+        firstname: this.signup.firstname,
+        lastname: this.signup.lastname,
+        major: this.signup.major,
+        dob: this.signup.dob,
+        email: this.signup.email,
+        password: this.signup.password,
+      };
+
+      // sending data
+      axios
+        .post("http://localhost:3000/signup", data)
+        .then(function (response) {
+          console.log(response);
+        });
+    },
+
+    // capturing data from log in form
+    authuser() {
+      var authdata = {
+        email: this.auth.email,
+        password: this.auth.password,
+      };
+
+      // sending data
+      axios
+        .post("http://localhost:3000/login", authdata)
+        .then(function (response) {
+          console.log(response);
+        });
     },
   },
 };
