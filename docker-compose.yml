@@ -28,7 +28,7 @@ services:
       - ./app_vue/:/app/
     ports:
       - "7000:8080"
-      - "7001:8081"
+      # - "7001:8081"
   
   database:
     image: mysql

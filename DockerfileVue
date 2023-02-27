@@ -10,6 +10,8 @@ RUN npm install
 
 RUN yarn install
 RUN yarn build
+# RUN yarn serve
 
 EXPOSE 8080
 CMD [ "yarn", "serve" ]
+#CMD [ "http-server", "dist" ]
