@@ -161,8 +161,8 @@ class Posts(db.Model):
     #     self.post_text = post_text
     #     self.user_id = user_id
     
-    def __repr__(self):
-        return f'Post'({self.post_date},{self.post_photo},{self.post_text},{self.post_status},{self.user_id})
+    # def __repr__(self):
+    #     return f'Post'({self.post_date},{self.post_photo},{self.post_text},{self.post_status},{self.user_id})
 
 class Profiles(db.Model):
     __tablename__ = 'profiles'

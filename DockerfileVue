@@ -4,14 +4,12 @@ FROM node:lts-alpine
 RUN npm install -g http-server
 
 WORKDIR /app
-
-COPY package*.json ./
+COPY ./app_vue .
 
 RUN npm install
 
-COPY ./src .
-
-# RUN npm run build
+RUN yarn install
+RUN yarn build
 
 EXPOSE 8080
-CMD [ "http-server", "dist" ]
+CMD [ "yarn", "serve" ]
