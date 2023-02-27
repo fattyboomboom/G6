@@ -1,7 +1,6 @@
 .DS_Store
-node_modules
-dist
-
+# node_modules
+# /dist
 
 # local env files
 .env.local
@@ -15,18 +14,9 @@ pnpm-debug.log*
 
 # Editor directories and files
 .idea
-# .vscode
+.vscode
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-
-Assets/dockerStuff/data/*
-app/venv/*
-__pycache__/*
-
-python/venv/*
-python/__pycache__/*
-data/*
-data_bck/*
