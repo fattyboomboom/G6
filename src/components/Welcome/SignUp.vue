@@ -1,8 +1,11 @@
 <template>
   <Transition name="modal-animation">
+    <!-- The modal class sets the background color -->
     <div v-show="modalActive" class="modal">
       <Transition name="modal-animation-inner">
+        <!-- sets a white background behind the form -->
         <div v-show="modalActive" class="modal-inner">
+          <!-- closes the modal and this is where the content of the slot on longin.vue is inserted -->
           <button @click="close">X</button>
           <slot />
         </div>
@@ -12,23 +15,15 @@
 </template>
 
 <script>
-
 export default {
   name: "SignUp",
   props: ["modalActive"],
-  //   data: () => ({
-  //     first: null,
-  //     last: null,
-  //     email: null,
-  //     password: null,
-  //     terms: false,
-  //   }),
+
   setup(props, { emit }) {
     const close = () => {
       emit("close");
     };
-  
-  
+
     return { close };
   },
 };
