@@ -28,6 +28,7 @@
             label="Date of Birth"
           ></v-text-field>
 
+          <!-- sign up email input -->
           <v-text-field
             v-model.trim="signup.email"
             :readonly="loading"
@@ -36,6 +37,7 @@
             label="Email"
           ></v-text-field>
 
+          <!-- sign up password input -->
           <v-text-field
             type="password"
             v-model="signup.password"
@@ -44,6 +46,7 @@
             placeholder="Enter your password"
           ></v-text-field>
 
+          <!-- button to save form -->
           <v-btn
             :loading="loading"
             block
@@ -167,7 +170,7 @@ export default {
       // sending data
       axios
         .post("http://localhost:3000/signup", data)
-        .then(response => {
+        .then((response) => {
           console.log(response);
         })
         .catch((error) => {
