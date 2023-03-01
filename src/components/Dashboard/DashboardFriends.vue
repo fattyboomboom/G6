@@ -4,12 +4,17 @@
       <VCardTitle class="cardtitle"> <h2>Friends</h2></VCardTitle></a
     >
     <VDivider color="black" thickness="2"></VDivider>
-    <v-row no-gutters="true">
-      <v-col v-for="n in friendsProfile" :key="n" cols="4" align-self="stretch">
-        <VCard color="white" density="">
+    <v-row no-gutters>
+      <v-col
+        v-for="friend in friends"
+        :key="friend"
+        cols="4"
+        align-self="stretch"
+      >
+        <VCard class="friendcard" color="white">
           <a href="/profile">
             <v-img
-              :src="n.image"
+              :src="friend.image"
               aspect-ratio="1"
               cover
               class="bg-grey-lighten-2"
@@ -24,9 +29,8 @@
               </template> </v-img
           ></a>
           <VDivider thickness="2"></VDivider>
-          <center>
-            <p>{{ n.name }}</p>
-          </center>
+
+          <p>{{ friend.name }}</p>
         </VCard>
       </v-col>
     </v-row>
@@ -34,44 +38,28 @@
 </template>
 
 <script>
+import { ref } from "vue";
+
 export default {
   name: "DashFriends",
-  data() {
-    return {
-      friendsProfile: [
-        {
-          id: 0,
-          image: "https://randomuser.me/api/portraits/men/58.jpg",
-          name: "Elijah",
-          price: "Price",
-        },
-        {
-          id: 1,
-          image: "https://randomuser.me/api/portraits/women/3.jpg",
-          name: "Olivia",
-        },
-        {
-          id: 2,
-          image: "https://randomuser.me/api/portraits/men/86.jpg",
-          name: "Ben",
-        },
-        {
-          id: 3,
-          image: "https://randomuser.me/api/portraits/women/18.jpg",
-          name: "Amelia",
-        },
-        {
-          id: 4,
-          image: "https://randomuser.me/api/portraits/men/4.jpg",
-          name: "Liam",
-        },
-        {
-          id: 5,
-          image: "https://randomuser.me/api/portraits/women/90.jpg",
-          name: "Sophia",
-        },
-      ],
+  setup() {
+    const friends = ref([]);
+    const error = ref(null);
+
+    const load = async () => {
+      try {
+        let data = await fetch("http://localhost:3000/friends");
+        if (!data.ok) {
+          throw Error("no data available");
+        }
+        friends.value = await data.json();
+      } catch (err) {
+        error.value = err.message;
+        console.log(error.value);
+      }
     };
+    load();
+    return { friends, error };
   },
 };
 </script>
@@ -91,14 +79,18 @@ h2 {
   color: white;
 }
 .friendslist {
-  position: fixed;
+  position: absolute;
   left: 6%;
-  top: 50%;
+  top: 55%;
   width: 25%;
   border: none;
   border-radius: 25px;
 }
 a {
   color: white;
+}
+
+.friendcard:hover {
+  scale: 1.1;
 }
 </style>

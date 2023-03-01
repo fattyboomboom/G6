@@ -73,7 +73,7 @@ export default {
 
 <style scoped>
 .classcard {
-  position: fixed;
+  position: absolute;
   right: 1%;
   width: 20%;
   top: 1%;
@@ -117,5 +117,9 @@ v-card {
 }
 .itemtitle {
   background-color: #000000;
+}
+
+.listitem:hover {
+  scale: 1.2;
 }
 </style>

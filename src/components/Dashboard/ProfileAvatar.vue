@@ -1,11 +1,10 @@
 <template>
   <v-card class="avatar" border="true">
-    <center>
+   
       <v-avatar
         image="https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg"
       >
       </v-avatar>
-    </center>
     <v-divider thickness="2"></v-divider>
     <h2>Name: {{ name }}</h2>
 
@@ -20,12 +19,11 @@ export default {
   props: {
     name: {
       type: String,
-      required: true,
       default: "Tom",
     },
     major: {
       type: String,
-      required: false,
+  
       default: "Undecided",
     },
   },
@@ -37,7 +35,7 @@ export default {
 
 <style scoped>
 .avatar {
-  position: fixed;
+  position: absolute;
   margin-left: 6%;
   margin-top: 1%;
   background-color: #000000;
@@ -50,7 +48,9 @@ export default {
 .v-avatar {
   width: 70%;
   height: auto;
-  margin: 0 auto;
+  margin-left: 15%;
+  margin-top: 2%;
+  margin-bottom: 2%;
 }
 
 body {

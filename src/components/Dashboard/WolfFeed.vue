@@ -77,12 +77,13 @@ h1 {
 }
 
 .post-container {
-  height: 500px;
+  height: 56%;
   overflow-y: scroll;
   margin-top: 20px;
   background-color: rgb(0, 0, 0);
   width: 40%;
-  margin-left: 33%;
+  position: absolute;
+  margin-left: 36%;
 }
 
 .post {
