@@ -108,6 +108,7 @@
       >
         Sign Up
       </v-btn>
+      <a href="" class="forgotpassword">Forgot password</a>
     </v-form>
   </v-card>
 </template>
@@ -246,5 +247,14 @@ p {
 
 .formdetail {
   margin: 5%;
+}
+
+.forgotpassword {
+  color: black;
+}
+
+.forgotpassword:hover {
+  font-size: large;
+  color: green;
 }
 </style>

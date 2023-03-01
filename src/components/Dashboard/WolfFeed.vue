@@ -29,7 +29,7 @@ export default {
             name: "John Doe",
             avatar: "https://randomuser.me/api/portraits/men/1.jpg",
           },
-          date: new Date(),
+          // date: new Date(),
           content: "This is my first post on the news feed!",
         },
         {
@@ -38,7 +38,7 @@ export default {
             name: "Jane Smith",
             avatar: "https://randomuser.me/api/portraits/women/1.jpg",
           },
-          date: new Date(),
+          // date: new Date(),
           content: "Just had a great time at the beach with my family!",
         },
         {
@@ -47,7 +47,7 @@ export default {
             name: "John Doe",
             avatar: "https://randomuser.me/api/portraits/men/1.jpg",
           },
-          date: new Date(),
+          // date: new Date(),
           content: "This is my first post on the news feed!",
         },
         {
@@ -56,7 +56,7 @@ export default {
             name: "Jane Smith",
             avatar: "https://randomuser.me/api/portraits/women/1.jpg",
           },
-          date: new Date(),
+          // date: new Date(),
           content: "Just had a great time at the beach with my family!",
         },
         {
@@ -65,7 +65,7 @@ export default {
             name: "John Doe",
             avatar: "https://randomuser.me/api/portraits/men/1.jpg",
           },
-          date: new Date(),
+          // date: new Date(),
           content: "This is my first post on the news feed!",
         },
         {
@@ -74,7 +74,7 @@ export default {
             name: "Jane Smith",
             avatar: "https://randomuser.me/api/portraits/women/1.jpg",
           },
-          date: new Date(),
+          // date: new Date(),
           content: "Just had a great time at the beach with my family!",
         },
         {
@@ -83,7 +83,7 @@ export default {
             name: "John Doe",
             avatar: "https://randomuser.me/api/portraits/men/1.jpg",
           },
-          date: new Date(),
+          // date: new Date(),
           content: "This is my first post on the news feed!",
         },
         {
@@ -92,7 +92,7 @@ export default {
             name: "Jane Smith",
             avatar: "https://randomuser.me/api/portraits/women/1.jpg",
           },
-          date: new Date(),
+          // date: new Date(),
           content: "Just had a great time at the beach with my family!",
         },
       ],
