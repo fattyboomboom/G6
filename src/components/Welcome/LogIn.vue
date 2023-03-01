@@ -1,7 +1,9 @@
 <template>
   <!-- Heaer for out landing page -->
   <section class="header">
-    <h1>WolfCampus</h1>
+    <h1
+    
+    >WolfCampus</h1>
   </section>
 
   <!-- This is a pop up modal when the sign up button is pressed. -->
@@ -202,18 +204,19 @@ export default {
 </script>
 
 <style scoped>
-h1,
+
 p,
 a {
   margin: 0;
   padding: 0;
-  font-family: cursive;
+  
 }
 
 h1 {
   font-size: 2.8em;
   padding: 10px 0;
   font-weight: 800;
+  font-family: cursive;
 }
 
 p {
@@ -257,4 +260,10 @@ p {
   font-size: large;
   color: green;
 }
+
+@keyframes mymove {
+  from {left: 0px;}
+  to {left: 200px;}
+}
+
 </style>

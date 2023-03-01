@@ -167,6 +167,11 @@ export default {
   height: 100%;
 }
 
+.bookcards:hover {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0px 0px black;
+}
+
 p {
   text-align: center;
   color: black;
