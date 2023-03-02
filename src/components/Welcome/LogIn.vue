@@ -55,7 +55,7 @@
             type="password"
             v-model="signup.password"
             :rules="[required]"
-            label="Password"
+            label="Re-enter password"
             placeholder="re-enter your password"
           ></v-text-field>
 
