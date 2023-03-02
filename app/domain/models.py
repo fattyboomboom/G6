@@ -82,8 +82,8 @@ class BookPublication(db.Model):
     user_id = db.Column(db.Integer, nullable=False)
 
     #relationships
-    # booksFK = db.relationship ("Books", back_populates ="publications_booksFK")
-    # usersFK = db.relationship ("Users", back_populates ="publications_usersFK")
+    # booksFK = db.relationship ("Books", back_populates ="children")
+    # usersFK = db.relationship ("Users", back_populates ="parents")
 
     # def __init__ (self, publication_text,publication_date, publication_photo, book_id, user_id):
     #     self.publication_text = publication_text
