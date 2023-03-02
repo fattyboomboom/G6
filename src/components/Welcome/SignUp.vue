@@ -15,15 +15,16 @@
 </template>
 
 <script>
+
 export default {
   name: "SignUp",
   props: ["modalActive"],
-
+  
   setup(props, { emit }) {
     const close = () => {
       emit("close");
     };
-
+  
     return { close };
   },
 };

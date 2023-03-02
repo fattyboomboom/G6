@@ -7,7 +7,7 @@
       variant="outlined"
       no-resize=""
       v-model="postContent"
-      @keyup.enter="submitPost"
+      @keydown.enter="submitPost"
     ></v-textarea>
   </v-container>
 </template>
@@ -24,9 +24,8 @@ export default {
   },
   methods: {
     submitPost() {
-     
       axios
-        .post("/api/posts", { content: this.postContent })
+        .post("http://localhost:3000/posts", { content: this.postContent })
         .then((response) => {
           console.log("Post saved to database:", response.data);
         })

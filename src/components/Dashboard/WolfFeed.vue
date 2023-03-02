@@ -28,7 +28,7 @@ export default {
 
     const load = async () => {
       try {
-        let data = await fetch("http://localhost:3000/post");
+        let data = await fetch("http://localhost:3000/posts");
         if (!data.ok) {
           throw Error("no data available");
         }
@@ -77,7 +77,7 @@ h1 {
 }
 
 .post-container {
-  height: 56%;
+  height: 65%;
   overflow-y: scroll;
   margin-top: 20px;
   background-color: rgb(0, 0, 0);

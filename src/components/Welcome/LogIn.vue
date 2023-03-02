@@ -1,9 +1,7 @@
 <template>
   <!-- Heaer for out landing page -->
   <section class="header">
-    <h1
-    
-    >WolfCampus</h1>
+    <h1>WolfCampus</h1>
   </section>
 
   <!-- This is a pop up modal when the sign up button is pressed. -->
@@ -23,12 +21,9 @@
             v-model.trim="signup.lastname"
           ></v-text-field>
 
-          <!--Text input for entering date of birth and trim any whitespace-->
-          <v-text-field label="Major" v-model="signup.major"></v-text-field>
-          <v-text-field
-            v-model="signup.dob"
-            label="Date of Birth"
-          ></v-text-field>
+          <!--Text input for selecting a major-->
+          <v-autocomplete label="Major" :items="major" v-model="signup.major">
+          </v-autocomplete>
 
           <!-- sign up email input -->
           <v-text-field
@@ -39,6 +34,14 @@
             label="Email"
           ></v-text-field>
 
+          <v-text-field
+            v-model.trim="signup.email"
+            :readonly="loading"
+            :rules="[required]"
+            class="mb-2"
+            label="Re-enter email"
+          ></v-text-field>
+
           <!-- sign up password input -->
           <v-text-field
             type="password"
@@ -46,6 +49,14 @@
             :rules="[required]"
             label="Password"
             placeholder="Enter your password"
+          ></v-text-field>
+
+          <v-text-field
+            type="password"
+            v-model="signup.password"
+            :rules="[required]"
+            label="Password"
+            placeholder="re-enter your password"
           ></v-text-field>
 
           <!-- button to save form -->
@@ -73,18 +84,23 @@
         v-model="auth.email"
         class="mb-2"
         label="Email"
+        prepend-inner-icon="mdi-email-outline"
         placeholder="NetID@nevada.unr.edu"
       ></v-text-field>
+
+      
 
       <!-- input for login password -->
       <v-text-field
         type="password"
         v-model="auth.password"
         :rules="[required]"
+        prepend-inner-icon="mdi-lock-outline"
         label="Password"
         placeholder="Enter your password"
       ></v-text-field>
-
+      
+      
       <br />
 
       <!-- button to submit log in information -->
@@ -148,10 +164,85 @@ export default {
         firstname: "",
         lastname: "",
         major: "",
-        dob: "",
         email: "",
+        retryemail: "",
         password: "",
+        retrypassword: ""
       },
+
+      major: [
+        "accounting",
+        "acouting & information systems",
+        "agricultural economics",
+        "agricultural science",
+        "anthropology",
+        "art",
+        "art history",
+        "atmospheric science",
+        "biochemistry and molecular biology",
+        "biology",
+        "biomedical engineering",
+        "biotechnology",
+        "business",
+        "chemical engineering",
+        "chemistry civil engineering communication studies",
+        "computer science & engineering",
+        "computational linguistics",
+        "criminal justice",
+        "dance",
+        "economics",
+        "elementary education",
+        "electrical engineering",
+        "engineering physics",
+        "english",
+        "environmental engineering",
+        "environmental science",
+        "finance",
+        "forest ecology & management",
+        "french gender",
+        "race & identity",
+        "general studies",
+        "geography",
+        "geological engineering",
+        "geology",
+        "geophysics",
+        "history",
+        "human development & family science",
+        "hydrogeology",
+        "information systems",
+        "international affairs",
+        "international business",
+        "journalism",
+        "kinesiology",
+        "management",
+        "marketing",
+        "materials science & engineering",
+        "mathematics",
+        "mechanical engineering",
+        "metallurgical engineering",
+        "microbiology & immunology",
+        "mining engineering",
+        "music",
+        "neuroscience nevadateach",
+        "nursing",
+        "nursing rn to bsn",
+        "nutrition",
+        "packteach",
+        "philosophy",
+        "physics",
+        "political science",
+        "phychology",
+        "public health",
+        "rangeland & ecology & management",
+        "secondary education",
+        "social work",
+        "sociology",
+        "spanish",
+        "speech pathology",
+        "theatre",
+        "betinary science",
+        "wildlife ecology & conservation",
+      ],
 
       loading: false,
       required: true,
@@ -165,9 +256,9 @@ export default {
         firstname: this.signup.firstname,
         lastname: this.signup.lastname,
         major: this.signup.major,
-        dob: this.signup.dob,
         email: this.signup.email,
         password: this.signup.password,
+       
       };
 
       // sending data
@@ -175,9 +266,11 @@ export default {
         .post("http://localhost:3000/signup", data)
         .then((response) => {
           console.log(response);
+         
         })
         .catch((error) => {
           console.log(error);
+          
         });
     },
 
@@ -204,12 +297,10 @@ export default {
 </script>
 
 <style scoped>
-
 p,
 a {
   margin: 0;
   padding: 0;
-  
 }
 
 h1 {
@@ -256,14 +347,21 @@ p {
   color: black;
 }
 
+.modal-content {
+  height: 8%;
+}
+
 .forgotpassword:hover {
   font-size: large;
   color: green;
 }
 
 @keyframes mymove {
-  from {left: 0px;}
-  to {left: 200px;}
+  from {
+    left: 0px;
+  }
+  to {
+    left: 200px;
+  }
 }
-
 </style>
