@@ -23,9 +23,15 @@ export default {
     };
   },
   methods: {
+    currentDate() {
+      const current = new Date();
+      const date = `${current.getMonth()+1}/${current.getDate()}/${current.getFullYear()}` + " " + `${current.getHours()}:${current.getMinutes()}:${current.getSeconds()}`;
+      return date;
+    },
+    
     submitPost() {
       axios
-        .post("http://localhost:3000/posts", { content: this.postContent })
+        .post("http://localhost:3000/posts", { content: this.postContent, postdate: this.currentDate() })
         .then((response) => {
           console.log("Post saved to database:", response.data);
         })
@@ -36,6 +42,7 @@ export default {
       // Clear the textarea content
       this.postContent = "";
     },
+    
   },
 };
 </script>
