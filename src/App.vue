@@ -4,6 +4,8 @@
   </v-app>
 </template>
 
-<script>
-
-</script>
+<style>
+body {
+  background-color: #FDF0D5;
+}
+</style>

@@ -39,15 +39,20 @@ export default {
   bottom: 0;
   z-index: 99;
   background-color: rgb(65, 65, 65);
-
+  
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .modal-inner {
-  background: white;
+  background: #FDF0D5;
   display: flex;
+  width: 50%;
+  border: none;
+  border-radius: 20px;
+  height: 70%;
+  margin: 20%;
   /* align-items: center; */
 }
 

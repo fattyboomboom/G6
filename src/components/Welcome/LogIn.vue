@@ -1,49 +1,60 @@
 <template>
   <!-- Heaer for out landing page -->
   <section class="header">
-    <h1>WolfCampus</h1>
+    <h1 >WolfCampus</h1>
   </section>
 
   <!-- This is a pop up modal when the sign up button is pressed. -->
   <SignUp @close="toggleModal" :modalActive="modalActive">
-    <v-card border>
+    <v-card class="">
       <div class="modal-content">
-        <form>
+        <form class="signupform">
           <!--Text input for entering first name and trim any whitespace-->
           <v-text-field
+            class="rounded-xl"
             label="First Name"
             v-model.trim="signup.firstname"
           ></v-text-field>
 
           <!--Text input for entering last name and trim any whitespace-->
           <v-text-field
+            class="rounded-xl"
             label="Last Name"
             v-model.trim="signup.lastname"
           ></v-text-field>
 
           <!--Text input for selecting a major-->
-          <v-autocomplete label="Major" :items="major" v-model="signup.major">
+          <v-autocomplete
+            class="rounded-xl"
+            label="Major"
+            :items="major"
+            transition="fab-transition"
+            v-model="signup.major"
+          >
           </v-autocomplete>
 
           <!-- sign up email input -->
           <v-text-field
+            class="rounded-xl"
             v-model.trim="signup.email"
             :readonly="loading"
             :rules="[required]"
-            class="mb-2"
+        
             label="Email"
           ></v-text-field>
 
           <v-text-field
+            class="rounded-xl"
             v-model.trim="signup.email"
             :readonly="loading"
             :rules="[required]"
-            class="mb-2"
+            
             label="Re-enter email"
           ></v-text-field>
 
           <!-- sign up password input -->
           <v-text-field
+            class="rounded-xl"
             type="password"
             v-model="signup.password"
             :rules="[required]"
@@ -52,6 +63,7 @@
           ></v-text-field>
 
           <v-text-field
+            class="rounded-xl"
             type="password"
             v-model="signup.password"
             :rules="[required]"
@@ -63,6 +75,7 @@
           <v-btn
             :loading="loading"
             block
+            class="signinbutton rounded-pill"
             color="success"
             size="large"
             type="submit"
@@ -77,56 +90,54 @@
   </SignUp>
 
   <!-- log in card with a form to enter email and password -->
-  <v-card class="logincard" border>
+  <v-card class="logincard">
     <v-form class="formdetail">
       <!-- Input for log in email -->
       <v-text-field
         v-model="auth.email"
-        class="mb-2"
+        class="rounded-xl"
         label="Email"
         prepend-inner-icon="mdi-email-outline"
         placeholder="NetID@nevada.unr.edu"
       ></v-text-field>
 
-      
-
       <!-- input for login password -->
+
       <v-text-field
         type="password"
         v-model="auth.password"
         :rules="[required]"
         prepend-inner-icon="mdi-lock-outline"
         label="Password"
+        class="rounded-xl"
         placeholder="Enter your password"
       ></v-text-field>
-      
-      
+
       <br />
 
       <!-- button to submit log in information -->
       <v-btn
-        block
+        class="signinbutton rounded-t-xl"
         color="success"
         size="large"
         type="submit"
         variant="elevated"
-        @click="authuser"
+        @click.prevent="authuser"
       >
         Sign In
       </v-btn>
 
       <!-- button to bring up sign up form -->
       <v-btn
-        class="mt-4"
-        block
+        class="signupbutton rounded-b-xl"
         color="primary"
         size="large"
         variant="elevated"
-        @click="toggleModal"
+        @click.prevent="toggleModal"
       >
         Sign Up
       </v-btn>
-      <a href="" class="forgotpassword">Forgot password</a>
+      <!-- <a href="" class="forgotpassword">Forgot password</a> -->
     </v-form>
   </v-card>
 </template>
@@ -167,81 +178,81 @@ export default {
         email: "",
         retryemail: "",
         password: "",
-        retrypassword: ""
+        retrypassword: "",
       },
 
       major: [
-        "accounting",
-        "acouting & information systems",
-        "agricultural economics",
-        "agricultural science",
-        "anthropology",
-        "art",
-        "art history",
-        "atmospheric science",
-        "biochemistry and molecular biology",
-        "biology",
-        "biomedical engineering",
-        "biotechnology",
-        "business",
-        "chemical engineering",
-        "chemistry civil engineering communication studies",
-        "computer science & engineering",
-        "computational linguistics",
-        "criminal justice",
-        "dance",
-        "economics",
-        "elementary education",
-        "electrical engineering",
-        "engineering physics",
-        "english",
-        "environmental engineering",
-        "environmental science",
-        "finance",
-        "forest ecology & management",
-        "french gender",
-        "race & identity",
-        "general studies",
-        "geography",
-        "geological engineering",
-        "geology",
-        "geophysics",
-        "history",
-        "human development & family science",
-        "hydrogeology",
-        "information systems",
-        "international affairs",
-        "international business",
-        "journalism",
-        "kinesiology",
-        "management",
-        "marketing",
-        "materials science & engineering",
-        "mathematics",
-        "mechanical engineering",
-        "metallurgical engineering",
-        "microbiology & immunology",
-        "mining engineering",
-        "music",
-        "neuroscience nevadateach",
-        "nursing",
-        "nursing rn to bsn",
-        "nutrition",
-        "packteach",
-        "philosophy",
-        "physics",
-        "political science",
-        "phychology",
-        "public health",
-        "rangeland & ecology & management",
-        "secondary education",
-        "social work",
-        "sociology",
-        "spanish",
-        "speech pathology",
-        "theatre",
-        "betinary science",
-        "wildlife ecology & conservation",
+        "Accounting",
+        "Acouting & Information Systems",
+        "Agricultural Economics",
+        "Agricultural Science",
+        "Anthropology",
+        "Art",
+        "Art History",
+        "Atmospheric Science",
+        "Biochemistry and Molecular Biology",
+        "Biology",
+        "Biomedical Engineering",
+        "Biotechnology",
+        "Business",
+        "Chemical Engineering",
+        "Chemistry Civil Engineering Communication Studies",
+        "Computer Science & Engineering",
+        "Computational Linguistics",
+        "Criminal Justice",
+        "Dance",
+        "Economics",
+        "Elementary Education",
+        "Electrical Engineering",
+        "Engineering Physics",
+        "English",
+        "Environmental Engineering",
+        "Environmental Science",
+        "Finance",
+        "Forest Ecology & Management",
+        "French Gender",
+        "Race & Identity",
+        "General Studies",
+        "Geography",
+        "Geological Engineering",
+        "Geology",
+        "Geophysics",
+        "History",
+        "Human Development & Family Science",
+        "Hydrogeology",
+        "Information Systems",
+        "International Affairs",
+        "International Business",
+        "Journalism",
+        "Kinesiology",
+        "Management",
+        "Marketing",
+        "Materials Science & Engineering",
+        "Mathematics",
+        "Mechanical Engineering",
+        "Metallurgical Engineering",
+        "Microbiology & Immunology",
+        "Mining Engineering",
+        "Music",
+        "Neuroscience Nevadateach",
+        "Nursing",
+        "Nursing RN to BSN",
+        "Nutrition",
+        "Packteach",
+        "Philosophy",
+        "Physics",
+        "Political Science",
+        "Phychology",
+        "Public Health",
+        "Rangeland & Ecology & Management",
+        "Secondary Education",
+        "Social Work",
+        "Sociology",
+        "Spanish",
+        "Speech Pathology",
+        "Theatre",
+        "Vetinary Science",
+        "Wildlife Ecology & Conservation",
       ],
 
       loading: false,
@@ -258,7 +269,6 @@ export default {
         major: this.signup.major,
         email: this.signup.email,
         password: this.signup.password,
-       
       };
 
       // sending data
@@ -266,11 +276,9 @@ export default {
         .post("http://localhost:3000/signup", data)
         .then((response) => {
           console.log(response);
-         
         })
         .catch((error) => {
           console.log(error);
-          
         });
     },
 
@@ -286,7 +294,7 @@ export default {
         .post("http://localhost:3000/login", authdata)
         .then((response) => {
           console.log(response);
-          console.log(authdata);
+          console.log(authdata.email);
         })
         .catch((error) => {
           console.log(error);
@@ -310,6 +318,27 @@ h1 {
   font-family: cursive;
 }
 
+.v-text-field {
+  background-color: #fdf0d5;
+  /* border-radius: 15px; */
+  font-size: 12px;
+  display: block;
+  line-height: 1.5;
+  margin: 5%;
+  padding: 0;
+}
+.v-btn {
+  background-color: #669BBC;
+  margin: 0 5% 5% 5%;
+  width: 80%;
+}
+
+.signupbutton:hover,
+.signinbutton:hover {
+  scale: 1.1;
+  background-color: #649FC4;
+}
+
 p {
   font-size: 1.1em;
   font-weight: 100;
@@ -320,8 +349,8 @@ p {
   width: 100%;
   /* padding: 60px 0; */
   text-align: center;
-  background: #000000;
-  color: white;
+  background: #003049;
+  color: #fdf0d5;
 }
 .v-card {
   box-shadow: 0 16px 56px rgba(0, 0, 0, 0.1), 0 16px 56px rgba(0, 0, 0, 0.1),
@@ -330,31 +359,43 @@ p {
   border-radius: 20px;
   box-sizing: border-box;
   margin: 10%;
-  background-color: whitesmoke;
   width: 396px;
 }
 .logincard {
   width: 35%;
   margin-left: 30%;
   text-align: center;
+  background-color: #003049;
 }
 
 .formdetail {
-  margin: 5%;
+  /* margin: 5%; */
+  /* color: #FDF0D5; */
+  /* background: #fff; */
+  color: #1c1e21;
+  direction: ltr;
+  line-height: 1.34;
+  margin: 0;
+  padding: 0;
+  unicode-bidi: embed;
 }
 
 .forgotpassword {
   color: black;
 }
 
+
+
 .modal-content {
   height: 8%;
+  
 }
 
 .forgotpassword:hover {
   font-size: large;
   color: green;
 }
+
 
 @keyframes mymove {
   from {
