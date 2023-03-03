@@ -29,3 +29,5 @@ __pycache__/*
 python/venv/*
 python/__pycache__/*
 data/*
+
+SendGridAPI.py

@@ -15,7 +15,7 @@ import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
 import SuperUserDash from "./pages/superuser/SuperUserDash.vue"
 import ModEdit from "./pages/moderator/ModEdit.vue"
-import TestEmail from "./pages/temp/TestEmail.vue"
+import TestEmail from "./Test/SendGrid.vue"
 //import AnnouncementsDropdown from './globalcomponents/AnnouncementsDropdown.vue'
 
 loadFonts()
@@ -44,5 +44,5 @@ createApp(App)
   .component('note-cards', NoteCards)
   //.component('filter-menu', FilterMenu)
   .component('nav-bar', NavBar)
-  .component ('announcements-dropdown', AnnouncementsDropdown)
+  //.component ('announcements-dropdown', AnnouncementsDropdown)
   .mount('#app')
