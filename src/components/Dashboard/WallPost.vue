@@ -7,8 +7,9 @@
       variant="outlined"
       no-resize=""
       v-model="postContent"
-      @keydown.enter="submitPost"
+      
     ></v-textarea>
+    <v-btn @click="submitPost" variant="outlined">Submit</v-btn>
   </v-container>
 </template>
 

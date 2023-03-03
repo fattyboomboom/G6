@@ -18,28 +18,33 @@
 </template>
 
 <script>
-import { ref } from "vue";
-
+// import { ref } from "vue";
+import axios from "axios";
 export default {
   name: "WolfFeed",
-  setup() {
-    const posts = ref([]);
-    const error = ref(null);
-
-    const load = async () => {
-      try {
-        let data = await fetch("http://localhost:3000/posts");
-        if (!data.ok) {
-          throw Error("no data available");
-        }
-        posts.value = await data.json();
-      } catch (err) {
-        error.value = err.message;
-        console.log(error.value);
-      }
+  data() {
+    return {
+      posts: [],
     };
-    load();
-    return { posts, error };
+  },
+
+  setup() {
+    // const posts = ref([]);
+    // const error = ref(null);
+    // const load = async () => {
+    //   try {
+    //     let data = await fetch("http://127.0.0.1:5000/posts");
+    //     if (!data.ok) {
+    //       throw Error("no data available");
+    //     }
+    //     posts.value = await data.json();
+    //   } catch (err) {
+    //     error.value = err.message;
+    //     console.log(error.value);
+    //   }
+    // };
+    // load();
+    // return { posts, error };
   },
 
   methods: {
@@ -53,11 +58,26 @@ export default {
         hour12: true,
       }).format(date);
     },
+
+    getPosts() {
+      const path = "http://localhost:3000/posts";
+      axios
+        .get(path)
+        .then((res) => {
+          this.posts = res.data.posts;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
   computed: {
     displayedPosts() {
       return this.posts.slice(0, this.maxPosts);
     },
+  },
+  created() {
+    this.getPosts();
   },
 };
 </script>
@@ -77,7 +97,7 @@ h1 {
 }
 
 .post-container {
-  height: 65%;
+  height: 60%;
   overflow-y: scroll;
   margin-top: 20px;
   background-color: rgb(0, 0, 0);
