@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: db
--- Generation Time: Feb 04, 2023 at 06:16 PM
--- Server version: 8.0.31
--- PHP Version: 8.0.19
+-- Host: database
+-- Generation Time: Mar 04, 2023 at 10:38 PM
+-- Server version: 8.0.32
+-- PHP Version: 8.1.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `WolfcampusMain`
+-- Database: `wolfcampus_db`
 --
 
 -- --------------------------------------------------------
@@ -28,12 +28,20 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `account` (
+  `acc_id` int NOT NULL,
   `user_id` int NOT NULL,
   `password` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `last_login` date NOT NULL,
   `creation_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `account`
+--
+
+INSERT INTO `account` (`acc_id`, `user_id`, `password`, `email`, `last_login`, `creation_date`) VALUES
+(1, 1, '1234', 'mbazgan@nevada.unr.edu', '2023-02-21', '2023-02-21');
 
 -- --------------------------------------------------------
 
@@ -83,7 +91,7 @@ CREATE TABLE `book_publication` (
   `publication_id` int NOT NULL,
   `publication_text` text NOT NULL,
   `publication_date` date NOT NULL,
-  `publication_photo` varchar(50) DEFAULT NULL,
+  `publication_photo` blob,
   `book_id` int NOT NULL,
   `user_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -98,9 +106,18 @@ CREATE TABLE `buildings` (
   `build_id` int NOT NULL,
   `build_name` varchar(50) NOT NULL,
   `build_code` varchar(10) NOT NULL,
-  `build_location` varchar(50) NOT NULL,
-  `build_photo` varchar(50) NOT NULL
+  `build_location` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `build_photo` blob
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `buildings`
+--
+
+INSERT INTO `buildings` (`build_id`, `build_name`, `build_code`, `build_location`, `build_photo`) VALUES
+(63, 'Ansari Business Building', 'AB', 'https://www.google.com/maps?z=12&q=loc:39.5400539,-119.8147023', NULL),
+(128, 'Anderson Health Science', 'AHS', 'https://www.google.com/maps?z=12&q=loc:39.549256,-119.816918', NULL),
+(173, 'Agricultural Education', 'AE', 'https://www.google.com/maps/place/39%C2%B032\'16.4%22N+119%C2%B048\'25.7%22W/@39.537888,-119.8093377,17z/data=!3m1!4b1!4m4!3m3!8m2!3d39.537888!4d-119.807149', NULL);
 
 -- --------------------------------------------------------
 
@@ -110,6 +127,7 @@ CREATE TABLE `buildings` (
 
 CREATE TABLE `classes` (
   `class_id` int NOT NULL,
+  `class_name` varchar(50) NOT NULL,
   `begin_end_class` varchar(50) NOT NULL COMMENT 'This is gonna be the begining and end of the class',
   `class_sched` varchar(50) NOT NULL,
   `professor` varchar(50) NOT NULL,
@@ -120,6 +138,13 @@ CREATE TABLE `classes` (
   `room` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `classes`
+--
+
+INSERT INTO `classes` (`class_id`, `class_name`, `begin_end_class`, `class_sched`, `professor`, `requirements`, `section`, `moderator`, `building_id`, `room`) VALUES
+(1, 'CH201', 'march 20 / may 20', 'MonWed 1.30-2.45', 'Angie', 'CS301, CH201', '1001', 3, 173, '207');
+
 -- --------------------------------------------------------
 
 --
@@ -129,10 +154,17 @@ CREATE TABLE `classes` (
 CREATE TABLE `class_note` (
   `classnote_id` int NOT NULL,
   `classnote_text` text NOT NULL,
-  `classnote_photo` varchar(50) NOT NULL,
+  `classnote_photo` blob,
   `classnote_status` tinyint NOT NULL,
   `class_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `class_note`
+--
+
+INSERT INTO `class_note` (`classnote_id`, `classnote_text`, `classnote_photo`, `classnote_status`, `class_id`) VALUES
+(1, 'holaquetal', NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -155,10 +187,17 @@ CREATE TABLE `posts` (
   `post_id` int NOT NULL,
   `post_date` date NOT NULL,
   `post_text` text NOT NULL,
-  `post_photo` varchar(50) DEFAULT NULL,
+  `post_photo` blob,
   `post_status` tinyint NOT NULL,
   `user_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `posts`
+--
+
+INSERT INTO `posts` (`post_id`, `post_date`, `post_text`, `post_photo`, `post_status`, `user_id`) VALUES
+(1, '2023-03-16', 'tuvieja', NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -171,6 +210,13 @@ CREATE TABLE `profiles` (
   `user_id` int NOT NULL,
   `post_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `profiles`
+--
+
+INSERT INTO `profiles` (`profile_id`, `user_id`, `post_id`) VALUES
+(1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -206,11 +252,19 @@ CREATE TABLE `study_sessions` (
   `ss_id` int NOT NULL,
   `ss_place` varchar(50) NOT NULL,
   `ss_date` date NOT NULL,
-  `ss_time` varchar(10) NOT NULL,
+  `ss_time` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `ss_notes` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT 'extra info about the study session',
   `build_id` int NOT NULL,
   `ss_class` int NOT NULL,
   `ss_student_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `study_sessions`
+--
+
+INSERT INTO `study_sessions` (`ss_id`, `ss_place`, `ss_date`, `ss_time`, `ss_notes`, `build_id`, `ss_class`, `ss_student_id`) VALUES
+(1, 'Bob\'s burgers', '2023-03-22', '15.00', 'we are meeting in the bla bla bla', 173, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -232,15 +286,23 @@ CREATE TABLE `surveys` (
 
 CREATE TABLE `users` (
   `user_id` int NOT NULL,
-  `user_name` int NOT NULL,
+  `user_name` varchar(50) NOT NULL,
+  `user_last_name` varchar(50) NOT NULL,
+  `major` int DEFAULT NULL,
   `user_email` varchar(50) NOT NULL,
-  `user_phone` int NOT NULL,
-  `user_dob` date DEFAULT NULL,
-  `preferred_pronouns` varchar(50) NOT NULL,
-  `nickname` varchar(50) NOT NULL,
-  `profile_picture` varchar(100) NOT NULL COMMENT 'ask Vinh about the blob thing',
-  `type_id` int NOT NULL
+  `user_password` varchar(50) NOT NULL,
+  `profile_picture` blob COMMENT 'ask Vinh about the blob thing',
+  `type_id` int NOT NULL DEFAULT '3'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `user_name`, `user_last_name`, `major`, `user_email`, `user_password`, `profile_picture`, `type_id`) VALUES
+(1, 'Mel', 'Bazgan', 1, 'mbazgan@nevada.unr.edu', '1234', NULL, 3),
+(2, 'admin', 'asd', 2, 'admin@unr.edu', '1234', NULL, 1),
+(3, 'mod', 'test', NULL, 'mod@unr.edu', '1234', NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -254,6 +316,15 @@ CREATE TABLE `user_type` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
+-- Dumping data for table `user_type`
+--
+
+INSERT INTO `user_type` (`type_id`, `type`) VALUES
+(1, 'admin'),
+(2, 'mod'),
+(3, 'user');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -261,7 +332,8 @@ CREATE TABLE `user_type` (
 -- Indexes for table `account`
 --
 ALTER TABLE `account`
-  ADD PRIMARY KEY (`user_id`);
+  ADD PRIMARY KEY (`acc_id`),
+  ADD KEY `FK_account_user_id_user_id` (`user_id`);
 
 --
 -- Indexes for table `answers`
@@ -393,7 +465,7 @@ ALTER TABLE `answers`
 -- AUTO_INCREMENT for table `user_type`
 --
 ALTER TABLE `user_type`
-  MODIFY `type_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `type_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
@@ -403,7 +475,7 @@ ALTER TABLE `user_type`
 -- Constraints for table `account`
 --
 ALTER TABLE `account`
-  ADD CONSTRAINT `FK_account_users_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `FK_account_user_id_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `blocked_list`
@@ -450,48 +522,6 @@ ALTER TABLE `friend_list`
 --
 ALTER TABLE `posts`
   ADD CONSTRAINT `FK_posts_user_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
---
--- Constraints for table `profiles`
---
-ALTER TABLE `profiles`
-  ADD CONSTRAINT `FK_profiles_posts_post_id` FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `FK_profiles_users_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
---
--- Constraints for table `reports`
---
-ALTER TABLE `reports`
-  ADD CONSTRAINT `FK_reports_class_note_class_note_id` FOREIGN KEY (`classnote_id`) REFERENCES `class_note` (`classnote_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `FK_reports_posts_post_id` FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
---
--- Constraints for table `students_class_list`
---
-ALTER TABLE `students_class_list`
-  ADD CONSTRAINT `FK_students_class_list_class_class_id` FOREIGN KEY (`class_id`) REFERENCES `classes` (`class_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `FK_students_class_list_user_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
---
--- Constraints for table `study_sessions`
---
-ALTER TABLE `study_sessions`
-  ADD CONSTRAINT `FK_study_sessions_buildings_build_id` FOREIGN KEY (`build_id`) REFERENCES `buildings` (`build_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `FK_study_sessions_classes_class_id` FOREIGN KEY (`ss_class`) REFERENCES `classes` (`class_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `FK_study_sessions_users_user_id` FOREIGN KEY (`ss_student_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
---
--- Constraints for table `surveys`
---
-ALTER TABLE `surveys`
-  ADD CONSTRAINT `FK_surverys_answers_answer_id` FOREIGN KEY (`answer_id`) REFERENCES `answers` (`answer_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `FK_surveys_class_class_id` FOREIGN KEY (`class_id`) REFERENCES `classes` (`class_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
---
--- Constraints for table `users`
---
-ALTER TABLE `users`
-  ADD CONSTRAINT `FK_user_user_type_type_id` FOREIGN KEY (`type_id`) REFERENCES `user_type` (`type_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

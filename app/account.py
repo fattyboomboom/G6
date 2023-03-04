@@ -61,13 +61,13 @@ def read_one(email):
         abort(404, f"Account with email {email} not found")
 
 
-# def update(email, acc):
-#     if email in ACCOUNT:
-#         ACCOUNT[email]["password"] = acc.get("password", ACCOUNT[email]["password"])
-#         ACCOUNT[email]["timestamp"] = get_timestamp()
-#         return ACCOUNT[email]
-#     else:
-#         abort(404, f"Acc with email {email} not found")
+def update(email, acc):
+    if email in ACCOUNT:
+         ACCOUNT[email]["password"] = acc.get("password", ACCOUNT[email]["password"])
+         ACCOUNT[email]["timestamp"] = get_timestamp()
+         return ACCOUNT[email]
+    else:
+        abort(404, f"Acc with email {email} not found")
 
 
 def delete(email):
