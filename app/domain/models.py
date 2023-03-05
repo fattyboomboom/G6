@@ -56,14 +56,7 @@ class Books(db.Model):
     book_price = db.Column(db.Integer, nullable=False)
     book_class = db.Column(db.Integer)
 
-    # def __init__(self, book_isbn, book_status, book_name, book_author, book_price, book_class):
-    #     self.book_isbn = book_isbn
-    #     self.book_status = book_status
-    #     self.book_name = book_name
-    #     self.book_author = book_author
-    #     self.book_price = book_price
-    #     self.book_class = book_class
-    
+
     def __repr__(self) :
         return f'Book ({self.book_isbn},{self.book_price},{self.book_author},{self.book_name}, {self.book_status}, {self.book_class})'
 
@@ -81,12 +74,6 @@ class BookPublication(db.Model):
     # booksFK = db.relationship ("Books", back_populates ="children")
     # usersFK = db.relationship ("Users", back_populates ="parents")
 
-    # def __init__ (self, publication_text,publication_date, publication_photo, book_id, user_id):
-    #     self.publication_text = publication_text
-    #     self.publication_date = publication_date
-    #     self.publication_photo = publication_photo
-    #     self.book_id = book_id
-    #     self.user_id = user_id
 
     def __repr__ (self) :
         return f'Book Publications ({self.publication_text}, {self.publication_date},{ self.publication_photo},{self.book_id},{self.user_id} )'
@@ -120,13 +107,7 @@ class Classes(db.Model):
     building_id = db.Column(db.Integer, nullable=False)
     room = db.Column(db.String(50), nullable=False)
 
-    # def __init__(self, begin_end_class, class_sched, professor, requirements, section, moderator, building_id, room):
-    #     self.begin_end_class=begin_end_class
-    #     self.class_sched = class_sched
-    #     self.professor = professor
-    #     self.requirements = requirements
-    #     self. section = section
-    #     self.room = room
+
 
 class ClassNote(db.Model):
     __tablename__ = 'class_note'
@@ -200,14 +181,14 @@ class Surveys(db.Model):
 class Users(db.Model):
     __tablename__ = 'users' 
 
-    user_id = db.Column(db.Integer, primary_key=True)
-    user_name = db.Column(db.String(50), nullable=False)
-    user_last_name = db.Column(db.String(50), nullable=False)
+    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
     major = db.Column(db.Integer, nullable=True)
-    user_email = db.Column(db.String(50), nullable=False)
-    user_password = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(50), nullable=False)
+    password = db.Column(db.String(50), nullable=False)
     profile_picture = db.Column(db.BLOB, nullable=True)
-    type_id = db.Column(db.Integer, nullable=False)
+    type_id = db.Column(db.Integer, nullable=True, default=3)
     #type_id = db.Column(db.Integer, db.ForeingKey('user_type.type_id'), nullable = False)
  
     def __repr__(self) :

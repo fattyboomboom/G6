@@ -10,3 +10,5 @@ def get_timestamp():
 def read_all():
     post = Posts.query.all()
     return posts_schema.dump(post)
+
+

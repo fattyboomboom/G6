@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: database
--- Generation Time: Mar 04, 2023 at 10:38 PM
+-- Generation Time: Mar 05, 2023 at 11:16 PM
 -- Server version: 8.0.32
 -- PHP Version: 8.1.15
 
@@ -30,18 +30,18 @@ SET time_zone = "+00:00";
 CREATE TABLE `account` (
   `acc_id` int NOT NULL,
   `user_id` int NOT NULL,
-  `password` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `last_login` date NOT NULL,
-  `creation_date` date NOT NULL
+  `password` varchar(50) NOT NULL,
+  `creation_date` date NOT NULL,
+  `last_login` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `account`
 --
 
-INSERT INTO `account` (`acc_id`, `user_id`, `password`, `email`, `last_login`, `creation_date`) VALUES
-(1, 1, '1234', 'mbazgan@nevada.unr.edu', '2023-02-21', '2023-02-21');
+INSERT INTO `account` (`acc_id`, `user_id`, `email`, `password`, `creation_date`, `last_login`) VALUES
+(1, 2, 'mbazgan@nevada.unr.edu', '1234', '2023-03-05', '2023-03-05');
 
 -- --------------------------------------------------------
 
@@ -286,23 +286,22 @@ CREATE TABLE `surveys` (
 
 CREATE TABLE `users` (
   `user_id` int NOT NULL,
-  `user_name` varchar(50) NOT NULL,
-  `user_last_name` varchar(50) NOT NULL,
-  `major` int DEFAULT NULL,
-  `user_email` varchar(50) NOT NULL,
-  `user_password` varchar(50) NOT NULL,
-  `profile_picture` blob COMMENT 'ask Vinh about the blob thing',
-  `type_id` int NOT NULL DEFAULT '3'
+  `name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `profile_picture` blob,
+  `type_id` int NOT NULL,
+  `major` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `user_name`, `user_last_name`, `major`, `user_email`, `user_password`, `profile_picture`, `type_id`) VALUES
-(1, 'Mel', 'Bazgan', 1, 'mbazgan@nevada.unr.edu', '1234', NULL, 3),
-(2, 'admin', 'asd', 2, 'admin@unr.edu', '1234', NULL, 1),
-(3, 'mod', 'test', NULL, 'mod@unr.edu', '1234', NULL, 2);
+INSERT INTO `users` (`user_id`, `name`, `last_name`, `email`, `password`, `profile_picture`, `type_id`, `major`) VALUES
+(1, 'John', 'James', 'john@email.com', '12345', NULL, 3, NULL),
+(2, 'Bazgan', 'Melanie', 'mbazgan@nevada.unr.edu', '1234', NULL, 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -333,7 +332,7 @@ INSERT INTO `user_type` (`type_id`, `type`) VALUES
 --
 ALTER TABLE `account`
   ADD PRIMARY KEY (`acc_id`),
-  ADD KEY `FK_account_user_id_user_id` (`user_id`);
+  ADD KEY `FK_account_users_user_id` (`user_id`);
 
 --
 -- Indexes for table `answers`
@@ -443,7 +442,7 @@ ALTER TABLE `surveys`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`user_id`),
-  ADD KEY `FK_user_user_type_type_id` (`type_id`);
+  ADD KEY `FK_users_user_type_type_id` (`type_id`);
 
 --
 -- Indexes for table `user_type`
@@ -456,16 +455,22 @@ ALTER TABLE `user_type`
 --
 
 --
--- AUTO_INCREMENT for table `answers`
+-- AUTO_INCREMENT for table `account`
 --
-ALTER TABLE `answers`
-  MODIFY `answer_id` int NOT NULL AUTO_INCREMENT;
+ALTER TABLE `account`
+  MODIFY `acc_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `user_type`
+-- AUTO_INCREMENT for table `posts`
 --
-ALTER TABLE `user_type`
-  MODIFY `type_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `posts`
+  MODIFY `post_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -475,53 +480,13 @@ ALTER TABLE `user_type`
 -- Constraints for table `account`
 --
 ALTER TABLE `account`
-  ADD CONSTRAINT `FK_account_user_id_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `FK_account_users_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
--- Constraints for table `blocked_list`
+-- Constraints for table `users`
 --
-ALTER TABLE `blocked_list`
-  ADD CONSTRAINT `FK_blocked_list_users_blocked_id` FOREIGN KEY (`blocked_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `FK_blocked_list_users_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
---
--- Constraints for table `books`
---
-ALTER TABLE `books`
-  ADD CONSTRAINT `FK_book_class_class_id` FOREIGN KEY (`book_class`) REFERENCES `classes` (`class_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
---
--- Constraints for table `book_publication`
---
-ALTER TABLE `book_publication`
-  ADD CONSTRAINT `FK_bookpublication_book_book_id` FOREIGN KEY (`book_id`) REFERENCES `books` (`book_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `FK_bookpublication_user_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
---
--- Constraints for table `classes`
---
-ALTER TABLE `classes`
-  ADD CONSTRAINT `FK_building_id` FOREIGN KEY (`building_id`) REFERENCES `buildings` (`build_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `FK_class_user_user_id` FOREIGN KEY (`moderator`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
---
--- Constraints for table `class_note`
---
-ALTER TABLE `class_note`
-  ADD CONSTRAINT `FK_class_note_class_class_id` FOREIGN KEY (`class_id`) REFERENCES `classes` (`class_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
---
--- Constraints for table `friend_list`
---
-ALTER TABLE `friend_list`
-  ADD CONSTRAINT `FK_friend_list_users_friend_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `FK_friend_list_users_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
---
--- Constraints for table `posts`
---
-ALTER TABLE `posts`
-  ADD CONSTRAINT `FK_posts_user_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE `users`
+  ADD CONSTRAINT `FK_users_user_type_type_id` FOREIGN KEY (`type_id`) REFERENCES `user_type` (`type_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
