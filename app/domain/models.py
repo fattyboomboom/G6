@@ -4,18 +4,14 @@ from config import db, ma
 class Account(db.Model):
     __tablename__ = 'account'
 
-    user_id = db.Column(db.Integer(), primary_key=True)
+    acc_id= db.Column(db.Integer(), primary_key=True)
+    user_id = db.Column(db.Integer(), db.ForeignKey('users.user_id'), nullable=False)
     password = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), nullable=False)
-    last_login = db.Column(db.Date, nullable=False)
+    last_login = db.Column(db.Date, nullable=False, default=datetime.utcnow)
     creation_date = db.Column(db.Date, nullable=False, default=datetime.utcnow)
 
-    # def __init__(self, password, email, last_login, creation_date) :
-    #         self.password = password
-    #         self.email = email
-    #         self.last_login = last_login
-    #         self. creation_date = creation_date
-
+    
     def __repr__(self) :
               return f'Account({self.user_id}, {self.email})'
     
@@ -77,7 +73,7 @@ class BookPublication(db.Model):
     publication_id = db.Column(db.Integer, primary_key=True)
     publication_text = db.Column(db.Text, nullable=False)
     publication_date = db.Column(db.Date, nullable=False)
-    publication_photo = db.Column(db.String(50))
+    publication_photo = db.Column(db.BLOB, nullable=True)
     book_id = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, nullable=False)
 
@@ -100,7 +96,7 @@ class Buildings(db.Model):
     build_id = db.Column(db.Integer, primary_key=True)
     build_name = db.Column(db.String(50), nullable=False)
     build_code = db.Column(db.String(10), nullable=False)
-    build_location = db.Column(db.String(50), nullable=False)
+    build_location = db.Column(db.Text, nullable=False)
     build_photo = db.Column(db.String(50), nullable=False)
 
     # def __init__(self, build_code, build_location, build_photo, build_name):
@@ -150,19 +146,22 @@ class Posts(db.Model):
     post_id = db.Column(db.Integer, primary_key=True)
     post_date = db.Column(db.Date, nullable=False)
     post_text = db.Column(db.Text, nullable=False)
-    post_photo = db.Column(db.String(50), nullable=True)
+    post_photo = db.Column(db.BLOB, nullable=True)
     post_status = db.Column(db.SmallInteger, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
 
-    # def __init__(self, post_date, post_text, post_photo, post_status, user_id):
-    #     self.post_date= post_date
-    #     self.post_photo = post_photo
-    #     self.post_status = post_status
-    #     self.post_text = post_text
-    #     self.user_id = user_id
-    
-    # def __repr__(self):
-    #     return f'Post'({self.post_date},{self.post_photo},{self.post_text},{self.post_status},{self.user_id})
+ 
+    def __repr__(self):
+     return f'Post'({self.post_date},{self.post_photo},{self.post_text},{self.post_status},{self.user_id})
+
+class PostsSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Posts
+        load_instance = True
+        sqla_session = db.session
+
+post_schema = PostsSchema()
+posts_schema = PostsSchema(many=True)
 
 class Profiles(db.Model):
     __tablename__ = 'profiles'
@@ -203,37 +202,25 @@ class Users(db.Model):
 
     user_id = db.Column(db.Integer, primary_key=True)
     user_name = db.Column(db.String(50), nullable=False)
+    user_last_name = db.Column(db.String(50), nullable=False)
+    major = db.Column(db.Integer, nullable=True)
     user_email = db.Column(db.String(50), nullable=False)
-    user_phone = db.Column(db.Integer, nullable=False)
-    user_dob = db.Column(db.Date)
-    preferred_pronouns = db.Column(db.String(50), nullable=False)
-    nickname = db.Column(db.String(50), nullable=False)
-    profile_picture = db.Column(db.String(100), nullable=False)
+    user_password = db.Column(db.String(50), nullable=False)
+    profile_picture = db.Column(db.BLOB, nullable=True)
     type_id = db.Column(db.Integer, nullable=False)
-
-    #relationships
-
-    # def __init__(self, user_name, user_email, user_phone, user_dob, preferred_pronouns, nickname,profile_picture,type_id) :
-    #         self.user_name= user_name
-    #         self.user_email = user_email
-    #         self.user_phone = user_phone
-    #         self.user_dob=user_dob
-    #         self.preferred_pronouns=preferred_pronouns
-    #         self.nickname= nickname
-    #         self.profile_picture=profile_picture
-    #         self.type_id = type_id
-
+    #type_id = db.Column(db.Integer, db.ForeingKey('user_type.type_id'), nullable = False)
+ 
     def __repr__(self) :
-              return f'Account({self.user_id},{self.user_name},{self.user_email},{self.user_phone}, {self.user_dob}, {self.preferred_pronouns}, {self.nickname},{self.profile_picture},{self.type_id})'
+              return f'Users({self.user_id},{self.user_name},{self.user_last_name},{self.user_major},{self.user_email},,{self.profile_picture},{self.type_id})'
     
-# class UserSchema(ma.SQLAlchemyAutoSchema):
-#     class Meta:
-#         model = Users
-#         load_instance = True
-#         sqla_session = db.session
+class UsersSchema(ma.SQLAlchemyAutoSchema):
+     class Meta:
+        model = Users
+        load_instance = True
+        sqla_session = db.session
 
-# user_schema = UserSchema()
-# users_schema = UserSchema(many=True)    
+user_schema = UsersSchema()
+users_schema = UsersSchema(many=True)    
 
 class UserType(db.Model):
     __tablename__ = 'user_type'

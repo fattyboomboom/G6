@@ -21,6 +21,36 @@ components:
           type: "string"
         password:
           type: "string"
+    Usr:
+      type: object
+      properties:
+        name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: James
+        email:
+          type: string
+          example: john@email.com
+        password:
+          type: string
+          example: '12345'
+    Pst:
+      type: object
+      properties:
+        text:
+          type: string
+          example: Hello darkness my old friend
+        photo:
+          type: string
+        status:
+          type: integer
+          format: int32
+          example: 1
+        date:
+          type: string
+          format: date-time
   parameters:
     email:
       name: "email"
@@ -41,7 +71,6 @@ paths:
       responses:
         "200":
           description: "Successfully read acc list"
-
     post:
       operationId: "account.create"
       tags:
@@ -113,3 +142,38 @@ paths:
         "204":
           description: "Successfully deleted acc"
 
+  /user:
+    get:
+      operationId: "user.read_all"
+      tags:
+        - "User"
+      summary: "Read the list of all users"
+      responses:
+        "200":
+          description: "Successfully read user list"
+    post:
+      operationId: "user.create"
+      tags:
+        - "User"
+      summary: "Create a new acc"
+      requestBody:
+        description: "Account creation"
+        required: True
+        content:
+          application/json:
+            schema:
+              x-body-name: "usr"
+              $ref: "#/components/schemas/Usr"
+      responses:
+        "204":
+          description: "Successfully created user"
+
+  /post:
+    get:
+      operationId: "post.read_all"
+      tags:
+        - "Post"
+      summary: "Read the list of all posts"
+      responses:
+        "200":
+          description: "Successfully read post list"
