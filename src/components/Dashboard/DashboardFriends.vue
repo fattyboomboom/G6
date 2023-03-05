@@ -39,7 +39,7 @@
 
 <script>
 import { ref } from "vue";
-// import axios from 'axios';
+import axios from "axios";
 export default {
   name: "DashFriends",
 
@@ -47,19 +47,14 @@ export default {
     const friends = ref([]);
     const error = ref(null);
 
-    const load = async () => {
-      try {
-        let data = await fetch("http://localhost:3000/friends");
-        if (!data.ok) {
-          throw Error("no data available");
-        }
-        friends.value = await data.json();
-      } catch (err) {
-        error.value = err.message;
-        console.log(error.value);
-      }
-    };
-    load();
+    axios.get("http://localhost:3000/friends").then(response => {
+      friends.value = response.data;
+      console.log(response.data);
+  })
+  .catch(error => {
+    console.log(error);
+  });
+
     return { friends, error };
   },
 };

@@ -19,31 +19,22 @@
 
 <script>
 import { ref } from "vue";
-// import axios from "axios";
+import axios from "axios";
 export default {
   name: "WolfFeed",
-  // data() {
-  //   return {
-  //     posts: [],
-  //   };
-  // },
 
   setup() {
     const posts = ref([]);
     const error = ref(null);
-    const load = async () => {
-      try {
-        let data = await fetch("http://localhost:3000/posts");
-        if (!data.ok) {
-          throw Error("no data available");
-        }
-        posts.value = await data.json();
-      } catch (err) {
-        error.value = err.message;
-        console.log(error.value);
-      }
-    };
-    load();
+    axios
+      .get("http://localhost:3000/posts")
+      .then((response) => {
+        posts.value = response.data;
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     return { posts, error };
   },
 
@@ -58,27 +49,12 @@ export default {
         hour12: true,
       }).format(date);
     },
-
-    // getPosts() {
-    //   const path = "http://localhost:3000/posts";
-    //   axios
-    //     .get(path)
-    //     .then((res) => {
-    //       this.posts = res.data.posts;
-    //     })
-    //     .catch((error) => {
-    //       console.error(error);
-    //     });
-    // },
   },
   computed: {
     displayedPosts() {
       return this.posts.slice(0, this.maxPosts);
     },
   },
-  // created() {
-  //   this.getPosts();
-  // },
 };
 </script>
 
