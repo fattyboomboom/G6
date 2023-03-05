@@ -1,7 +1,7 @@
 <template>
   <!-- Heaer for out landing page -->
   <section class="header">
-    <h1 >WolfCampus</h1>
+    <h1>WolfCampus</h1>
   </section>
 
   <!-- This is a pop up modal when the sign up button is pressed. -->
@@ -39,7 +39,6 @@
             v-model.trim="signup.email"
             :readonly="loading"
             :rules="[required]"
-        
             label="Email"
           ></v-text-field>
 
@@ -48,7 +47,6 @@
             v-model.trim="signup.email"
             :readonly="loading"
             :rules="[required]"
-            
             label="Re-enter email"
           ></v-text-field>
 
@@ -146,6 +144,7 @@
 import SignUp from "./SignUp.vue";
 import { ref } from "vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
 
 export default {
   name: "LogIn",
@@ -154,12 +153,13 @@ export default {
   },
   setup() {
     const modalActive = ref(false);
+    const router = useRouter();
 
     const toggleModal = () => {
       modalActive.value = !modalActive.value;
     };
 
-    return { modalActive, toggleModal };
+    return { modalActive, toggleModal, router };
   },
 
   data: () => {
@@ -262,6 +262,7 @@ export default {
 
   methods: {
     // method for capturing data from form
+
     saveNew() {
       var data = {
         firstname: this.signup.firstname,
@@ -295,6 +296,9 @@ export default {
         .then((response) => {
           console.log(response);
           console.log(authdata.email);
+          if (response.status === 200) {
+            this.router.push("/home");
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -328,7 +332,7 @@ h1 {
   padding: 0;
 }
 .v-btn {
-  background-color: #669BBC;
+  background-color: #669bbc;
   margin: 0 5% 5% 5%;
   width: 80%;
 }
@@ -336,7 +340,7 @@ h1 {
 .signupbutton:hover,
 .signinbutton:hover {
   scale: 1.1;
-  background-color: #649FC4;
+  background-color: #649fc4;
 }
 
 p {
@@ -384,18 +388,14 @@ p {
   color: black;
 }
 
-
-
 .modal-content {
   height: 8%;
-  
 }
 
 .forgotpassword:hover {
   font-size: large;
   color: green;
 }
-
 
 @keyframes mymove {
   from {
