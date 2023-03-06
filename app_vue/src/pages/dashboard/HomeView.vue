@@ -1,18 +1,21 @@
 <template>
-
-  <DashboardFriends />
-  <MyClasses />
-  <ProfileAvatar />
-  <WallPost />
-  
+ 
+    <DashboardFriends />
+    <MyClasses />
+    <ProfileAvatar />
+    <WallPost />
+    <nav-bar></nav-bar>
+    <WolfFeed />
+ 
 </template>
 
 <script>
 // @ is an alias to /src
-import DashboardFriends from "./DashboardFriends.vue";
-import MyClasses from "./MyClasses.vue";
-import ProfileAvatar from "./ProfileAvatar.vue";
-import WallPost from "./WallPost.vue";
+import DashboardFriends from "@/pages/dashboard/DashboardFriends.vue";
+import MyClasses from "@/pages/dashboard/MyClasses.vue";
+import ProfileAvatar from "@/pages/dashboard/ProfileAvatar.vue";
+import WallPost from "@/pages/dashboard/WallPost.vue";
+import WolfFeed from "@/pages/dashboard/WolfFeed.vue";
 
 export default {
   name: "HomeView",
@@ -20,7 +23,8 @@ export default {
     DashboardFriends,
     MyClasses,
     ProfileAvatar,
-    WallPost
+    WallPost,
+    WolfFeed,
   },
 };
 </script>
