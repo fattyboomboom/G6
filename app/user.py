@@ -3,6 +3,7 @@ from flask import abort, make_response
 from domain.models import Users, users_schema, user_schema
 from domain.models import Account, accounts_schema, account_schema
 from config import db
+# from emailthing.emailthing import create_account
 
 def get_timestamp():
      return datetime.now().strftime(("%Y-%m-%d %H:%M:%S"))
@@ -45,3 +46,4 @@ def create(usr):
             db.session.add(account)
             db.session.commit()
             return user_schema.dump(user), make_response(f"{email} successfully created", 201)
+# create_account(email),

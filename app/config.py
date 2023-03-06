@@ -4,8 +4,8 @@ import connexion
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from filterProfanity import CheckProfanity
-from flask import Flask, request, jsonify, abort, Response
+# from filterProfanity import CheckProfanity
+# from flask import Flask, request, jsonify, abort, Response
 
 # basedir = pathlib.Path(__file__).parent.resolve()
 connex_app = connexion.App(__name__)
