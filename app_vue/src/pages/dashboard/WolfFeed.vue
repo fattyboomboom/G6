@@ -1,51 +1,41 @@
 <template>
-  <div class="wolf-feed">
+    <div class="wolf-feed">
     <h1>Wolf Feed</h1>
 
     <div class="post-container">
-      <div v-for="post in posts" :key="post.id" class="post">
+      <div v-for="post in posts" :key="post.post_id" class="post">
         <div class="post-header">
-          <img :src="post.avatar" alt="Author avatar" class="avatar" />
+          <img :src="post.post_photo" alt="Author avatar" class="avatar" />
           <div class="author-info">
-            <div class="author-name">{{ post.name }}</div>
-            <div class="post-date">{{ formatDate(post.date) }}</div>
+            <!--<div class="author-name">{{ post.name }}</div>--> 
+            <div class="post-date">{{ post.post_date }}</div>
           </div>
         </div>
-        <div class="post-content">{{ post.content }}</div>
+        <div class="post-content">{{ post.post_text }}</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// import { ref } from "vue";
-import axios from 'axios';
+import { ref } from "vue";
+import axios from "axios";
 export default {
   name: "WolfFeed",
-  data() {
-    return {
-      posts:[],
-    }
-  },
 
   setup() {
-    // const posts = ref([]);
-    // const error = ref(null);
-
-    // const load = async () => {
-    //   try {
-    //     let data = await fetch("http://127.0.0.1:5000/posts");
-    //     if (!data.ok) {
-    //       throw Error("no data available");
-    //     }
-    //     posts.value = await data.json();
-    //   } catch (err) {
-    //     error.value = err.message;
-    //     console.log(error.value);
-    //   }
-    // };
-    // load();
-    // return { posts, error };
+    const posts = ref([]);
+    const error = ref(null);
+    axios
+      .get("http://localhost:5000/api/post")
+      .then((response) => {
+        posts.value = response.data;
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return { posts, error };
   },
 
   methods: {
@@ -59,26 +49,12 @@ export default {
         hour12: true,
       }).format(date);
     },
-
-    getPosts() {
-      const path = 'http://localhost:5000/api/post';
-      axios.get(path)
-      .then((res) => {
-        this.posts = res.data.posts
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-    }
   },
   computed: {
     displayedPosts() {
       return this.posts.slice(0, this.maxPosts);
     },
   },
-  created() {
-    this.getPosts();
-  }
 };
 </script>
 
