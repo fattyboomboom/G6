@@ -146,6 +146,7 @@
 import SignUp from "./SignUp.vue";
 import { ref } from "vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
 export default {
   name: "LogIn",
   components: {
@@ -153,10 +154,11 @@ export default {
   },
   setup() {
     const modalActive = ref(false);
+    const router = useRouter();
     const toggleModal = () => {
       modalActive.value = !modalActive.value;
     };
-    return { modalActive, toggleModal };
+    return { modalActive, toggleModal, router };
   },
   data: () => {
     return {
@@ -284,6 +286,9 @@ export default {
         .then((response) => {
           console.log(response);
           console.log(authdata.email);
+          if (response.status === 200) {
+            this.router.push("/dashboard");
+          }
         })
         .catch((error) => {
           console.log(error);
