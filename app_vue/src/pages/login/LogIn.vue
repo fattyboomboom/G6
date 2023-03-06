@@ -289,6 +289,12 @@ export default {
           if (response.status === 200) {
             this.router.push("/dashboard");
           }
+          if (response.status === 201) {
+            this.router.push("/dashboard");
+          }
+          if (response.status === 202) {
+            this.router.push("/superuser");
+          }
         })
         .catch((error) => {
           console.log(error);

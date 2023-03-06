@@ -2,6 +2,7 @@ from datetime import datetime
 
 from flask import abort, make_response
 from domain.models import Account, accounts_schema, account_schema
+from domain.models import Users, users_schema, user_schema
 from config import db
 
 def get_timestamp():
@@ -85,7 +86,14 @@ def validate (acc):
 
     if account is not None:
         if password == account_schema.dump(account).get('password'):
-            return make_response(f"{email} successfully logged in", 200) 
+            usuario = Users.query.filter(Users.email == email).one_or_none()
+            type_id= usuario.type_id
+            if type_id == 3:
+                return make_response(f"{email} successfully logged in", 200)
+            if type_id == 2:
+                return make_response(f"{email} successfully logged in", 201) 
+            if type_id == 1:
+                return make_response(f"{email} successfully logged in", 202)
    
     abort(404, "Email or password incorrect")
      
