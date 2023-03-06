@@ -158,7 +158,7 @@ export default {
     const modalActive = ref(false);
     const router = useRouter();
     const toggleModal = () => {
-      modalActive.value = !modalActive.value;
+      this.modalActive = !this.modalActive;
     };
     return { modalActive, toggleModal, router };
   },
@@ -272,7 +272,7 @@ export default {
         .then((response) => {
           console.log(response);
           if (response.status === 201) {
-            this.modalActive = false;
+            this.modalActive = !this.modalActive;
           }
         })
         .catch((error) => {
