@@ -17,6 +17,7 @@ import NotesView from './views/NotesCards.vue'
 import FilterMenu from './globalcomponents/ListingsFilter.vue'
 import NavBarVue from './globalcomponents/NavBar.vue'
 import ListingsFilter from './globalcomponents/ListingsFilter.vue'
+import ExplorePage from './views/ExplorePage.vue'
 
 import axios from "axios";
 
@@ -34,7 +35,8 @@ const router = createRouter({
     { path: '/about', component: AboutViewVue },
     { path: '/', component: WelcomeView },
     { path: '/notes', component: NotesView },
-    { path: '/profile', component: ProfileView}
+    { path: '/profile', component: ProfileView},
+    { path: '/explore', component: ExplorePage}
   ]
 
 });
