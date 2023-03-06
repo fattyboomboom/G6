@@ -31,7 +31,7 @@
               <span class="me-2">·</span>
               <span class="subtitle me-2">{{ post.time }}</span>
               <span class="me-2">·</span>
-              <v-icon class="me-1" icon="mdi-heart"></v-icon>
+              <v-btn class="me-1" icon="mdi-heart-outline"></v-btn>
               <span class="subheading me-2">{{ post.likes }}</span>
             </div>
           </template>
@@ -64,4 +64,4 @@ export default {
 };
 </script>
   
-  <style scoped></style>a
+  <style scoped></style>

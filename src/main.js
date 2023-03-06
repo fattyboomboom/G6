@@ -18,6 +18,8 @@ import FilterMenu from './globalcomponents/ListingsFilter.vue'
 import NavBarVue from './globalcomponents/NavBar.vue'
 import ListingsFilter from './globalcomponents/ListingsFilter.vue'
 import ExplorePage from './views/ExplorePage.vue'
+import TestEmail from './Test/SendGrid.vue'
+import ForgotPassword from './Test/ForgotPassword.vue'
 
 import axios from "axios";
 
@@ -36,7 +38,9 @@ const router = createRouter({
     { path: '/', component: WelcomeView },
     { path: '/notes', component: NotesView },
     { path: '/profile', component: ProfileView},
-    { path: '/explore', component: ExplorePage}
+    { path: '/explore', component: ExplorePage},
+    { path: '/email', component: TestEmail},
+    { path: '/forgotpassword', component: ForgotPassword}
   ]
 
 });
