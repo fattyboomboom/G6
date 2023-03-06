@@ -15,6 +15,7 @@ import LoginPage from './pages/login/WelcomeView.vue'
 import NavBar from './globalcomponents/NavBar.vue'
 import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
+import SuperUserDash from './pages/superuser/SuperUserDash.vue'
 //import AnnouncementsDropdown from './globalcomponents/AnnouncementsDropdown.vue'
 //import TestLPM from './pages/login/TestTest.vue'
 
@@ -30,7 +31,8 @@ const router = createRouter({
     { path: '/DRC', component: DisabilityPage },
     { path: '/about', component:  AboutPage },
     { path: '/explore', component:  ExplorePage },
-    { path: '/', component: LoginPage }
+    { path: '/', component: LoginPage },
+    { path: '/superuser', component: SuperUserDash}
     //{ path: '/', component: TestLPM}
   ]
 });
