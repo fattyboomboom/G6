@@ -44,4 +44,4 @@ def create(usr):
             )
             db.session.add(account)
             db.session.commit()
-            return user_schema.dump(user), 201
+            return user_schema.dump(user), make_response(f"{email} successfully created", 201)

@@ -13,14 +13,16 @@
           <v-text-field
             class="rounded-xl"
             label="First Name"
-            v-model.trim="signup.firstname"
+            v-model.trim="signup.name"
+            :readonly="loading"
+            :rules="[required]"
           ></v-text-field>
 
           <!--Text input for entering last name and trim any whitespace-->
           <v-text-field
             class="rounded-xl"
             label="Last Name"
-            v-model.trim="signup.lastname"
+            v-model.trim="signup.last_name"
           ></v-text-field>
 
           <!--Text input for selecting a major-->
@@ -80,7 +82,7 @@
             size="large"
             type="submit"
             variant="elevated"
-            @click="saveNew"
+            @click.prevent="saveNew"
           >
             Submit
           </v-btn>
@@ -169,8 +171,8 @@ export default {
       },
       // Data properties for sign up
       signup: {
-        firstname: "",
-        lastname: "",
+        name: null,
+        last_name: "",
         major: null,
         email: "",
         retryemail: "",
@@ -258,8 +260,8 @@ export default {
     // method for capturing data from form
     saveNew() {
       var data = {
-        firstname: this.signup.firstname,
-        lastname: this.signup.lastname,
+        name: this.signup.name,
+        last_name: this.signup.last_name,
         major: this.signup.major,
         email: this.signup.email,
         password: this.signup.password,
@@ -269,6 +271,9 @@ export default {
         .post("http://localhost:5000/api/user", data)
         .then((response) => {
           console.log(response);
+          if (response.status === 201) {
+            this.modalActive = false;
+          }
         })
         .catch((error) => {
           console.log(error);
