@@ -38,49 +38,30 @@
 </template>
 
 <script>
-// import { ref } from "vue";
+import { ref } from "vue";
 import axios from 'axios';
 export default {
   name: "DashFriends",
-  data() {
-    return {
-      friends:[],
-    }
-  },
-  setup() {
-    // const friends = ref([]);
-    // const error = ref(null);
 
-    // const load = async () => {
-    //   try {
-    //     let data = await fetch("http://localhost:3000/friends");
-    //     if (!data.ok) {
-    //       throw Error("no data available");
-    //     }
-    //     friends.value = await data.json();
-    //   } catch (err) {
-    //     error.value = err.message;
-    //     console.log(error.value);
-    //   }
-    // };
-    // load();
-    // return { friends, error };
+  setup() {
+    const friends = ref([]);
+    const error = ref(null);
+
+    const load = async () => {
+      try {
+        let data = axios.get("http://localhost:3000/friends");
+        if (!data.ok) {
+          throw Error("no data available");
+        }
+        friends.value = await data.json();
+      } catch (err) {
+        error.value = err.message;
+        console.log(error.value);
+      }
+    };
+    load();
+    return { friends, error };
   },
-  methods: {
-    getFriends() {
-      const path = 'http://127.0.0.1:5000/friends';
-      axios.get(path)
-      .then((res) => {
-        this.friends = res.data.friends
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-    },
-  },
-  created() {
-    this.getFriends();
-  }
 };
 </script>
 

@@ -42,24 +42,25 @@
   </template>
   
   <script>
+
+
 import axios from 'axios';
-
+import { ref }from 'vue';
 export default {
-  data() {
-    return {
-      posts:[],
-    };
-  },
-  created() {
-    axios.get('http://localhost:3000/posts')
-  .then(response => {
-    this.posts = response.data.posts;
-  })
-  .catch(error => {
-    console.log(error);
-  });
+  name:"PostComp",
 
-  },
+
+ setup(){
+  const posts = ref([]);
+  axios.get('http://localhost:3000/posts').then(response => {
+    posts.value = response.data;
+    });
+
+
+  return{posts};
+    
+ }
+ 
 };
 </script>
   
