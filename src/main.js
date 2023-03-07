@@ -20,6 +20,7 @@ import ListingsFilter from './globalcomponents/ListingsFilter.vue'
 import ExplorePage from './views/ExplorePage.vue'
 import TestEmail from './Test/SendGrid.vue'
 import ForgotPassword from './Test/ForgotPassword.vue'
+import SuperUser from './views/SuperUser.vue'
 
 import axios from "axios";
 
@@ -40,7 +41,8 @@ const router = createRouter({
     { path: '/profile', component: ProfileView},
     { path: '/explore', component: ExplorePage},
     { path: '/email', component: TestEmail},
-    { path: '/forgotpassword', component: ForgotPassword}
+    { path: '/forgotpassword', component: ForgotPassword},
+    { path: '/superuser', component:SuperUser}
   ]
 
 });
