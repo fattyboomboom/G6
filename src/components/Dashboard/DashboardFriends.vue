@@ -3,7 +3,7 @@
     <a href="friends">
       <VCardTitle class="cardtitle"> <h2>Friends</h2></VCardTitle></a
     >
-    <VDivider color="black" thickness="2"></VDivider>
+    <VDivider color="#003049" thickness="2"></VDivider>
     <v-row no-gutters>
       <v-col
         v-for="friend in friends"
@@ -63,16 +63,16 @@ export default {
 <style scoped>
 .cardtitle {
   text-align: center;
-  background-color: #000000;
+  background-color: #003049;
 }
 p {
   text-align: center;
-  background-color: #000000;
-  color: white;
+  background-color: #003049;
+  color: #fdf0d5;
 }
 
 h2 {
-  color: white;
+  color: #fdf0d5;
 }
 .friendslist {
   position: absolute;
@@ -83,7 +83,7 @@ h2 {
   border-radius: 25px;
 }
 a {
-  color: white;
+  color: #fdf0d5;
 }
 
 .friendcard:hover {

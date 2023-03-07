@@ -38,9 +38,8 @@ export default {
   position: absolute;
   margin-left: 6%;
   margin-top: 1%;
-  background-color: #000000;
+  background-color: #003049;
   width: 25%;
-
   border: none;
   border-radius: 25px;
   box-sizing: border-box;
@@ -51,6 +50,8 @@ export default {
   margin-left: 15%;
   margin-top: 2%;
   margin-bottom: 2%;
+  
+  
 }
 
 body {
@@ -58,13 +59,14 @@ body {
 }
 
 .v-divider {
-  background-color: white;
+  color: #fdf0d5;
 }
 
 h2 {
-  color: white;
+  color: #fdf0d5;
   font-size: 1.5rem;
-  margin: 0.5rem 0;
+  margin-inline: 5%;
   text-align: left;
+  line-height: 2;
 }
 </style>

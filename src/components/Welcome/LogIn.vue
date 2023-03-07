@@ -5,77 +5,86 @@
   </section>
 
   <!-- This is a pop up modal when the sign up button is pressed. -->
-  <SignUp @close="toggleModal" :modalActive="modalActive">
-    <v-card class="">
+  <SignUp  @close="toggleModal" :modalActive="modalActive">
+    <v-card class="signupcard">
+      <div v-if="!passwordsMatch" class="error">Passwords do not match.</div>
       <div class="modal-content">
         <form class="signupform">
+          <v-row>
           <!--Text input for entering first name and trim any whitespace-->
           <v-text-field
-            class="rounded-xl"
+            class=" rounded-xl mt-5"
             label="First Name"
             v-model.trim="signup.firstname"
           ></v-text-field>
 
           <!--Text input for entering last name and trim any whitespace-->
           <v-text-field
-            class="rounded-xl"
+            class=" rounded-xl mt-5"
             label="Last Name"
             v-model.trim="signup.lastname"
           ></v-text-field>
+        </v-row>
 
-          <!--Text input for selecting a major-->
-          <v-autocomplete
-            class="rounded-xl"
-            label="Major"
-            :items="major"
-            transition="fab-transition"
-            v-model="signup.major"
-          >
-          </v-autocomplete>
+          <!--Text input for selecting a majors-->
+          
 
+          <v-row>
           <!-- sign up email input -->
           <v-text-field
-            class="rounded-xl"
+            class=" rounded-xl"
             v-model.trim="signup.email"
             :readonly="loading"
+            prepend-inner-icon="mdi-email-outline"
             :rules="[required]"
             label="Email"
           ></v-text-field>
 
           <v-text-field
-            class="rounded-xl"
-            v-model.trim="signup.email"
+            class=" rounded-xl"
+            v-model.trim="signup.retryemail"
             :readonly="loading"
+            prepend-inner-icon="mdi-email-outline"
             :rules="[required]"
             label="Re-enter email"
           ></v-text-field>
-
+        </v-row>
+          <v-row>
           <!-- sign up password input -->
           <v-text-field
-            class="rounded-xl"
+            class=" rounded-xl"
             type="password"
             v-model="signup.password"
             :rules="[required]"
             label="Password"
+            prepend-inner-icon="mdi-lock-outline"
             placeholder="Enter your password"
           ></v-text-field>
 
           <v-text-field
-            class="rounded-xl"
+            class=" rounded-xl"
             type="password"
-            v-model="signup.password"
+            v-model="signup.retrypassword"
             :rules="[required]"
+            prepend-inner-icon="mdi-lock-outline"
             label="Re-enter password"
             placeholder="re-enter your password"
           ></v-text-field>
-
+        </v-row>
+        <v-autocomplete
+            class="signuptextinput rounded-xl"
+            label="majors"
+            :items="majors"
+            transition="fab-transition"
+            v-model="signup.majors"
+          >
+          </v-autocomplete>
+          
           <!-- button to save form -->
           <v-btn
-            :loading="loading"
-            block
-            class="signinbutton rounded-pill"
-            color="success"
-            size="large"
+            
+            class="saveNewButton rounded-pill"
+            :disabled="!passwordsMatch"
             type="submit"
             variant="elevated"
             @click="saveNew"
@@ -121,8 +130,9 @@
         type="submit"
         variant="elevated"
         @click.prevent="authuser"
+        margin-t
       >
-        Sign In
+        Log In
       </v-btn>
 
       <!-- button to bring up sign up form -->
@@ -174,15 +184,15 @@ export default {
       signup: {
         firstname: "",
         lastname: "",
-        major: "",
+        majors: "",
         email: "",
         retryemail: "",
         password: "",
         retrypassword: "",
       },
 
-      major: [
-        "Accounting",
+      majors: [
+      "Accounting",
         "Acouting & Information Systems",
         "Agricultural Economics",
         "Agricultural Science",
@@ -260,6 +270,12 @@ export default {
     };
   },
 
+  computed: {
+    passwordsMatch() {
+      return this.password === this.retrypassword
+    }
+  },
+
   methods: {
     // method for capturing data from form
 
@@ -267,7 +283,7 @@ export default {
       var data = {
         firstname: this.signup.firstname,
         lastname: this.signup.lastname,
-        major: this.signup.major,
+        majors: this.signup.majors.id,
         email: this.signup.email,
         password: this.signup.password,
       };
@@ -322,6 +338,8 @@ h1 {
   font-family: cursive;
 }
 
+
+
 .v-text-field {
   background-color: #fdf0d5;
   /* border-radius: 15px; */
@@ -331,17 +349,26 @@ h1 {
   margin: 5%;
   padding: 0;
 }
+
+
 .v-btn {
   background-color: #669bbc;
   margin: 0 5% 5% 5%;
   width: 80%;
 }
 
+.submitsignup,
 .signupbutton:hover,
 .signinbutton:hover {
   scale: 1.1;
   background-color: #649fc4;
 }
+
+.submitsignup {
+  width: 8%;
+}
+
+
 
 p {
   font-size: 1.1em;
@@ -366,9 +393,10 @@ p {
   width: 396px;
 }
 .logincard {
-  width: 35%;
-  margin-left: 30%;
+  width: 36%;
+  margin-inline: 32%;
   text-align: center;
+
   background-color: #003049;
 }
 
@@ -384,12 +412,36 @@ p {
   unicode-bidi: embed;
 }
 
+.v-row {
+  margin-inline: 5%;
+  margin-top: 1%;
+ 
+}
+
 .forgotpassword {
   color: black;
 }
 
-.modal-content {
-  height: 8%;
+.submitsignup {
+  width: 70%;
+  margin-inline: 15%;
+}
+
+
+.signupcard {
+  width: 90%;
+  margin-inline: 5%;
+  height: 80%;
+  background-color: #003049;
+  align-items: center;
+  margin-top: 10%;
+ 
+}
+
+.saveNewButton {
+  width: 80%;
+  margin-inline: 10%;
+
 }
 
 .forgotpassword:hover {
@@ -397,12 +449,17 @@ p {
   color: green;
 }
 
-@keyframes mymove {
-  from {
-    left: 0px;
-  }
-  to {
-    left: 200px;
-  }
+
+
+.error {
+  color: red;
+  margin-top: 0.5rem;
+  position: absolute;
+  z-index: auto;
+}
+
+.signuptextinput{
+  margin-inline: 15%;
+  width: 70%;
 }
 </style>

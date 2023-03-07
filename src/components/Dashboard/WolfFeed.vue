@@ -18,8 +18,9 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref} from "vue";
 import axios from "axios";
+
 export default {
   name: "WolfFeed",
 
@@ -35,6 +36,7 @@ export default {
       .catch((error) => {
         console.log(error);
       });
+
     return { posts, error };
   },
 
@@ -76,21 +78,21 @@ h1 {
   height: 60%;
   overflow-y: scroll;
   margin-top: 20px;
-  background-color: rgb(0, 0, 0);
+  background-color: #003049;
   width: 40%;
   position: absolute;
   margin-left: 36%;
 }
 
 .post {
-  border: 1px solid rgb(255, 255, 255);
+  border: 1px solid #fdf0d5;
   margin-bottom: 10px;
   padding: 10px;
 }
 
 .post-header {
   display: flex;
-  align-items: center;
+  
 }
 
 .avatar {
@@ -104,16 +106,16 @@ h1 {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  color: white;
+  color: #fdf0d5;
 }
 
 .author-name {
   font-weight: bold;
-  color: white;
+  color: #fdf0d5;
 }
 
 .post-date {
-  color: rgb(255, 255, 255);
+  color: #fdf0d5;
   font-size: 14px;
   font-style: italic;
 }
@@ -121,6 +123,6 @@ h1 {
 .post-content {
   margin-top: 10px;
   white-space: pre-line;
-  color: white;
+  color: #fdf0d5;
 }
 </style>

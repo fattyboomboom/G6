@@ -1,6 +1,6 @@
 <template>
   <v-card class="classcard" variant="outlined">
-    <v-list bg-color="black">
+    <v-list bg-color="#003049">
       <VListItemTitle class="itemtitle">
         <!-- <VBtn color="indigo" rounded="" >
               <v-icon>mdi-plus</v-icon>
@@ -8,7 +8,7 @@
         <h2>My Classes</h2>
       </VListItemTitle>
 
-      <VDivider color="white" thickness="2"></VDivider>
+      <VDivider  thickness="2"></VDivider>
 
       <VListItem class="listitem" v-for="classes in schedule" :key="classes.id" draggable="true">
         <li >
@@ -24,7 +24,7 @@
       @click="addClass"
       >Add</VBtn
     >
-    <VBtn class="deleteclass" color="red" width="50%" rounded="0">Delete</VBtn>
+    <VBtn class="deleteclass" width="50%" rounded="0">Delete</VBtn>
   </v-card>
 </template>
 
@@ -77,10 +77,12 @@ export default {
   right: 1%;
   width: 20%;
   top: 1%;
-  color: #000000;
+  color: #fdf0d5;
   border: none;
   border-radius: 25px;
 }
+
+
 
 h2 {
   text-align: center;
@@ -88,18 +90,20 @@ h2 {
 
 .addclass {
   left: 0%;
+  background-color: #669bbc;
 }
 .deleteclass {
   right: 0%;
+  background-color: #c1121f;
 }
 
 h2 {
-  background-color: #000000;
+  background-color: #003049;
   color: white;
 }
 
 .listitem {
-  background-color: snow;
+  background-color: #fdf0d5;
   /* color: white; */
   width: 70%;
   margin: 0 15%;
@@ -113,10 +117,10 @@ a {
   color: rgb(0, 0, 0);
 }
 v-card {
-  background-color: #000000;
+  background-color: #003049;
 }
 .itemtitle {
-  background-color: #000000;
+  background-color: #003049;
 }
 
 .listitem:hover {
