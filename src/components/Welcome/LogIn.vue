@@ -7,7 +7,7 @@
   <!-- This is a pop up modal when the sign up button is pressed. -->
   <SignUp  @close="toggleModal" :modalActive="modalActive">
     <v-card class="signupcard">
-      <div v-if="!passwordsMatch" class="error">Passwords do not match.</div>
+     
       <div class="modal-content">
         <form class="signupform">
           <v-row>
@@ -65,17 +65,16 @@
             class=" rounded-xl"
             type="password"
             v-model="signup.retrypassword"
-            :rules="[required]"
             prepend-inner-icon="mdi-lock-outline"
             label="Re-enter password"
             placeholder="re-enter your password"
           ></v-text-field>
         </v-row>
         <v-autocomplete
-            class="signuptextinput rounded-xl"
+            class="rounded-xl"
+            
             label="majors"
             :items="majors"
-            transition="fab-transition"
             v-model="signup.majors"
           >
           </v-autocomplete>
@@ -84,7 +83,8 @@
           <v-btn
             
             class="saveNewButton rounded-pill"
-            :disabled="!passwordsMatch"
+         
+     
             type="submit"
             variant="elevated"
             @click="saveNew"
@@ -270,11 +270,11 @@ export default {
     };
   },
 
-  computed: {
-    passwordsMatch() {
-      return this.password === this.retrypassword
-    }
-  },
+  // computed: {
+  //   passwordsMatch() {
+  //     return this.password === this.retrypassword;
+  //   }
+  // },
 
   methods: {
     // method for capturing data from form

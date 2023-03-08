@@ -95,6 +95,10 @@ h1 {
   
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 .avatar {
   width: 50px;
   height: 50px;

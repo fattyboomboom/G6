@@ -8,10 +8,15 @@
         <h2>My Classes</h2>
       </VListItemTitle>
 
-      <VDivider  thickness="2"></VDivider>
+      <VDivider thickness="2"></VDivider>
 
-      <VListItem class="listitem" v-for="classes in schedule" :key="classes.id" draggable="true">
-        <li >
+      <VListItem
+        class="listitem"
+        v-for="classes in schedule"
+        :key="classes.id"
+        draggable="true"
+      >
+        <li>
           <a href="class page">{{ classes.id }} </a>
         </li>
       </VListItem>
@@ -29,36 +34,39 @@
 </template>
 
 <script>
+import axios from "axios";
+import { ref} from "vue";
 
 export default {
   name: "MyClasses",
+
+  setup() {
+
+    const schedule = ref([]);
+    const error = ref(null);
+
+    axios
+      .get("http://localhost:3000/schedule")
+      .then((response) => {
+        schedule.value = response.data;
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+      return { schedule, error };
+  },
+
   props: {
     className: {
       type: String,
       required: false,
     },
   },
- 
+
   data() {
-    return {
-      schedule: [
-        {
-          id: "CS:365",
-        },
-        {
-          id: "MATH: 486",
-        },
-        {
-          id: "CS: 425",
-        },
-        {
-          id: "CS: 326",
-        },
-        {
-          id: "PHYS: 181",
-        },
-      ],
-    };
+    return {};
   },
   methods: {
     addClass() {
@@ -66,7 +74,6 @@ export default {
       this.newClass = "";
       this.dialog = false;
     },
-   
   },
 };
 </script>
@@ -81,8 +88,6 @@ export default {
   border: none;
   border-radius: 25px;
 }
-
-
 
 h2 {
   text-align: center;
@@ -111,7 +116,6 @@ h2 {
   border-radius: 5px;
   list-style: none;
   margin-top: 3%;
-  
 }
 a {
   color: rgb(0, 0, 0);
