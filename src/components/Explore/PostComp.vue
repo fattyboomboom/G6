@@ -65,12 +65,12 @@ export default {
       const post = posts.value.find(p => p.id === postId);
       const url = `http://localhost:3000/posts/${postId}/like`;
       const payload = {
-        liked: !post.liked // send the opposite of current liked state
+        liked: !post.liked
       };
   
-      // make a POST request to the Flask endpoint to update the likes for the post
+     
       axios.post(url, payload).then(response => {
-        // update the local copy of the post with the updated likes and liked status
+        // update the frontend after likes are changed
         post.likes = response.data.likes;
         post.liked = response.data.liked;
       }).catch(error => {
