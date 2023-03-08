@@ -63,16 +63,16 @@ export default {
 <style scoped>
 .cardtitle {
   text-align: center;
-  background-color: #003049;
+  background-color: #415a77;
 }
 p {
   text-align: center;
-  background-color: #003049;
-  color: #fdf0d5;
+  background-color: #415a77;
+  color: #dbe9ee;
 }
 
 h2 {
-  color: #fdf0d5;
+  color: #dbe9ee;
 }
 .friendslist {
   position: absolute;
@@ -83,7 +83,7 @@ h2 {
   border-radius: 25px;
 }
 a {
-  color: #fdf0d5;
+  color: #dbe9ee;
 }
 
 .friendcard:hover {

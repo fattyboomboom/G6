@@ -1,6 +1,6 @@
 <template>
   <v-card class="classcard" variant="outlined">
-    <v-list bg-color="#003049">
+    <v-list bg-color="#415a77">
       <VListItemTitle class="itemtitle">
         <!-- <VBtn color="indigo" rounded="" >
               <v-icon>mdi-plus</v-icon>
@@ -66,16 +66,34 @@ export default {
   },
 
   data() {
-    return {};
+    return {
+      class: ""
+    };
   },
+
   methods: {
     addClass() {
-      this.schedule.push({ id: this.newClass });
-      this.newClass = "";
-      this.dialog = false;
+
+      var data = {
+        firstname: this.signup.firstname,
+        lastname: this.signup.lastname,
+        majors: this.signup.majors.id,
+        email: this.signup.email,
+        password: this.signup.password,
+      };
+
+      axios
+        .post("http://localhost:3000/signup", data)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
-  },
-};
+    },
+  };
+
 </script>
 
 <style scoped>
@@ -84,7 +102,7 @@ export default {
   right: 1%;
   width: 20%;
   top: 1%;
-  color: #fdf0d5;
+  color: #e0e1dd;
   border: none;
   border-radius: 25px;
 }
@@ -103,12 +121,12 @@ h2 {
 }
 
 h2 {
-  background-color: #003049;
+  background-color: #415a77;
   color: white;
 }
 
 .listitem {
-  background-color: #fdf0d5;
+  background-color: #e0e1dd;
   /* color: white; */
   width: 70%;
   margin: 0 15%;
@@ -121,10 +139,10 @@ a {
   color: rgb(0, 0, 0);
 }
 v-card {
-  background-color: #003049;
+  background-color: #4a6fa5;
 }
 .itemtitle {
-  background-color: #003049;
+  background-color: #4a6fa5;
 }
 
 .listitem:hover {

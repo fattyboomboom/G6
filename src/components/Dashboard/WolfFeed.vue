@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { ref} from "vue";
+import { ref } from "vue";
 import axios from "axios";
 
 export default {
@@ -63,8 +63,8 @@ export default {
 <style scoped>
 h1 {
   width: 15%;
-  margin-left: 45%;
-  color: rgb(0, 0, 0);
+  margin-left: 50%;
+  color: #415a77;
 }
 .news-feed {
   display: flex;
@@ -75,17 +75,19 @@ h1 {
 }
 
 .post-container {
-  height: 60%;
+  height: 61%;
   overflow-y: scroll;
   margin-top: 20px;
-  background-color: #003049;
+  background-color: #415a77;
+  border-top-right-radius: 25px;
+  border-top-left-radius: 25px;
   width: 40%;
   position: absolute;
   margin-left: 36%;
 }
 
 .post {
-  border: 1px solid #fdf0d5;
+  border: 1px solid #e0e1dd;
   margin-bottom: 10px;
   padding: 10px;
 }
@@ -110,23 +112,23 @@ h1 {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  color: #fdf0d5;
+  color: #e0e1dd;
 }
 
 .author-name {
   font-weight: bold;
-  color: #fdf0d5;
+  color: #e0e1dd;
 }
 
 .post-date {
-  color: #fdf0d5;
+  color: #e0e1dd;
   font-size: 14px;
   font-style: italic;
 }
 
 .post-content {
-  margin-top: 10px;
-  white-space: pre-line;
-  color: #fdf0d5;
+  margin-top: 2%;  
+  color: #e0e1dd;
+
 }
 </style>
