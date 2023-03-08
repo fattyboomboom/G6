@@ -3,7 +3,7 @@
     <a href="friends">
       <VCardTitle class="cardtitle"> <h2>Friends</h2></VCardTitle></a
     >
-    <VDivider color="black" thickness="2"></VDivider>
+    <VDivider color="#003049" thickness="2"></VDivider>
     <v-row no-gutters>
       <v-col
         v-for="friend in friends"
@@ -39,27 +39,19 @@
 
 <script>
 import { ref } from "vue";
-import axios from 'axios';
+import axios from "axios";
 export default {
   name: "DashFriends",
-
   setup() {
     const friends = ref([]);
     const error = ref(null);
-
-    const load = async () => {
-      try {
-        let data = axios.get("http://localhost:3000/friends");
-        if (!data.ok) {
-          throw Error("no data available");
-        }
-        friends.value = await data.json();
-      } catch (err) {
-        error.value = err.message;
-        console.log(error.value);
-      }
-    };
-    load();
+    axios.get("http://localhost:3000/friends").then(response => {
+      friends.value = response.data;
+      console.log(response.data);
+  })
+  .catch(error => {
+    console.log(error);
+  });
     return { friends, error };
   },
 };
@@ -68,16 +60,15 @@ export default {
 <style scoped>
 .cardtitle {
   text-align: center;
-  background-color: #000000;
+  background-color: #003049;
 }
 p {
   text-align: center;
-  background-color: #000000;
-  color: white;
+  background-color: #003049;
+  color: #fdf0d5;
 }
-
 h2 {
-  color: white;
+  color: #fdf0d5;
 }
 .friendslist {
   position: absolute;
@@ -88,9 +79,8 @@ h2 {
   border-radius: 25px;
 }
 a {
-  color: white;
+  color: #fdf0d5;
 }
-
 .friendcard:hover {
   scale: 1.1;
 }

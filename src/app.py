@@ -4,11 +4,14 @@
 import random
 import string
 import os
+import json
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from SendGridAPI import SENDGRID_API_KEY, SENDGRID_FROM_EMAIL
+
+posts_json = os.path.join(os.path.dirname(__file__), 'data', 'posts.json')
 
 app = Flask(__name__)
 CORS(app)
@@ -67,36 +70,30 @@ def create_account():
     # When token is found, mark account as verified
     # If token/link doesnt exist, notify user.
 
-@app.route('/posts', methods=['GET'])
+@app.route('/posts', methods=['GET','PUT'])
 def get_posts():
-    posts = [
-        {"name": "John Smith",
-                  "date": "1/1/23",        
-                  "time": "9:00 PM",        
-                  "category": "Gaming",        
-                  "likes": 256,        
-                  "content": "Just finished playing my favorite game and got a new high score! Can't wait to see if anyone can beat it. #GamingLife #HighScore #Excited"    },
-        {        "name": "Jenny Jones",        "date": "1/1/23",        "time": "6:00 PM",        "category": "Coding",        "likes": 98,        "content": "Just finished a coding challenge and it was so much fun! I learned a lot and can't wait to do more. #CodingChallenge #Learning #Fun"},    
-        {"name": "Sam Smith",
-         "date": "1/1/23",
-         "time": "2:45 PM",
-         "category": "Cooking",
-         "likes": 325,
-         "content": "Just made a delicious meal for lunch! I cooked up some fresh veggies and made a homemade dressing. #CookingAtHome #HealthyEating #Yum"},
-        {"name": "Alice Smith",
-         "date": "1/1/23",
-         "time": "12:00 PM",
-         "category": "Movies",
-         "likes": 500,
-         "content": "Just saw the latest Marvel movie and it was amazing! The special effects were incredible and the storyline was so engaging. #MarvelMovie #Cinema #Entertainment"},
-        {"name": "Bob Smith",
-        "date": "1/1/23",
-        "time": "11:15 AM",
-        "category": "Music",
-        "likes": 150,
-        "content": "Just discovered a new band and I'm obsessed! Their music is so unique and catchy. #NewMusic #DiscoveringArtists #Obsessed"}
-                  ]
+    with open(posts_json, 'r') as f:
+        posts = json.load(f)
     return jsonify(posts)
+
+@app.route('/posts/<int:post_id>/like', methods=['POST'])
+def like_post(post_id):
+    with open(posts_json, 'r+') as f:
+        data = json.load(f)
+        for post in data:
+            if post['id'] == post_id:
+                if 'likes' not in post:
+                    post['likes'] = 0
+                if request.json.get('liked'):
+                    post['likes'] += 1
+                else:
+                    post['likes'] -= 1
+                f.seek(0)
+                json.dump(data, f)
+                f.truncate()
+                return jsonify({'likes': post['likes']})
+    return jsonify({'error': 'Post not found'})
+
 
 # @app.route('/friends', methods=['GET', 'POST'])
 # def get_posts():

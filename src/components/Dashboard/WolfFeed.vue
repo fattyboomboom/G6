@@ -18,35 +18,24 @@
 </template>
 
 <script>
-// import { ref } from "vue";
+import { ref} from "vue";
 import axios from "axios";
 export default {
   name: "WolfFeed",
-  data() {
-    return {
-      posts: [],
-    };
-  },
-
   setup() {
-    // const posts = ref([]);
-    // const error = ref(null);
-    // const load = async () => {
-    //   try {
-    //     let data = await fetch("http://127.0.0.1:5000/posts");
-    //     if (!data.ok) {
-    //       throw Error("no data available");
-    //     }
-    //     posts.value = await data.json();
-    //   } catch (err) {
-    //     error.value = err.message;
-    //     console.log(error.value);
-    //   }
-    // };
-    // load();
-    // return { posts, error };
+    const posts = ref([]);
+    const error = ref(null);
+    axios
+      .get("http://localhost:3000/posts")
+      .then((response) => {
+        posts.value = response.data;
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return { posts, error };
   },
-
   methods: {
     formatDate(date) {
       return new Intl.DateTimeFormat("en-US", {
@@ -58,26 +47,11 @@ export default {
         hour12: true,
       }).format(date);
     },
-
-    getPosts() {
-      const path = "http://localhost:3000/posts";
-      axios
-        .get(path)
-        .then((res) => {
-          this.posts = res.data.posts;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    },
   },
   computed: {
     displayedPosts() {
       return this.posts.slice(0, this.maxPosts);
     },
-  },
-  created() {
-    this.getPosts();
   },
 };
 </script>
@@ -95,56 +69,51 @@ h1 {
   justify-content: center;
   height: 100vh;
 }
-
 .post-container {
   height: 60%;
   overflow-y: scroll;
   margin-top: 20px;
-  background-color: rgb(0, 0, 0);
+  background-color: #003049;
   width: 40%;
   position: absolute;
   margin-left: 36%;
 }
-
 .post {
-  border: 1px solid rgb(255, 255, 255);
+  border: 1px solid #fdf0d5;
   margin-bottom: 10px;
   padding: 10px;
 }
-
 .post-header {
   display: flex;
-  align-items: center;
+  
 }
-
+::-webkit-scrollbar {
+  display: none;
+}
 .avatar {
   width: 50px;
   height: 50px;
   margin-right: 10px;
   border-radius: 50%;
 }
-
 .author-info {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  color: white;
+  color: #fdf0d5;
 }
-
 .author-name {
   font-weight: bold;
-  color: white;
+  color: #fdf0d5;
 }
-
 .post-date {
-  color: rgb(255, 255, 255);
+  color: #fdf0d5;
   font-size: 14px;
   font-style: italic;
 }
-
 .post-content {
   margin-top: 10px;
   white-space: pre-line;
-  color: white;
+  color: #fdf0d5;
 }
 </style>
