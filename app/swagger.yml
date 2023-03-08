@@ -59,6 +59,9 @@ components:
       required: True
       schema:
         type: "string"
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
     
 
 paths:
@@ -71,22 +74,8 @@ paths:
       responses:
         "200":
           description: "Successfully read acc list"
-    post:
-      operationId: "account.create"
-      tags:
-        - "Account"
-      summary: "Create an acc"
-      requestBody:
-          description: "Account to create"
-          required: True
-          content:
-            application/json:
-              schema:
-                x-body-name: "acc"
-                $ref: "#/components/schemas/Acc"
-      responses:
-        "201":
-          description: "Successfully created Acc"
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
     put:
       tags:
         - "Account"
@@ -103,6 +92,7 @@ paths:
       responses:
         "204":
           description: "Successfully logged in acc"
+        
   
   /account/{email}:
     get:
@@ -151,6 +141,8 @@ paths:
       responses:
         "200":
           description: "Successfully read user list"
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
     post:
       operationId: "user.create"
       tags:
@@ -165,7 +157,7 @@ paths:
               x-body-name: "usr"
               $ref: "#/components/schemas/Usr"
       responses:
-        "204":
+        "201":
           description: "Successfully created user"
 
   /post:
@@ -177,3 +169,5 @@ paths:
       responses:
         "200":
           description: "Successfully read post list"
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'

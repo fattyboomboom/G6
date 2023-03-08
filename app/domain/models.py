@@ -188,7 +188,7 @@ class Users(db.Model):
     email = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(50), nullable=False)
     profile_picture = db.Column(db.BLOB, nullable=True)
-    type_id = db.Column(db.Integer, nullable=True, default=3)
+    type_id = db.Column(db.Integer, nullable=False, default=3)
     #type_id = db.Column(db.Integer, db.ForeingKey('user_type.type_id'), nullable = False)
  
     def __repr__(self) :

@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from flask import abort, make_response
 from domain.models import Account, accounts_schema, account_schema
 from domain.models import Users, users_schema, user_schema
@@ -39,20 +38,20 @@ def read_all():
     return accounts_schema.dump(cuentas)
 
 
-def create(acc):
-    email = acc.get("email")
-    password = acc.get("password")
+# def create(acc):
+#     email = acc.get("email")
+#     password = acc.get("password")
 
-    if email not in ACCOUNT:
-        ACCOUNT[email] = {
-            "email": email,
-            "password": password,
-            "last_login": get_timestamp(),
-            "creation_date": get_timestamp(),
-        }
-        return ACCOUNT[email], 201
-    else:
-        abort(406, f"Account with email {email} already exists")
+#     if email not in ACCOUNT:
+#         ACCOUNT[email] = {
+#             "email": email,
+#             "password": password,
+#             "last_login": get_timestamp(),
+#             "creation_date": get_timestamp(),
+#         }
+#         return ACCOUNT[email], 201
+#     else:
+#         abort(406, f"Account with email {email} already exists")
 
 
 def read_one(email):

@@ -30,13 +30,14 @@ const router = createRouter({
     { path: '/dashboard', component: DashBoard },
     { path: '/DRC', component: DisabilityPage },
     { path: '/about', component:  AboutPage },
-    { path: '/explore', component:  ExplorePage },
-    { path: '/', component: LoginPage },
+    { path: '/explore', component: ExplorePage },
+    { path: '/', component: LoginPage},
     { path: '/superuser', component: SuperUserDash}
     //{ path: '/', component: TestLPM}
   ]
 });
 
+// router.beforeEach();
 
 createApp(App)
   .use(vuetify)
@@ -45,3 +46,5 @@ createApp(App)
   .component('filter-menu', FilterMenu)
   .component('nav-bar', NavBar)
   .mount('#app')
+
+  // export default router;

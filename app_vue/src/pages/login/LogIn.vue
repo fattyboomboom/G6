@@ -158,7 +158,7 @@ export default {
     const modalActive = ref(false);
     const router = useRouter();
     const toggleModal = () => {
-      this.modalActive = !this.modalActive;
+      modalActive.value = !modalActive.value;
     };
     return { modalActive, toggleModal, router };
   },
@@ -271,8 +271,8 @@ export default {
         .post("http://localhost:5000/api/user", data)
         .then((response) => {
           console.log(response);
-          if (response.status === 201) {
-            this.modalActive = !this.modalActive;
+          if (response.status === 201){
+            this.modalActive = false;
           }
         })
         .catch((error) => {
