@@ -3,6 +3,7 @@ import config
 from domain.models import Account
 from domain.models import Users
 from domain.models import Posts
+from domain.models import UserToken
 
 
 # from flask_cors import CORS
@@ -16,7 +17,8 @@ def home():
     account = Account.query.all()
     user = Users.query.all()
     post = Posts.query.all()
-    return render_template("home.html", account=account, user=user, post=post)
+    userToken = UserToken.query.all()
+    return render_template("home.html", account=account, user=user, post=post, userToken=userToken)
 
 # @app.route('/process', methods=['POST', 'GET'])
 # def FilterProfanity():

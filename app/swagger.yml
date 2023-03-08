@@ -51,6 +51,15 @@ components:
         date:
           type: string
           format: date-time
+    Tkn:
+      type: object
+      properties:
+        token:
+          type: string
+          example: 1234
+        date:
+          type: string
+          format: date-time
   parameters:
     email:
       name: "email"
@@ -171,3 +180,13 @@ paths:
           description: "Successfully read post list"
         '401':
           $ref: '#/components/responses/UnauthorizedError'
+
+  /userToken:
+    get:
+      operationId: "userToken.read_all"
+      tags:
+        - "Token"
+      summary: "Token id for users?"
+      responses:
+        "200":
+          description: "Successfully read token list"

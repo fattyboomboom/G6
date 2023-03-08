@@ -208,6 +208,22 @@ class UserType(db.Model):
     type_id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String(50), nullable=False)
 
+class UserToken(db.Model):
+    __tablename__ = 'user_token'
+
+    user_id = db.Column(db.Integer, primary_key=True)
+    token = db.Column(db.String(255), nullable=False)
+    date = db.Column(db.DateTime, nullable=False)
+
+class UserTokenSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = UserToken
+        load_instance = True
+        sqla_session = db.session
+
+user_token_schema = UserTokenSchema()
+user_tokens_schema = UserTokenSchema(many=True)
+
 #missing all relationships
 
 # if __name__ == '__main__':

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: database
--- Generation Time: Mar 05, 2023 at 11:16 PM
+-- Generation Time: Mar 08, 2023 at 01:07 AM
 -- Server version: 8.0.32
 -- PHP Version: 8.1.15
 
@@ -41,7 +41,18 @@ CREATE TABLE `account` (
 --
 
 INSERT INTO `account` (`acc_id`, `user_id`, `email`, `password`, `creation_date`, `last_login`) VALUES
-(1, 2, 'mbazgan@nevada.unr.edu', '1234', '2023-03-05', '2023-03-05');
+(1, 2, 'mbazgan@nevada.unr.edu', '1234', '2023-03-05', '2023-03-05'),
+(2, 3, 'johasdn@email.com', '12345', '2023-03-06', '2023-03-06'),
+(6, 12, 'javi@noholidays.com', '1234', '2023-03-07', '2023-03-07'),
+(7, 13, 'last@unr.edu', '1234', '2023-03-07', '2023-03-07'),
+(8, 14, 'melaniebazgan@gmail.com', '1234', '2023-03-07', '2023-03-07'),
+(9, 15, 'john@emsdfadsfsafasfail.com', '12345', '2023-03-07', '2023-03-07'),
+(10, 16, 'john@asadad.com', '12345', '2023-03-07', '2023-03-07'),
+(11, 17, 'john@asdasdasdasdas.com', '12345', '2023-03-07', '2023-03-07'),
+(12, 18, 'john@asdasdasdasdasdasdas.com', '12345', '2023-03-07', '2023-03-07'),
+(13, 19, 'sandra@sandercock.com', '1234', '2023-03-07', '2023-03-07'),
+(456456, 8, 'admin@unr.edu', '1234', '2023-02-21', '2023-02-21'),
+(456457, 20, 'moderator@unr.edu', '1234', '2023-03-08', '2023-03-08');
 
 -- --------------------------------------------------------
 
@@ -301,7 +312,32 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `name`, `last_name`, `email`, `password`, `profile_picture`, `type_id`, `major`) VALUES
 (1, 'John', 'James', 'john@email.com', '12345', NULL, 3, NULL),
-(2, 'Bazgan', 'Melanie', 'mbazgan@nevada.unr.edu', '1234', NULL, 3, NULL);
+(2, 'Bazgan', 'Melanie', '', '1234', NULL, 3, NULL),
+(3, 'John', 'James', 'johasdn@email.com', '12345', NULL, 3, NULL),
+(8, 'admin', 'admin', 'admin@unr.edu', '1234', NULL, 1, NULL),
+(10, 'John', 'Jammmmmmmmmmes', 'john@i.com', '12345', NULL, 3, NULL),
+(11, 'javier mariano', 'macchiavello', 'j.macchiavello@hotmail.com', '1234', NULL, 3, NULL),
+(12, 'javi', '', 'javi@noholidays.com', '1234', NULL, 3, NULL),
+(13, 'lastlast', 'last', 'last@unr.edu', '1234', NULL, 3, NULL),
+(14, 'Melanie', 'Bazgan', 'melaniebazgan@gmail.com', '1234', NULL, 3, NULL),
+(15, 'John', 'James', 'john@emsdfadsfsafasfail.com', '12345', NULL, 3, NULL),
+(16, 'John', 'James', 'john@asadad.com', '12345', NULL, 3, NULL),
+(17, 'Johasdasdsan', 'Jamasdsades', 'john@asdasdasdasdas.com', '12345', NULL, 3, NULL),
+(18, 'Johasdasdsan', 'Jamasdsades', 'john@asdasdasdasdasdasdas.com', '12345', NULL, 3, NULL),
+(19, 'Sandra nilda', 'Bazgan Sandercock', 'sandra@sandercock.com', '1234', NULL, 3, NULL),
+(20, '1234', '1234', 'moderator@unr.edu', '1234', NULL, 3, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_token`
+--
+
+CREATE TABLE `user_token` (
+  `user_id` int NOT NULL,
+  `token` text NOT NULL,
+  `date` timestamp NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -445,6 +481,12 @@ ALTER TABLE `users`
   ADD KEY `FK_users_user_type_type_id` (`type_id`);
 
 --
+-- Indexes for table `user_token`
+--
+ALTER TABLE `user_token`
+  ADD PRIMARY KEY (`user_id`);
+
+--
 -- Indexes for table `user_type`
 --
 ALTER TABLE `user_type`
@@ -458,7 +500,7 @@ ALTER TABLE `user_type`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `acc_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `acc_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=456458;
 
 --
 -- AUTO_INCREMENT for table `posts`
@@ -470,7 +512,7 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Constraints for dumped tables
@@ -487,6 +529,12 @@ ALTER TABLE `account`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `FK_users_user_type_type_id` FOREIGN KEY (`type_id`) REFERENCES `user_type` (`type_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Constraints for table `user_token`
+--
+ALTER TABLE `user_token`
+  ADD CONSTRAINT `FK_user_token_user_id_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
