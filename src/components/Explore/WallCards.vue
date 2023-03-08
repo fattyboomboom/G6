@@ -9,7 +9,7 @@
             </v-card-title>
   
             <v-card-actions>
-              <v-btn class="ml-2"  variant="text" @click="category.fill = !category.fill" icon>
+              <v-btn class="ml-2" :color="category.fill ? '#C1121F' : ''"  variant="text" @click="category.fill = !category.fill" icon>
                <v-icon>{{ !category.fill ? "mdi-heart-outline"  : "mdi-heart" }}</v-icon> 
               </v-btn>
             </v-card-actions>

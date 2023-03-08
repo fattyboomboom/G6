@@ -82,16 +82,22 @@ def like_post(post_id):
         data = json.load(f)
         for post in data:
             if post['id'] == post_id:
-                if 'likes' not in post:
+                if 'likes' not in post: 
                     post['likes'] = 0
+            
+                #if post was unliked, increment likes
                 if request.json.get('liked'):
                     post['likes'] += 1
+                    liked_status = True
+                    
+                #if post was liked, decrement likes to 'unlike'
                 else:
                     post['likes'] -= 1
+                    liked_status = False
                 f.seek(0)
                 json.dump(data, f)
                 f.truncate()
-                return jsonify({'likes': post['likes']})
+                return jsonify({'likes': post['likes'], 'liked': liked_status})
     return jsonify({'error': 'Post not found'})
 
 

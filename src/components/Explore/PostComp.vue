@@ -33,7 +33,7 @@
               <v-btn 
                 class="me-1" 
                 icon 
-                :color="post.liked ? 'red' : ''"
+                :color="post.liked ? '#C1121F' : ''"
                 @click="likePost(post.id)">
                 <v-icon>{{ post.liked ? 'mdi-heart' : 'mdi-heart-outline' }}</v-icon>
               </v-btn>
@@ -64,9 +64,7 @@ export default {
     const likePost = postId => {
       const post = posts.value.find(p => p.id === postId);
       const url = `http://localhost:3000/posts/${postId}/like`;
-      const payload = {
-        liked: !post.liked
-      };
+      const payload = { liked: !post.liked};
   
      
       axios.post(url, payload).then(response => {
