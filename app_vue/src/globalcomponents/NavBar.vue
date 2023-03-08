@@ -42,12 +42,12 @@
     </v-list>
     <v-divider color="white"></v-divider>
     <v-list density="compact" nav>
-      <v-list-item
-        prepend-icon="mdi-logout"
-        title="Sign Out"
-        value="signout"
-        to="/"
-      ></v-list-item>
+      <v-list-item @click="logout">
+      <v-list-item-icon>
+        <v-icon>mdi-logout</v-icon>
+      </v-list-item-icon>
+      <v-list-item-title>Sign Out</v-list-item-title>
+    </v-list-item>
     </v-list>
     <v-divider color="white"></v-divider>
     <v-list density="compact" nav>
@@ -64,5 +64,11 @@
 <script>
 export default {
   name: "NavBar",
+  methods: {logout() {
+      // Remove the token from the local storage
+      localStorage.removeItem('token')
+      // Navigate back to the login page
+      this.$router.push('/')
+    }}
 };
 </script>

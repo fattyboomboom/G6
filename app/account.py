@@ -6,7 +6,7 @@ from config import db
 from userToken import create as create_token
 import json
 
-#this API is for login
+#this API is
 def get_timestamp():
     return datetime.now().strftime(("%Y-%m-%d %H:%M:%S"))
 

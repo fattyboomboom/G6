@@ -291,6 +291,10 @@ export default {
         .then((response) => {
           console.log(response);
           console.log(authdata.email);
+      // if authentication is successful, store the token in local storage
+          const token = response.data.token;
+          localStorage.setItem('token', token);
+          console.log(token);
           if (response.status === 200) {
             this.router.push("/dashboard");
           }
