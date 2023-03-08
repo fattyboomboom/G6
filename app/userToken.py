@@ -13,6 +13,7 @@ def read_all():
     user_token = UserToken.query.all()
     return user_tokens_schema.dump(user_token)
 
+#this creates a token or updates it if it already exists
 def create(tkn):
 
     user_id = tkn.get("user_id")

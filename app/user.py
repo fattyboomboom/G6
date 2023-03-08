@@ -24,7 +24,7 @@ def create(usr):
         if Users.query.filter(Users.email == email).one_or_none():
             abort(406, f"Account with email {email} already exists") 
 
-
+#creates user, commits and creates acc for login and timestamps
         else:
             user = Users(
                 name= usr.get("name"),

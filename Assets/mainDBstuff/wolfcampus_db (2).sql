@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: database
--- Generation Time: Mar 08, 2023 at 01:07 AM
+-- Generation Time: Mar 08, 2023 at 04:25 AM
 -- Server version: 8.0.32
 -- PHP Version: 8.1.15
 
@@ -336,8 +336,17 @@ INSERT INTO `users` (`user_id`, `name`, `last_name`, `email`, `password`, `profi
 CREATE TABLE `user_token` (
   `user_id` int NOT NULL,
   `token` text NOT NULL,
-  `date` timestamp NOT NULL
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `user_token`
+--
+
+INSERT INTO `user_token` (`user_id`, `token`, `date`) VALUES
+(8, '39fa1ac4be3c4f5da56776ff4985bdef', '2023-03-08 04:24:45'),
+(14, 'cf3a3e2f62ed47a9b5a1debb84a4d1b7', '2023-03-08 02:33:02'),
+(20, 'dfsadf', '2023-03-08 01:42:11');
 
 -- --------------------------------------------------------
 

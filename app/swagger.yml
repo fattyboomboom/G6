@@ -103,44 +103,6 @@ paths:
           description: "Successfully logged in acc"
         
   
-  /account/{email}:
-    get:
-      operationId: "account.read_one"
-      tags:
-        - "Account"
-      summary: "Read one account"
-      parameters:
-        - $ref: "#/components/parameters/email"
-      responses:
-        "200":
-          description: "Successfully read acc"
-    put:
-      tags:
-        - "Account"
-      operationId: "account.update"
-      summary: "Update an acc"
-      parameters:
-        - $ref: "#/components/parameters/email"
-      responses:
-        "200":
-          description: "Successfully updated acc"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              x-body-name: "account"
-              $ref: "#/components/schemas/Acc"
-    delete:
-      tags:
-        - "Account"
-      operationId: "account.delete"
-      summary: "Delete an acc"
-      parameters:
-        - $ref: "#/components/parameters/email"
-      responses:
-        "204":
-          description: "Successfully deleted acc"
-
   /user:
     get:
       operationId: "user.read_all"
@@ -190,11 +152,19 @@ paths:
       responses:
         "200":
           description: "Successfully read token list"
-    # post:
-    #   operationId: "userToken.create"
-    #   tags:
-    #     - "Token"
-    #   summary: "Token creation on sign up"
-    #   resoponses:
-    #     "200":
-    #       description: "Successfully created token on sign up"
+    post:
+      operationId: "userToken.create"
+      tags:
+        - "Token"
+      summary: "Create a new token"
+      requestBody:
+        description: "token creation or update"
+        required: True
+        content:
+          application/json:
+            schema:
+              x-body-name: "tkn"
+              $ref: "#/components/schemas/Tkn"
+      responses:
+        "200":
+          description: "Successfully created token"
