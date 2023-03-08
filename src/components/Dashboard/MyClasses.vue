@@ -1,6 +1,6 @@
 <template>
   <v-card class="classcard" variant="outlined">
-    <v-list bg-color="#415a77">
+    <v-list bg-color="#4a6fa5">
       <VListItemTitle class="itemtitle">
         <!-- <VBtn color="indigo" rounded="" >
               <v-icon>mdi-plus</v-icon>
@@ -121,7 +121,7 @@ h2 {
 }
 
 h2 {
-  background-color: #415a77;
+  background-color: #4a6fa5;
   color: white;
 }
 

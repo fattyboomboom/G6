@@ -376,7 +376,7 @@ p {
   width: 100%;
   /* padding: 60px 0; */
   text-align: center;
-  background: #003049;
+  background: #4a6fa5;
   color: #fdf0d5;
 }
 .v-card {
@@ -393,7 +393,7 @@ p {
   margin-inline: 32%;
   text-align: center;
 
-  background-color: #003049;
+  background-color: #4a6fa5;
 }
 
 .formdetail {
@@ -426,7 +426,7 @@ p {
   width: 90%;
   margin-inline: 5%;
   height: 80%;
-  background-color: #003049;
+  background-color: #4a6fa5;
   align-items: center;
   margin-top: 10%;
 }

@@ -64,7 +64,7 @@ export default {
 h1 {
   width: 15%;
   margin-left: 50%;
-  color: #415a77;
+  color: #4a6fa5;
 }
 .news-feed {
   display: flex;
@@ -78,7 +78,7 @@ h1 {
   height: 61%;
   overflow-y: scroll;
   margin-top: 20px;
-  background-color: #415a77;
+  background-color: #4a6fa5;
   border-top-right-radius: 25px;
   border-top-left-radius: 25px;
   width: 40%;

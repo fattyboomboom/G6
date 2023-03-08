@@ -38,7 +38,7 @@ export default {
   position: absolute;
   margin-left: 6%;
   margin-top: 1%;
-  background-color: #415a77;
+  background-color: #4a6fa5;
   width: 25%;
   border: none;
   border-radius: 25px;
@@ -55,7 +55,7 @@ export default {
 }
 
 body {
-  background-color: #415a77;
+  background-color: #4a6fa5;
 }
 
 .v-divider {
