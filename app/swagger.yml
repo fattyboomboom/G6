@@ -190,3 +190,11 @@ paths:
       responses:
         "200":
           description: "Successfully read token list"
+    # post:
+    #   operationId: "userToken.create"
+    #   tags:
+    #     - "Token"
+    #   summary: "Token creation on sign up"
+    #   resoponses:
+    #     "200":
+    #       description: "Successfully created token on sign up"

@@ -213,7 +213,7 @@ class UserToken(db.Model):
 
     user_id = db.Column(db.Integer, primary_key=True)
     token = db.Column(db.String(255), nullable=False)
-    date = db.Column(db.DateTime, nullable=False)
+    date = db.Column(db.DateTime, nullable=True)
 
 class UserTokenSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
