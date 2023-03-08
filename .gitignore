@@ -31,3 +31,4 @@ python/__pycache__/*
 data/*
 data_bck/*
 app/emailthing/SendGridAPI.py
+app_vue/yarn.lock
