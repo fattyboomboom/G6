@@ -1,21 +1,31 @@
 <template>
-  <div class="wolf-feed">
-    <h1>Wolf Feed</h1>
-
-    <div class="post-container">
-      <div v-for="post in posts" :key="post.id" class="post">
-        <div class="post-header">
-          <img :src="post.avatar" alt="Author avatar" class="avatar" />
-          <div class="author-info">
-            <div class="author-name">{{ post.user }}</div>
-            <div class="post-date">{{ post.date }}</div>
-            <div class="post-date">{{ post.time }}</div>
+  <v-app>
+    <div class="wolf-feed">
+      <h1>Wolf Feed</h1>
+        
+      <div class="post-container">
+        <div v-for="post in posts" :key="post.id" class="post">
+          <div class="post-header">
+            <img :src="post.avatar" alt="Author avatar" class="avatar" />
+            <div class="author-info">
+              <div class="author-name">{{ post.user }}</div>
+              <div class="post-date">{{ post.date }}</div>
+              <div class="post-date">{{ post.time }}</div>
+            </div>
+            <div class="delete-button">
+              <v-btn
+                variant="plain"
+                icon="mdi-trash-can-outline"
+                color="red-accent-4"
+                @click="$emit('remove')"
+              ></v-btn>
+            </div>
           </div>
+          <div class="post-content">{{ post.post }}</div>
         </div>
-        <div class="post-content">{{ post.post }}</div>
       </div>
     </div>
-  </div>
+  </v-app>
 </template>
 
 <script>
@@ -85,11 +95,16 @@ h1 {
   background-color: #4a6fa5;
   border-top-right-radius: 25px;
   border-top-left-radius: 25px;
+  border-radius: 5%;
   width: 40%;
   position: absolute;
   margin-left: 36%;
   display: flex;
   flex-direction: column-reverse;
+
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
 }
 
 .post {
@@ -134,5 +149,11 @@ h1 {
 .post-content {
   margin-top: 2%;
   color: #e0e1dd;
+}
+
+.delete-button {
+  display:-webkit-flex;
+  justify-content: flex-end;
+  width: 100%;
 }
 </style>
