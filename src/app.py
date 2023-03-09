@@ -98,6 +98,19 @@ def like_post(post_id):
                 return jsonify({'likes': post['likes'], 'liked': liked_status})
     return jsonify({'error': 'Post not found'})
 
+@app.route('/categories/<int:category_id>/follow', methods=['POST'])
+def follow_category(category_id):
+    with open(categories_json, 'r+') as f:
+        data = json.load(f)
+        for category in data:
+            if category['id'] == category_id:
+                category['follow'] = not category['follow']
+                
+                f.seek(0)
+                json.dump(data, f)
+                f.truncate()
+                return jsonify({'follow': category['follow']})
+    return jsonify({'error': 'Post not found'})
 
 # @app.route('/friends', methods=['GET', 'POST'])
 # def get_posts():
