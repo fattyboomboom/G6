@@ -98,6 +98,12 @@ def like_post(post_id):
                 return jsonify({'likes': post['likes'], 'liked': liked_status})
     return jsonify({'error': 'Post not found'})
 
+@app.route('/categories/followed')
+def get_followed_categories():
+    categories = json.load(open('categories.json', 'r'))
+    followed_categories = [c for c in categories if c['follow']]
+    return jsonify(followed_categories)
+
 @app.route('/categories/<int:category_id>/follow', methods=['POST'])
 def follow_category(category_id):
     with open(categories_json, 'r+') as f:
