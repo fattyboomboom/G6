@@ -1,0 +1,43 @@
+[
+    {
+        "title": "Art",
+        "icon": "mdi-palette",
+        "fill": false
+    },
+    {
+        "title": "Cars",
+        "icon": "mdi-car",
+        "fill": false
+    },
+    {
+        "title": "Coding",
+        "icon": "mdi-code-tags",
+        "fill": false
+    },
+    {
+        "title": "Cooking",
+        "icon": "mdi-food",
+        "fill": false
+    },
+    {
+        "title": "Gaming",
+        "icon": "mdi-gamepad-variant",
+        "fill": false
+    },
+    {
+        "title": "Movies",
+        "icon": "mdi-movie",
+        "fill": false
+    },
+    {
+        "title": "Music",
+        "icon": "mdi-music-note",
+        "fill": false
+    },
+    {
+        "title": "Photography",
+        "icon": "mdi-camera",
+        "fill": false
+        
+    }
+]

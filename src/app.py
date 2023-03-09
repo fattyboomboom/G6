@@ -12,6 +12,7 @@ from sendgrid.helpers.mail import Mail
 from SendGridAPI import SENDGRID_API_KEY, SENDGRID_FROM_EMAIL
 
 posts_json = os.path.join(os.path.dirname(__file__), 'data', 'posts.json')
+categories_json = os.path.join(os.path.dirname(__file__), 'data', 'categories.json')
 
 app = Flask(__name__)
 CORS(app)
@@ -61,20 +62,17 @@ def create_account():
     message = {'message' : 'E-mail successfully sent'}
     return jsonify(message), 200
 
-
- #********To do**************
-# @app.route('/verify_email')
-# def verify_email():
-    # Get token from link
-    # Look up token for corresponding account
-    # When token is found, mark account as verified
-    # If token/link doesnt exist, notify user.
-
 @app.route('/posts', methods=['GET','PUT'])
 def get_posts():
     with open(posts_json, 'r') as f:
         posts = json.load(f)
     return jsonify(posts)
+
+@app.route('/categories', methods=['GET','PUT'])
+def get_categories():
+    with open(categories_json, 'r') as f:
+        categories = json.load(f)
+    return jsonify(categories)
 
 @app.route('/posts/<int:post_id>/like', methods=['POST'])
 def like_post(post_id):

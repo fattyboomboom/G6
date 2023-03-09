@@ -4,7 +4,7 @@
       v-for="post in posts"
       :key="post.id"
       class="ml-16 mt-8 text-white"
-      color="#003049"
+      color="#4A6FA5"
       max-width="800"
       :title="post.name"
     >

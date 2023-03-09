@@ -1,7 +1,7 @@
 <template>
  
   <!-- This nav drawer is set to permanent. will always be available on every screen size. -->
-  <v-navigation-drawer expand-on-hover rail color="black" permanent="">
+  <v-navigation-drawer expand-on-hover rail color="#e0e1dd"  permanent="">
     <v-list>
       <v-list-item
         prepend-avatar="https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg"
@@ -36,6 +36,14 @@
         value="notes"
         to="/notes"
       ></v-list-item>
+      <v-divider color="white"></v-divider>
+      <v-list-item
+        prepend-icon="mdi-logout"
+        title="Sign Out"
+        value="signOut"
+        to="/"
+        @click="logout"
+      ></v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>
@@ -43,7 +51,17 @@
 <script>
 export default {
   name: "NavBar",
+  methods: {logout() {
+      // Remove the token from the local storage
+      localStorage.removeItem('token')
+      // Navigate back to the login page
+      this.$router.push('/')
+    }}
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.v-list-item {
+  color: #166088;
+}
+</style>

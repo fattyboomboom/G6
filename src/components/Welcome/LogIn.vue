@@ -5,86 +5,82 @@
   </section>
 
   <!-- This is a pop up modal when the sign up button is pressed. -->
-  <SignUp  @close="toggleModal" :modalActive="modalActive">
+  <SignUp @close="toggleModal" :modalActive="modalActive">
     <v-card class="signupcard">
-     
       <div class="modal-content">
         <form class="signupform">
           <v-row>
-          <!--Text input for entering first name and trim any whitespace-->
-          <v-text-field
-            class=" rounded-xl mt-5"
-            label="First Name"
-            v-model.trim="signup.firstname"
-          ></v-text-field>
+            <!--Text input for entering first name and trim any whitespace-->
+            <v-text-field
+              class="rounded-xl mt-5"
+              label="First Name"
+              v-model.trim="signup.firstname"
+            ></v-text-field>
 
-          <!--Text input for entering last name and trim any whitespace-->
-          <v-text-field
-            class=" rounded-xl mt-5"
-            label="Last Name"
-            v-model.trim="signup.lastname"
-          ></v-text-field>
-        </v-row>
+            <!--Text input for entering last name and trim any whitespace-->
+            <v-text-field
+              class="rounded-xl mt-5"
+              label="Last Name"
+              v-model.trim="signup.lastname"
+            ></v-text-field>
+          </v-row>
 
           <!--Text input for selecting a majors-->
-          
 
           <v-row>
-          <!-- sign up email input -->
-          <v-text-field
-            class=" rounded-xl"
-            v-model.trim="signup.email"
-            :readonly="loading"
-            prepend-inner-icon="mdi-email-outline"
-            :rules="[required]"
-            label="Email"
-          ></v-text-field>
+            <!-- sign up email input -->
+            <v-text-field
+              class="rounded-xl"
+              v-model.trim="signup.email"
+              :readonly="loading"
+              prepend-inner-icon="mdi-email-outline"
+              :rules="[required]"
+              label="Email"
+            ></v-text-field>
 
-          <v-text-field
-            class=" rounded-xl"
-            v-model.trim="signup.retryemail"
-            :readonly="loading"
-            prepend-inner-icon="mdi-email-outline"
-            :rules="[required]"
-            label="Re-enter email"
-          ></v-text-field>
-        </v-row>
+            <v-text-field
+              class="rounded-xl"
+              v-model.trim="signup.retryemail"
+              :readonly="loading"
+              prepend-inner-icon="mdi-email-outline"
+              :rules="[required]"
+              label="Re-enter email"
+            ></v-text-field>
+          </v-row>
+
           <v-row>
-          <!-- sign up password input -->
-          <v-text-field
-            class=" rounded-xl"
-            type="password"
-            v-model="signup.password"
-            :rules="[required]"
-            label="Password"
-            prepend-inner-icon="mdi-lock-outline"
-            placeholder="Enter your password"
-          ></v-text-field>
+            <!-- sign up password input -->
+            <v-text-field
+              class="rounded-xl"
+              type="password"
+              v-model="signup.password"
+              :rules="[required]"
+              label="Password"
+              prepend-inner-icon="mdi-lock-outline"
+              placeholder="Enter your password"
+            ></v-text-field>
 
-          <v-text-field
-            class=" rounded-xl"
-            type="password"
-            v-model="signup.retrypassword"
-            prepend-inner-icon="mdi-lock-outline"
-            label="Re-enter password"
-            placeholder="re-enter your password"
-          ></v-text-field>
-        </v-row>
-        <v-autocomplete
+            <v-text-field
+              class="rounded-xl"
+              type="password"
+              v-model="signup.retrypassword"
+              prepend-inner-icon="mdi-lock-outline"
+              label="Re-enter password"
+              placeholder="re-enter your password"
+            ></v-text-field>
+          </v-row>
+          <v-autocomplete
             class="rounded-xl"
-            
             label="majors"
             :items="majors"
             v-model="signup.majors"
           >
           </v-autocomplete>
-          
+
           <!-- button to save form -->
           <v-btn
-            
             class="saveNewButton rounded-pill"
-         
-     
+            :disabled="!passwordsMatch || !emailsMatch"
             type="submit"
             variant="elevated"
             @click="saveNew"
@@ -182,11 +178,12 @@ export default {
         majors: "",
         email: "",
         retryemail: "",
-        password: "",
-        retrypassword: "",
+        password: null,
+        retrypassword: null,
+        matchingPw: null,
       },
       majors: [
-      "Accounting",
+        "Accounting",
         "Acouting & Information Systems",
         "Agricultural Economics",
         "Agricultural Science",
@@ -262,11 +259,14 @@ export default {
       required: true,
     };
   },
-  // computed: {
-  //   passwordsMatch() {
-  //     return this.password === this.retrypassword;
-  //   }
-  // },
+  computed: {
+    passwordsMatch() {
+      return this.signup.password === this.signup.retrypassword;
+    },
+    emailsMatch() {
+      return this.signup.email === this.signup.retryemail;
+    },
+  },
   methods: {
     // method for capturing data from form
     saveNew() {
@@ -355,7 +355,7 @@ p {
   width: 100%;
   /* padding: 60px 0; */
   text-align: center;
-  background: #003049;
+  background: #4a6fa5;
   color: #fdf0d5;
 }
 .v-card {
@@ -371,7 +371,7 @@ p {
   width: 36%;
   margin-inline: 32%;
   text-align: center;
-  background-color: #003049;
+  background-color: #4a6fa5;
 }
 .formdetail {
   /* margin: 5%; */
@@ -387,7 +387,6 @@ p {
 .v-row {
   margin-inline: 5%;
   margin-top: 1%;
- 
 }
 .forgotpassword {
   color: black;
@@ -400,10 +399,9 @@ p {
   width: 90%;
   margin-inline: 5%;
   height: 80%;
-  background-color: #003049;
+  background-color: #4a6fa5;
   align-items: center;
   margin-top: 10%;
- 
 }
 .saveNewButton {
   width: 80%;
@@ -419,7 +417,7 @@ p {
   position: absolute;
   z-index: auto;
 }
-.signuptextinput{
+.signuptextinput {
   margin-inline: 15%;
   width: 70%;
 }

@@ -6,6 +6,6 @@
 
 <style>
 body {
-  background-color: #FDF0D5;
+  background-color: #DBE9EE;
 }
 </style>
