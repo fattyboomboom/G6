@@ -1,6 +1,7 @@
 <template>
+ 
   <!-- This nav drawer is set to permanent. will always be available on every screen size. -->
-  <v-navigation-drawer expand-on-hover rail color="black" permanent="">
+  <v-navigation-drawer expand-on-hover rail color="#e0e1dd"  permanent="">
     <v-list>
       <v-list-item
         prepend-avatar="https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg"
@@ -10,12 +11,8 @@
     </v-list>
     <v-divider color="white"></v-divider>
     <v-list density="compact" nav>
-      <v-list-item
-        prepend-icon="mdi-home"
-        title="Home"
-        value="home"
-        to="/dashboard"
-      ></v-list-item>
+      <v-list-item prepend-icon="mdi-home" title="Home" value="home" to="/dashboard">
+      </v-list-item>
       <v-list-item
         prepend-icon="mdi-domain"
         title="Explore"
@@ -39,23 +36,13 @@
         value="notes"
         to="/notes"
       ></v-list-item>
-    </v-list>
-    <v-divider color="white"></v-divider>
-    <v-list density="compact" nav>
-      <v-list-item @click="logout">
-      <v-list-item-icon>
-        <v-icon>mdi-logout</v-icon>
-      </v-list-item-icon>
-      <v-list-item-title>Sign Out</v-list-item-title>
-    </v-list-item>
-    </v-list>
-    <v-divider color="white"></v-divider>
-    <v-list density="compact" nav>
+      <v-divider color="white"></v-divider>
       <v-list-item
-        prepend-icon="mdi-human"
-        title="Disability Resources"
-        value="home"
-        to="/DRC"
+        prepend-icon="mdi-logout"
+        title="Sign Out"
+        value="signOut"
+        to="/"
+        @click="logout"
       ></v-list-item>
     </v-list>
   </v-navigation-drawer>
@@ -72,3 +59,9 @@ export default {
     }}
 };
 </script>
+
+<style scoped>
+.v-list-item {
+  color: #166088;
+}
+</style>

@@ -1,85 +1,86 @@
 <template>
   <!-- Heaer for out landing page -->
   <section class="header">
-    <h1 >WolfCampus</h1>
+    <h1>WolfCampus</h1>
   </section>
 
   <!-- This is a pop up modal when the sign up button is pressed. -->
   <SignUp @close="toggleModal" :modalActive="modalActive">
-    <v-card class="">
+    <v-card class="signupcard">
       <div class="modal-content">
         <form class="signupform">
-          <!--Text input for entering first name and trim any whitespace-->
-          <v-text-field
-            class="rounded-xl"
-            label="First Name"
-            v-model.trim="signup.name"
-            :readonly="loading"
-            :rules="[required]"
-          ></v-text-field>
+          <v-row>
+            <!--Text input for entering first name and trim any whitespace-->
+            <v-text-field
+              class="rounded-xl mt-5"
+              label="First Name"
+              v-model.trim="signup.name"
+            ></v-text-field>
 
-          <!--Text input for entering last name and trim any whitespace-->
-          <v-text-field
-            class="rounded-xl"
-            label="Last Name"
-            v-model.trim="signup.last_name"
-          ></v-text-field>
+            <!--Text input for entering last name and trim any whitespace-->
+            <v-text-field
+              class="rounded-xl mt-5"
+              label="Last Name"
+              v-model.trim="signup.last_name"
+            ></v-text-field>
+          </v-row>
 
-          <!--Text input for selecting a major-->
+          <!--Text input for selecting a majors-->
+
+          <v-row>
+            <!-- sign up email input -->
+            <v-text-field
+              class="rounded-xl"
+              v-model.trim="signup.email"
+              :readonly="loading"
+              prepend-inner-icon="mdi-email-outline"
+              :rules="[required]"
+              label="Email"
+            ></v-text-field>
+
+            <v-text-field
+              class="rounded-xl"
+              v-model.trim="signup.retryemail"
+              :readonly="loading"
+              prepend-inner-icon="mdi-email-outline"
+              :rules="[required]"
+              label="Re-enter email"
+            ></v-text-field>
+          </v-row>
+
+          <v-row>
+            <!-- sign up password input -->
+            <v-text-field
+              class="rounded-xl"
+              type="password"
+              v-model="signup.password"
+              :rules="[required]"
+              label="Password"
+              prepend-inner-icon="mdi-lock-outline"
+              placeholder="Enter your password"
+            ></v-text-field>
+
+            <v-text-field
+              class="rounded-xl"
+              type="password"
+              v-model="signup.retrypassword"
+              prepend-inner-icon="mdi-lock-outline"
+              label="Re-enter password"
+              placeholder="re-enter your password"
+            ></v-text-field>
+          </v-row>
           <v-autocomplete
             class="rounded-xl"
-            label="Major"
-            :items="major"
-            transition="fab-transition"
-            v-model="signup.major"
+            label="majors"
+            :items="majors"
+            v-model="signup.majors"
           >
           </v-autocomplete>
 
-          <!-- sign up email input -->
-          <v-text-field
-            class="rounded-xl"
-            v-model.trim="signup.email"
-            :readonly="loading"
-            :rules="[required]"
-        
-            label="Email"
-          ></v-text-field>
-
-          <v-text-field
-            class="rounded-xl"
-            v-model.trim="signup.email"
-            :readonly="loading"
-            :rules="[required]"
-            
-            label="Re-enter email"
-          ></v-text-field>
-
-          <!-- sign up password input -->
-          <v-text-field
-            class="rounded-xl"
-            type="password"
-            v-model="signup.password"
-            :rules="[required]"
-            label="Password"
-            placeholder="Enter your password"
-          ></v-text-field>
-
-          <v-text-field
-            class="rounded-xl"
-            type="password"
-            v-model="signup.password"
-            :rules="[required]"
-            label="Re-enter password"
-            placeholder="re-enter your password"
-          ></v-text-field>
-
           <!-- button to save form -->
           <v-btn
-            :loading="loading"
-            block
-            class="signinbutton rounded-pill"
-            color="success"
-            size="large"
+            class="saveNewButton rounded-pill"
+            :disabled="!passwordsMatch || !emailsMatch"
             type="submit"
             variant="elevated"
             @click.prevent="saveNew"
@@ -125,8 +126,9 @@
         type="submit"
         variant="elevated"
         @click.prevent="authuser"
+        margin-t
       >
-        Sign In
+        Log In
       </v-btn>
 
       <!-- button to bring up sign up form -->
@@ -149,6 +151,7 @@ import SignUp from "./SignUp.vue";
 import { ref } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
+
 export default {
   name: "LogIn",
   components: {
@@ -157,11 +160,14 @@ export default {
   setup() {
     const modalActive = ref(false);
     const router = useRouter();
+
     const toggleModal = () => {
       modalActive.value = !modalActive.value;
     };
+
     return { modalActive, toggleModal, router };
   },
+
   data: () => {
     return {
       // Data properties for authentication
@@ -169,17 +175,20 @@ export default {
         email: null,
         password: null,
       },
+
       // Data properties for sign up
       signup: {
-        name: null,
+        name: "",
         last_name: "",
-        major: null,
+        majors: "",
         email: "",
         retryemail: "",
-        password: "",
-        retrypassword: "",
+        password: null,
+        retrypassword: null,
+        matchingPw: null,
       },
-      major: [
+
+      majors: [
         "Accounting",
         "Acouting & Information Systems",
         "Agricultural Economics",
@@ -252,20 +261,34 @@ export default {
         "Vetinary Science",
         "Wildlife Ecology & Conservation",
       ],
+
       loading: false,
       required: false,
     };
   },
+
+  computed: {
+    passwordsMatch() {
+      return this.signup.password === this.signup.retrypassword;
+    },
+
+    emailsMatch() {
+      return this.signup.email === this.signup.retryemail;
+    },
+  },
+
   methods: {
     // method for capturing data from form
+
     saveNew() {
       var data = {
         name: this.signup.name,
         last_name: this.signup.last_name,
-        major: this.signup.major,
+        majors: this.signup.majors.id,
         email: this.signup.email,
         password: this.signup.password,
       };
+
       // sending data
       axios
         .post("http://localhost:5000/api/user", data)
@@ -279,19 +302,21 @@ export default {
           console.log(error);
         });
     },
+
     // capturing data from log in form
     authuser() {
       var authdata = {
         email: this.auth.email,
         password: this.auth.password,
       };
+
       // sending data
       axios
         .put("http://localhost:5000/api/account", authdata)
         .then((response) => {
           console.log(response);
           console.log(authdata.email);
-      // if authentication is successful, store the token in local storage
+          // if authentication is successful, store the token in local storage
           const token = response.data.token;
           localStorage.setItem('token', token);
           console.log(token);
@@ -304,7 +329,8 @@ export default {
           if (response.status === 202) {
             this.router.push("/superuser");
           }
-        })
+        })         
+        
         .catch((error) => {
           console.log(error);
         });
@@ -319,12 +345,14 @@ a {
   margin: 0;
   padding: 0;
 }
+
 h1 {
   font-size: 2.8em;
   padding: 10px 0;
   font-weight: 800;
   font-family: cursive;
 }
+
 .v-text-field {
   background-color: #fdf0d5;
   /* border-radius: 15px; */
@@ -334,26 +362,35 @@ h1 {
   margin: 5%;
   padding: 0;
 }
+
 .v-btn {
-  background-color: #669BBC;
+  background-color: #669bbc;
   margin: 0 5% 5% 5%;
   width: 80%;
 }
+
+.submitsignup,
 .signupbutton:hover,
 .signinbutton:hover {
   scale: 1.1;
-  background-color: #649FC4;
+  background-color: #649fc4;
 }
+
+.submitsignup {
+  width: 8%;
+}
+
 p {
   font-size: 1.1em;
   font-weight: 100;
   letter-spacing: 5px;
 }
+
 .header {
   width: 100%;
   /* padding: 60px 0; */
   text-align: center;
-  background: #003049;
+  background: #4a6fa5;
   color: #fdf0d5;
 }
 .v-card {
@@ -366,11 +403,13 @@ p {
   width: 396px;
 }
 .logincard {
-  width: 35%;
-  margin-left: 30%;
+  width: 36%;
+  margin-inline: 32%;
   text-align: center;
-  background-color: #003049;
+
+  background-color: #4a6fa5;
 }
+
 .formdetail {
   /* margin: 5%; */
   /* color: #FDF0D5; */
@@ -382,23 +421,49 @@ p {
   padding: 0;
   unicode-bidi: embed;
 }
+
+.v-row {
+  margin-inline: 5%;
+  margin-top: 1%;
+}
+
 .forgotpassword {
   color: black;
 }
-.modal-content {
-  height: 8%;
-  
+
+.submitsignup {
+  width: 70%;
+  margin-inline: 15%;
 }
+
+.signupcard {
+  width: 90%;
+  margin-inline: 5%;
+  height: 80%;
+  background-color: #4a6fa5;
+  align-items: center;
+  margin-top: 10%;
+}
+
+.saveNewButton {
+  width: 80%;
+  margin-inline: 10%;
+}
+
 .forgotpassword:hover {
   font-size: large;
   color: green;
 }
-@keyframes mymove {
-  from {
-    left: 0px;
-  }
-  to {
-    left: 200px;
-  }
+
+.error {
+  color: red;
+  margin-top: 0.5rem;
+  position: absolute;
+  z-index: auto;
+}
+
+.signuptextinput {
+  margin-inline: 15%;
+  width: 70%;
 }
 </style>
