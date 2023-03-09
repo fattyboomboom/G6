@@ -7,11 +7,12 @@
         <div class="post-header">
           <img :src="post.avatar" alt="Author avatar" class="avatar" />
           <div class="author-info">
-            <div class="author-name">{{ post.name }}</div>
-            <div class="post-date">{{ formatDate(post.date) }}</div>
+            <div class="author-name">{{ post.user }}</div>
+            <div class="post-date">{{ post.date }}</div>
+            <div class="post-date">{{ post.time }}</div>
           </div>
         </div>
-        <div class="post-content">{{ post.content }}</div>
+        <div class="post-content">{{ post.post }}</div>
       </div>
     </div>
   </div>
@@ -27,15 +28,18 @@ export default {
   setup() {
     const posts = ref([]);
     const error = ref(null);
-    axios
-      .get("http://localhost:3000/posts")
-      .then((response) => {
-        posts.value = response.data;
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+
+    setInterval(function () {
+      axios
+        .get("http://localhost:5000/posts")
+        .then((response) => {
+          posts.value = response.data;
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }, 3000);
 
     return { posts, error };
   },
@@ -75,7 +79,7 @@ h1 {
 }
 
 .post-container {
-  height: 61%;
+  height: 59%;
   overflow-y: scroll;
   margin-top: 20px;
   background-color: #4a6fa5;
@@ -84,6 +88,8 @@ h1 {
   width: 40%;
   position: absolute;
   margin-left: 36%;
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 .post {
@@ -94,7 +100,6 @@ h1 {
 
 .post-header {
   display: flex;
-  
 }
 
 ::-webkit-scrollbar {
@@ -105,7 +110,7 @@ h1 {
   width: 50px;
   height: 50px;
   margin-right: 10px;
-  border-radius: 50%;
+  border-radius: 45%;
 }
 
 .author-info {
@@ -127,8 +132,7 @@ h1 {
 }
 
 .post-content {
-  margin-top: 2%;  
+  margin-top: 2%;
   color: #e0e1dd;
-
 }
 </style>
