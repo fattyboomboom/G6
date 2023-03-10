@@ -1,4 +1,3 @@
-import ast
 from profanity_check import predict, predict_prob
 
 def CheckProfanity(submission):
