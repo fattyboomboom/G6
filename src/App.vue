@@ -1,13 +1,11 @@
 <template>
   <v-app>
-    <router-view></router-view>
-    <nav-bar></nav-bar>
+    <router-view />
   </v-app>
 </template>
 
-<script>
-export default {
-};
-</script>
-
-<style></style>
+<style>
+body {
+  background-color: #e0e1dd;
+}
+</style>

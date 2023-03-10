@@ -1,30 +1,48 @@
+import '@babel/polyfill'
+import 'mutationobserver-shim'
 import { createApp } from 'vue'
-import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
-import NoteCards from './pages/notes/NotesCards.vue'
-import BookResell from './pages/bookresell/BookListings.vue'
-import FilterMenu from './globalcomponents/BookListingsFilter.vue'
-import TestPage from './pages/tester/testPage.vue'
-import NavBar from './globalcomponents/NavBar.vue'
 import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
+import { createRouter, createWebHistory } from 'vue-router'
 
 loadFonts()
+
+import BookResellView from './views/BookResellView.vue'
+import ProfileView from './views/ProfileView.vue'
+import HomeView from './views/HomeView.vue'
+import AboutViewVue from './views/AboutView.vue'
+import WelcomeView from './views/WelcomeView.vue'
+import NotesView from './views/NotesCards.vue'
+import FilterMenu from './globalcomponents/ListingsFilter.vue'
+import NavBarVue from './globalcomponents/NavBar.vue'
+import ListingsFilter from './globalcomponents/ListingsFilter.vue'
+
+import axios from "axios";
+
+export default axios.create({
+  baseURL: "http://localhost:3000",
+  timeout: 1000
+});
+
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    { path: '/notes', component: NoteCards },
-    { path: '/bookresell', component: BookResell},
-    { path: '/testpage', component: TestPage}
+    { path: '/bookresell', component:BookResellView },
+    { path: '/home', component: HomeView },
+    { path: '/about', component: AboutViewVue },
+    { path: '/', component: WelcomeView },
+    { path: '/notes', component: NotesView },
+    { path: '/profile', component: ProfileView}
   ]
+
 });
 
-
 createApp(App)
-  .use(vuetify)
   .use(router)
-  .component('note-cards', NoteCards)
+  .use(vuetify)
   .component('filter-menu', FilterMenu)
-  .component('nav-bar', NavBar)
+  .component('nav-bar', NavBarVue) 
+  .component('listings-filter', ListingsFilter)
   .mount('#app')
