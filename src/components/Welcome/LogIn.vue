@@ -77,13 +77,15 @@
           >
           </v-autocomplete>
 
+          
+
           <!-- button to save form -->
           <v-btn
             class="saveNewButton rounded-pill"
-            :disabled="!passwordsMatch || !emailsMatch"
+            :disabled="!passwordsMatch || !emailsMatch || !unrEmail"
             type="submit"
             variant="elevated"
-            @click="saveNew"
+            @click.prevent="saveNew"
           >
             Submit
           </v-btn>
@@ -151,12 +153,16 @@ import SignUp from "./SignUp.vue";
 import { ref } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from '@/firebase'
 
 export default {
   name: "LogIn",
   components: {
     SignUp,
   },
+
+
   setup() {
     const modalActive = ref(false);
     const router = useRouter();
@@ -275,29 +281,55 @@ export default {
     emailsMatch() {
       return this.signup.email === this.signup.retryemail;
     },
+
+    unrEmail() {
+      return this.signup.email.endsWith('@nevada.unr.edu');
+    }
   },
 
   methods: {
-    // method for capturing data from form
+
+    // var data = {
+    //     firstname: this.signup.firstname,
+    //     lastname: this.signup.lastname,
+    //     majors: this.signup.majors.id,
+    //     email: this.signup.email,
+    //     password: this.signup.password,
+    //   },
+  
+    
+      
 
     saveNew() {
-      var data = {
+      var formdata = {
         firstname: this.signup.firstname,
         lastname: this.signup.lastname,
         majors: this.signup.majors.id,
         email: this.signup.email,
         password: this.signup.password,
       };
+      
 
-      // sending data
-      axios
-        .post("http://localhost:3000/signup", data)
+      createUserWithEmailAndPassword(auth, formdata.email, formdata.password)
         .then((response) => {
-          console.log(response);
+          console.log("Successfully registered!");
+          console.log(response.message);
+
         })
         .catch((error) => {
-          console.log(error);
+          console.log(error.code);
+          alert(error.message);
         });
+
+    //   // sending data
+    //   axios
+    //     .post("http://localhost:3000/signup", data)
+    //     .then((response) => {
+    //       console.log(response);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
     },
 
     // capturing data from log in form
@@ -336,11 +368,11 @@ h1 {
   font-size: 2.8em;
   padding: 10px 0;
   font-weight: 800;
-  font-family: cursive;
+ 
 }
 
 .v-text-field {
-  background-color: #fdf0d5;
+  background-color: #e0e1dd;
   /* border-radius: 15px; */
   font-size: 12px;
   display: block;
@@ -377,7 +409,7 @@ p {
   /* padding: 60px 0; */
   text-align: center;
   background: #4a6fa5;
-  color: #fdf0d5;
+  color: #e0e1dd;
 }
 .v-card {
   box-shadow: 0 16px 56px rgba(0, 0, 0, 0.1), 0 16px 56px rgba(0, 0, 0, 0.1),

@@ -1,7 +1,6 @@
 <template>
   <div class="wolf-feed">
     <h1>Wolf Feed</h1>
-
     <div class="post-container">
       <div v-for="post in posts" :key="post.id" class="post">
         <div class="post-header">
@@ -94,7 +93,6 @@ h1 {
 
 .post-header {
   display: flex;
-  
 }
 
 ::-webkit-scrollbar {
@@ -127,8 +125,7 @@ h1 {
 }
 
 .post-content {
-  margin-top: 2%;  
+  margin-top: 2%;
   color: #e0e1dd;
-
 }
 </style>
