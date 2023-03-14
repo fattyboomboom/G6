@@ -2,7 +2,7 @@
     <v-app class="app">
       <v-main>
         <NavBar />
-        <ExploreBanner />
+        
   
           <v-row>
             <v-col class="post-col" xs="12" md="8">
@@ -22,13 +22,12 @@
     import NavBar from "@/globalcomponents/NavBar.vue"
     import WallCards from "../components/Explore/WallCards.vue"
     import PostComp from "../components/Explore/PostComp.vue"
-    import ExploreBanner from "../components/Explore/ExploreBanner.vue"
+   
   export default {
     name: "App",
     
     components: {
       PostComp,
-      ExploreBanner,
       WallCards,
       NavBar
     },

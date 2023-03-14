@@ -83,7 +83,7 @@
             :disabled="!passwordsMatch || !emailsMatch"
             type="submit"
             variant="elevated"
-            @click="saveNew"
+            @click="createAccount"
           >
             Submit
           </v-btn>
@@ -269,6 +269,16 @@ export default {
   },
   methods: {
     // method for capturing data from form
+    createAccount() {
+        axios.post('http://localhost:3000/create_account', { email: this.signup.email })
+          .then(response => {
+            console.log(response.data)
+          })
+          .catch(error => {
+            console.error(error)
+            alert(error.response.data.message)
+          })
+      },
     saveNew() {
       var data = {
         firstname: this.signup.firstname,
@@ -321,7 +331,6 @@ h1 {
   font-size: 2.8em;
   padding: 10px 0;
   font-weight: 800;
-  font-family: cursive;
 }
 .v-text-field {
   background-color: #fdf0d5;

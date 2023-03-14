@@ -1,9 +1,22 @@
 <template>
   <div id="app">
-    <v-btn-group>
-      <v-btn @click="updateFilteredPostsForYou()">All posts</v-btn>
-      <v-btn @click="updateFilteredPosts()">For you</v-btn>
-    </v-btn-group>
+
+    <v-banner 
+          :sticky="true"
+          lines="three"
+          height="60"
+          class="no-border"
+          
+        >
+      
+            <v-btn @click="updateFilteredPosts()" class="banner-button ml-16" color="Black" elevation="0" >
+              <h1>For You</h1>
+            </v-btn>
+    
+            <v-btn  @click="updateFilteredPostsForYou()" class="banner-button ml-16" color="Black" elevation="0" >
+              <h1>Explore</h1>
+            </v-btn>
+        </v-banner>
 
     <v-card v-for="post in filteredPosts" :key="post.id" class="ml-16 mt-8 text-white" color="#4A6FA5" max-width="800"
       :title="post.name">
@@ -87,19 +100,19 @@ export default {
     };
 
     const updateFilteredPostsForYou = () => {
-      if (followedCategories.value.length === 0) {
-        followedCategories.value = posts.value
-          .map(post => post.category)
-          .filter((category, index, self) => self.indexOf(category) === index)
-          .map(category => ({ title: category, follow: true }));
-      } else {
-        const categories = posts.value
-          .map(post => post.category)
-          .filter((category, index, self) => self.indexOf(category) === index)
-          .map(category => ({ title: category, follow: followedCategories.value.some(c => c.title === category) }));
-        followedCategories.value = categories;
-      }
-    };
+  // Update the followedCategories array to include all currently followed categories
+  const categories = posts.value
+    .map(post => post.category)
+    .filter((category, index, self) => self.indexOf(category) === index)
+    .map(category => ({ title: category, follow: followedCategories.value.some(c => c.title === category) }));
+  followedCategories.value = categories;
+
+  // Update the computed filteredPosts property to filter posts based on the updated followedCategories array
+  filteredPosts.value = posts.value.filter(post => {
+    return followedCategories.value.find(category => category.title === post.category && category.follow);
+  });
+};
+
 
     return {
       posts,
@@ -113,4 +126,7 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+    .no-border{
+        border:none;
+    }</style>

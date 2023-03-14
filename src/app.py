@@ -13,6 +13,7 @@ from SendGridAPI import SENDGRID_API_KEY, SENDGRID_FROM_EMAIL
 
 posts_json = os.path.join(os.path.dirname(__file__), 'data', 'posts.json')
 categories_json = os.path.join(os.path.dirname(__file__), 'data', 'categories.json')
+classes_json = os.path.join(os.path.dirname(__file__), 'data', 'classes.json')
 
 app = Flask(__name__)
 CORS(app)
@@ -118,6 +119,16 @@ def follow_category(category_id):
                 return jsonify({'follow': category['follow']})
     return jsonify({'error': 'Post not found'})
 
+@app.route('/add_class', methods=['POST'])
+def add_class():
+    with open(classes_json, 'r+') as f:
+        class_data = request.json
+        data = json.load(f)
+        data.append(class_data)
+        f.seek(0)
+        json.dump(data, f, indent=4)
+        f.truncate()
+    return jsonify({"success": True})
 # @app.route('/friends', methods=['GET', 'POST'])
 # def get_posts():
 #     post = [
