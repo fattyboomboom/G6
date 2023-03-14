@@ -42,21 +42,35 @@
         title="Sign Out"
         value="signOut"
         to="/"
-        @click="logout"
+        @click.prevent="Logout"
       ></v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>
 
 <script>
+import { signOut } from "firebase/auth"
+import { auth } from '@/firebase'
+
 export default {
   name: "NavBar",
-  methods: {logout() {
-      // Remove the token from the local storage
-      localStorage.removeItem('token')
-      // Navigate back to the login page
-      this.$router.push('/')
-    }}
+  methods: {
+    Logout() {
+    signOut(auth).then(() => {
+      // Sign-out successful.
+      console.log("Sign Out")
+    }).catch((error) => {
+      console.log(error)
+    })}
+
+
+    // logout() {
+    //   // Remove the token from the local storage
+    //   localStorage.removeItem('token')
+    //   // Navigate back to the login page
+    //   this.$router.push('/')
+    // }}
+  }
 };
 </script>
 

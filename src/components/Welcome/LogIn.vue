@@ -151,9 +151,9 @@
 <script>
 import SignUp from "./SignUp.vue";
 import { ref } from "vue";
-import axios from "axios";
+// import axios from "axios";
 import { useRouter } from "vue-router";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword,  signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '@/firebase'
 
 export default {
@@ -339,19 +339,31 @@ export default {
         password: this.auth.password,
       };
 
-      // sending data
-      axios
-        .post("http://localhost:3000/login", authdata)
-        .then((response) => {
-          console.log(response);
-          console.log(authdata.email);
-          if (response.status === 200) {
-            this.router.push("/home");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+          signInWithEmailAndPassword(auth, authdata.email, authdata.password)
+          .then((response) => {
+            // Signed in 
+            console.log("Successful Sign In!");
+            console.log(response.message);
+            // ...
+          })
+          .catch((error) => {
+            console.log(error.code);
+            console.log(error.message);
+          });
+
+      // // sending data
+      // axios
+      //   .post("http://localhost:3000/login", authdata)
+      //   .then((response) => {
+      //     console.log(response);
+      //     console.log(authdata.email);
+      //     if (response.status === 200) {
+      //       this.router.push("/home");
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
     },
   },
 };
