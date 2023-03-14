@@ -23,3 +23,4 @@ pnpm-debug.log*
 *.sw?
 
 SendGridAPI.py
+src/firebase/index.js
