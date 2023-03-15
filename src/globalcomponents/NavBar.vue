@@ -49,20 +49,25 @@
 </template>
 
 <script>
-import { signOut } from "firebase/auth"
-import { auth } from '@/firebase'
+import { getAuth, signOut } from "firebase/auth"
+// import { useRouter } from "vue-router";
 
 export default {
   name: "NavBar",
   methods: {
     Logout() {
+
+    const auth = getAuth();
+    console.log(auth.currentUser)
     signOut(auth).then(() => {
+      console.log(auth.currentUser)
       // Sign-out successful.
       console.log("Sign Out")
+      // router.push("/")
     }).catch((error) => {
       console.log(error)
-    })}
-
+    })
+}
 
     // logout() {
     //   // Remove the token from the local storage
