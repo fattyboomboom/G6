@@ -13,7 +13,9 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
+import {  db } from '@/firebase'
+import { collection, addDoc } from "firebase/firestore";
 
 export default {
   name: "WallPost",
@@ -34,15 +36,21 @@ export default {
       return date;
     },
 
-    submitPost() {
-      axios
-        .post("http://localhost:3000/posts", { content: this.postContent })
-        .then((response) => {
-          console.log("Post saved to database:", response.data);
-        })
-        .catch((error) => {
-          console.error("Error saving post to database:", error);
-        });
+   async submitPost() {
+      
+      const res = await addDoc(collection(db, "posts"), {
+        content: this.postContent,
+        
+      });
+       console.log(res)
+      // axios
+      //   .post("http://localhost:3000/posts", { content: this.postContent })
+      //   .then((response) => {
+      //     console.log("Post saved to database:", response.data);
+      //   })
+      //   .catch((error) => {
+      //     console.error("Error saving post to database:", error);
+      //   });
 
       // Clear the textarea content
       this.postContent = "";
