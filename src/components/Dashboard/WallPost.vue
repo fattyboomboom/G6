@@ -15,7 +15,7 @@
 <script>
 // import axios from "axios";
 import {  db } from '@/firebase'
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 export default {
   name: "WallPost",
@@ -40,7 +40,7 @@ export default {
       
       const res = await addDoc(collection(db, "posts"), {
         content: this.postContent,
-        
+        PostDate: serverTimestamp()
       });
        console.log(res)
       // axios
