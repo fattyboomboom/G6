@@ -38,6 +38,14 @@
       ></v-list-item>
       <v-divider color="white"></v-divider>
       <v-list-item
+        prepend-icon="mdi-cog"
+        title="Settings"
+        value="settings"
+        to="/"
+        @click.prevent="Logout"
+      ></v-list-item>
+      <v-divider color="white"></v-divider>
+      <v-list-item
         prepend-icon="mdi-logout"
         title="Sign Out"
         value="signOut"
