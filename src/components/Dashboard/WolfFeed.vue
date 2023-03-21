@@ -2,7 +2,7 @@
   <div class="wolf-feed">
     <h1>Wolf Feed</h1>
     <div class="post-container">
-      <div v-for="post in posts" :key="post.id" class="post">
+      <div v-for="post in posts" :key="post.uid" class="post">
         <div class="post-header">
           <img :src="post.avatar" alt="Author avatar" class="avatar" />
           <div class="author-info">
@@ -19,7 +19,7 @@
 <script>
 import { ref, onMounted } from "vue";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import {  db, auth } from '@/firebase'
+import {  db} from '@/firebase'
 export default {
   name: "WolfFeed",
 
@@ -30,10 +30,11 @@ export default {
     const fetchPosts = async () => {
       try {
         const postRef = collection(db, "posts");
-        const q = query(postRef, where("uid", "==", auth.currentUser.uid));
+        const q = query(postRef, where("isDeleted", "==", false));
         const querySnapshot = await getDocs(q);
         const postsArray = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         posts.value = postsArray;
+        console.log(postsArray);
       } catch (err) {
         error.value = err.message;
       }
