@@ -145,8 +145,9 @@
       >
         Sign Up
       </v-btn>
-      <!-- <a href="" class="forgotpassword">Forgot password</a> -->
+      <!--  -->
       <v-btn @click.prevent="googleSignIn">Sign in with Google</v-btn>
+      <a  class="forgotpassword">Forgot password</a>
     </v-form>
   </v-card>
 </template>
@@ -277,11 +278,9 @@ export default {
       })
       .catch((error)=> {
       alert(error.message);
-      })
-
+      })}
 
       
-    }
   },
   
 };
@@ -290,7 +289,7 @@ export default {
 <style scoped>
 p,
 a {
-  margin: 0;
+  margin: 5px;
   padding: 0;
 }
 

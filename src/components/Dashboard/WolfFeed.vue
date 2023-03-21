@@ -7,7 +7,7 @@
           <img :src="post.avatar" alt="Author avatar" class="avatar" />
           <div class="author-info">
             <div class="author-name">{{ post.name }}</div>
-            <div class="post-date">{{ formatDate(post.date) }}</div>
+            <div class="post-date">{{ post }}</div>
           </div>
         </div>
         <div class="post-content">{{ post.content }}</div>
@@ -17,24 +17,42 @@
 </template>
 
 <script>
-import { ref } from "vue";
-import axios from "axios";
-
+import { ref, onMounted } from "vue";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import {  db, auth } from '@/firebase'
 export default {
   name: "WolfFeed",
 
   setup() {
     const posts = ref([]);
     const error = ref(null);
-    axios
-      .get("http://localhost:3000/posts")
-      .then((response) => {
-        posts.value = response.data;
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+
+    const fetchPosts = async () => {
+      try {
+        const postRef = collection(db, "posts");
+        const q = query(postRef, where("uid", "==", auth.currentUser.uid));
+        const querySnapshot = await getDocs(q);
+        const postsArray = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        posts.value = postsArray;
+      } catch (err) {
+        error.value = err.message;
+      }
+    };
+
+    onMounted(() => {
+      fetchPosts();
+    });
+    // axios
+    //   .get("http://localhost:3000/posts")
+    //   .then((response) => {
+    //     posts.value = response.data;
+    //     console.log(response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+
+
 
     return { posts, error };
   },
