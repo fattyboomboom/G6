@@ -1,12 +1,11 @@
 <template>
   <v-card class="avatar" border="true">
-   
-      <v-avatar
-        image="https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg"
-      >
-      </v-avatar>
+    <v-avatar
+      image="https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg"
+    >
+    </v-avatar>
     <v-divider thickness="2"></v-divider>
-    <h2>Name: {{ name }}</h2>
+    <h2>Name: {{ username }}</h2>
 
     <v-divider thickness="2"></v-divider>
     <h2>Major: {{ major }}</h2>
@@ -14,18 +13,15 @@
 </template>
 
 <script>
+import { auth } from "@/firebase";
+import { ref } from "vue";
 export default {
   name: "ProfileAvatar",
-  props: {
-    name: {
-      type: String,
-      default: "Tom",
-    },
-    major: {
-      type: String,
-  
-      default: "Undecided",
-    },
+  setup() {
+    const username = ref(auth.currentUser.displayName);
+    const major = ref("Undecided");
+    const profileImage = ref(auth.currentUser.photoURL);
+    return { username, major, profileImage };
   },
   data() {
     return {};
@@ -50,8 +46,6 @@ export default {
   margin-left: 15%;
   margin-top: 2%;
   margin-bottom: 2%;
-  
-  
 }
 body {
   background-color: #4a6fa5;

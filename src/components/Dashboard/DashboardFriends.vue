@@ -38,22 +38,25 @@
 </template>
 
 <script>
-import { ref } from "vue";
-import axios from "axios";
+// import { ref } from "vue";
+// import axios from "axios";
 export default {
   name: "DashFriends",
-  setup() {
-    const friends = ref([]);
-    const error = ref(null);
-    axios.get("http://localhost:3000/friends").then(response => {
-      friends.value = response.data;
-      console.log(response.data);
-  })
-  .catch(error => {
-    console.log(error);
-  });
-    return { friends, error };
-  },
+
+//   setup() {
+//     const friends = ref([]);
+//     const error = ref(null);
+
+//     axios.get("http://localhost:3000/friends").then(response => {
+//       friends.value = response.data;
+//       console.log(response.data);
+//   })
+//   .catch(error => {
+//     console.log(error);
+//   });
+
+//     return { friends, error };
+//   },
 };
 </script>
 
@@ -67,6 +70,7 @@ p {
   background-color: #4a6fa5;
   color: #dbe9ee;
 }
+
 h2 {
   color: #dbe9ee;
 }
@@ -81,6 +85,7 @@ h2 {
 a {
   color: #dbe9ee;
 }
+
 .friendcard:hover {
   scale: 1.1;
 }

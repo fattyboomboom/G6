@@ -5,6 +5,10 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
 import { createRouter, createWebHistory } from 'vue-router'
+// import {  getAuth } from "firebase/auth"
+import { getCurrentUser } from '@/firebase'
+// import { auth } from "./firebase"; // adjust the path to your Firebase configuration file
+
 
 loadFonts()
 
@@ -13,14 +17,11 @@ import ProfileView from './views/ProfileView.vue'
 import HomeView from './views/HomeView.vue'
 import AboutViewVue from './views/AboutView.vue'
 import WelcomeView from './views/WelcomeView.vue'
+import ExplorePage from './views/ExplorePage.vue'
 import NotesView from './views/NotesCards.vue'
 import FilterMenu from './globalcomponents/ListingsFilter.vue'
 import NavBarVue from './globalcomponents/NavBar.vue'
 import ListingsFilter from './globalcomponents/ListingsFilter.vue'
-import ExplorePage from './views/ExplorePage.vue'
-import TestEmail from './Test/SendGrid.vue'
-import ForgotPassword from './Test/ForgotPassword.vue'
-import SuperUser from './views/SuperUser.vue'
 
 import axios from "axios";
 
@@ -33,19 +34,34 @@ export default axios.create({
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    { path: '/bookresell', component:BookResellView },
-    { path: '/home', component: HomeView },
-    { path: '/about', component: AboutViewVue },
+    { path: '/bookresell', component:BookResellView, meta: {requiresAuth:true} },
+    { path: '/home', component: HomeView, meta: {requiresAuth:true}  },
+    { path: '/about', component: AboutViewVue, meta: {requiresAuth:true}  },
     { path: '/', component: WelcomeView },
-    { path: '/notes', component: NotesView },
-    { path: '/profile', component: ProfileView},
-    { path: '/explore', component: ExplorePage},
-    { path: '/email', component: TestEmail},
-    { path: '/forgotpassword', component: ForgotPassword},
-    { path: '/superuser', component:SuperUser}
+    { path: '/explore', component: ExplorePage, meta: {requiresAuth:true}},
+    { path: '/notes', component: NotesView, meta: {requiresAuth:true}  },
+    { path: '/user=:uid', component: ProfileView}
   ]
-
 });
+
+
+
+// const auth = getAuth();
+
+
+
+router.beforeEach(async (to) => {
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  if (requiresAuth && !await getCurrentUser()) {
+    return '/';
+  } 
+})
+
+
+      
+    
+
+
 
 createApp(App)
   .use(router)

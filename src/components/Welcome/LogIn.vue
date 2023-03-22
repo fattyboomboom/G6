@@ -89,6 +89,8 @@
           >
             Submit
           </v-btn>
+
+          
         </form>
       </div>
     </v-card>
@@ -154,26 +156,33 @@ import SignUp from "./SignUp.vue";
 import { ref } from "vue";
 // import axios from "axios";
 import { useRouter } from "vue-router";
-import { createUserWithEmailAndPassword,  signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, getAuth} from "firebase/auth"
+import { createUserWithEmailAndPassword,  signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, getAuth, onAuthStateChanged } from "firebase/auth"
 import { auth } from '@/firebase'
 export default {
   name: "LogIn",
   components: {
     SignUp,
   },
-
-
   setup() {
     const modalActive = ref(false);
     const router = useRouter();
-
     const toggleModal = () => {
       modalActive.value = !modalActive.value;
     };
-
+    console.log(auth)
+    onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+  
+    // ...
+  } else {
+    // User is signed out
+    // ...
+  }
+});
     return { modalActive, toggleModal, router };
   },
-
   data: () => {
     return {
       // Data properties for authentication
@@ -181,7 +190,6 @@ export default {
         email: null,
         password: null,
       },
-
       // Data properties for sign up
       signup: {
         firstname: "",
@@ -193,113 +201,24 @@ export default {
         retrypassword: null,
         matchingPw: null,
       },
-
-      majors: [
-        "Accounting",
-        "Acouting & Information Systems",
-        "Agricultural Economics",
-        "Agricultural Science",
-        "Anthropology",
-        "Art",
-        "Art History",
-        "Atmospheric Science",
-        "Biochemistry and Molecular Biology",
-        "Biology",
-        "Biomedical Engineering",
-        "Biotechnology",
-        "Business",
-        "Chemical Engineering",
-        "Chemistry Civil Engineering Communication Studies",
-        "Computer Science & Engineering",
-        "Computational Linguistics",
-        "Criminal Justice",
-        "Dance",
-        "Economics",
-        "Elementary Education",
-        "Electrical Engineering",
-        "Engineering Physics",
-        "English",
-        "Environmental Engineering",
-        "Environmental Science",
-        "Finance",
-        "Forest Ecology & Management",
-        "French Gender",
-        "Race & Identity",
-        "General Studies",
-        "Geography",
-        "Geological Engineering",
-        "Geology",
-        "Geophysics",
-        "History",
-        "Human Development & Family Science",
-        "Hydrogeology",
-        "Information Systems",
-        "International Affairs",
-        "International Business",
-        "Journalism",
-        "Kinesiology",
-        "Management",
-        "Marketing",
-        "Materials Science & Engineering",
-        "Mathematics",
-        "Mechanical Engineering",
-        "Metallurgical Engineering",
-        "Microbiology & Immunology",
-        "Mining Engineering",
-        "Music",
-        "Neuroscience Nevadateach",
-        "Nursing",
-        "Nursing RN to BSN",
-        "Nutrition",
-        "Packteach",
-        "Philosophy",
-        "Physics",
-        "Political Science",
-        "Phychology",
-        "Public Health",
-        "Rangeland & Ecology & Management",
-        "Secondary Education",
-        "Social Work",
-        "Sociology",
-        "Spanish",
-        "Speech Pathology",
-        "Theatre",
-        "Vetinary Science",
-        "Wildlife Ecology & Conservation",
-      ],
-
+     
       loading: false,
       required: true,
     };
   },
-
   computed: {
     passwordsMatch() {
       return this.signup.password === this.signup.retrypassword;
     },
-
     emailsMatch() {
       return this.signup.email === this.signup.retryemail;
     },
-
     unrEmail() {
       return this.signup.email.endsWith('@nevada.unr.edu');
     }
   },
-
   methods: {
-
-    // var data = {
-    //     firstname: this.signup.firstname,
-    //     lastname: this.signup.lastname,
-    //     majors: this.signup.majors.id,
-    //     email: this.signup.email,
-    //     password: this.signup.password,
-    //   },
   
-    
-      
-
     saveNew() {
       var formdata = {
         firstname: this.signup.firstname,
@@ -309,12 +228,10 @@ export default {
         password: this.signup.password,
       };
       
-
       createUserWithEmailAndPassword(auth, formdata.email, formdata.password)
         .then((response) => {
           console.log("Successfully registered!");
           console.log(response.message);
-
         })
         .catch((error) => {
           console.log(error.code);
@@ -322,50 +239,26 @@ export default {
         });
     
   
-
-    //   // sending data
-    //   axios
-    //     .post("http://localhost:3000/signup", data)
-    //     .then((response) => {
-    //       console.log(response);
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
+  
     },
-
     // capturing data from log in form
     authuser() {
       var authdata = {
         email: this.auth.email,
         password: this.auth.password,
       };
-
           signInWithEmailAndPassword(auth, authdata.email, authdata.password)
           .then((response) => {
             // Signed in 
             console.log("Successful Sign In!");
             console.log(response.message);
-            // ...
+            this.router.push("/home");
           })
           .catch((error) => {
             console.log(error.code);
             console.log(error.message);
           });
-
-      // // sending data
-      // axios
-      //   .post("http://localhost:3000/login", authdata)
-      //   .then((response) => {
-      //     console.log(response);
-      //     console.log(authdata.email);
-      //     if (response.status === 200) {
-      //       this.router.push("/home");
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
+   
     },
  
     googleSignIn()
@@ -373,17 +266,20 @@ export default {
       const provider = new GoogleAuthProvider();
       provider.setCustomParameters({
        hd: "nevada.unr.edu"
-});
+      });
       signInWithPopup(getAuth(), provider)
       .then((result) => {
         console.log(result.user)
+        
+        this.router.push("/home");
       })
       .catch((error)=> {
       alert(error.message);
-
       })
+      
     }
   },
+  
 };
 </script>
 
@@ -393,14 +289,12 @@ a {
   margin: 0;
   padding: 0;
 }
-
 h1 {
   font-size: 2.8em;
   padding: 10px 0;
   font-weight: 800;
  
 }
-
 .v-text-field {
   background-color: #e0e1dd;
   /* border-radius: 15px; */
@@ -410,30 +304,25 @@ h1 {
   margin: 5%;
   padding: 0;
 }
-
 .v-btn {
   background-color: #669bbc;
   margin: 0 5% 5% 5%;
   width: 80%;
 }
-
 .submitsignup,
 .signupbutton:hover,
 .signinbutton:hover {
   scale: 1.1;
   background-color: #649fc4;
 }
-
 .submitsignup {
   width: 8%;
 }
-
 p {
   font-size: 1.1em;
   font-weight: 100;
   letter-spacing: 5px;
 }
-
 .header {
   width: 100%;
   /* padding: 60px 0; */
@@ -454,10 +343,8 @@ p {
   width: 36%;
   margin-inline: 32%;
   text-align: center;
-
   background-color: #4a6fa5;
 }
-
 .formdetail {
   /* margin: 5%; */
   /* color: #FDF0D5; */
@@ -469,21 +356,17 @@ p {
   padding: 0;
   unicode-bidi: embed;
 }
-
 .v-row {
   margin-inline: 5%;
   margin-top: 1%;
 }
-
 .forgotpassword {
   color: black;
 }
-
 .submitsignup {
   width: 70%;
   margin-inline: 15%;
 }
-
 .signupcard {
   width: 90%;
   margin-inline: 5%;
@@ -492,24 +375,20 @@ p {
   align-items: center;
   margin-top: 10%;
 }
-
 .saveNewButton {
   width: 80%;
   margin-inline: 10%;
 }
-
 .forgotpassword:hover {
   font-size: large;
   color: green;
 }
-
 .error {
   color: red;
   margin-top: 0.5rem;
   position: absolute;
   z-index: auto;
 }
-
 .signuptextinput {
   margin-inline: 15%;
   width: 70%;
