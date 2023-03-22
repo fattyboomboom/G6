@@ -21,6 +21,7 @@ import TestLPM from './pages/login/TestTest.vue'
 import studypageVue from './pages/study/studyPage.vue'
 import SuperNavBar from './components/SuperNavBar.vue'
 import 'vuetify/dist/vuetify.min.css'
+import modifyUserVue from './pages/superuser/modifyUser.vue'
 
 loadFonts()
 
@@ -37,7 +38,8 @@ const router = createRouter({
     { path: '/explore', component:  ExplorePage },
     { path: '/studypage', component:  studypageVue},
     // { path: '/', component: LoginPage }
-    { path: '/', component: TestLPM}
+    { path: '/', component: TestLPM},
+    { path: '/modifyuser', component: modifyUserVue},
   ]
 });
 
