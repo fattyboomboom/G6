@@ -14,11 +14,16 @@ import AboutPage from './pages/about/AboutView.vue'
 // import LoginPage from './pages/login/WelcomeView.vue'
 import NavBar from './globalcomponents/NavBar.vue'
 import vuetify from './plugins/vuetify'
+import 'vuetify/dist/vuetify.min.css'
 import { loadFonts } from './plugins/webfontloader'
 //import AnnouncementsDropdown from './globalcomponents/AnnouncementsDropdown.vue'
 import TestLPM from './pages/login/TestTest.vue'
+import studypageVue from './pages/study/studyPage.vue'
+import SuperNavBar from './components/SuperNavBar.vue'
+import 'vuetify/dist/vuetify.min.css'
 
 loadFonts()
+
 
 const router = createRouter({
   history: createWebHistory(),
@@ -30,6 +35,7 @@ const router = createRouter({
     { path: '/DRC', component: DisabilityPage },
     { path: '/about', component:  AboutPage },
     { path: '/explore', component:  ExplorePage },
+    { path: '/studypage', component:  studypageVue},
     // { path: '/', component: LoginPage }
     { path: '/', component: TestLPM}
   ]
@@ -42,4 +48,5 @@ createApp(App)
   .component('note-cards', NoteCards)
   .component('filter-menu', FilterMenu)
   .component('nav-bar', NavBar)
+  .component('super-nav-bar', SuperNavBar)
   .mount('#app')
