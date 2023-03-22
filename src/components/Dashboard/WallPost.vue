@@ -37,8 +37,9 @@ export default {
     },
 
     async submitPost() {
+
       const res = await addDoc(collection(db, "posts"), {
-        content: this.postContent,
+        content: this.postContent.replace(/fuck|shit|bitch|asshole|ass/gi, " **** "),
         PostDate: serverTimestamp(),
         uid: auth.currentUser.uid,
         isDeleted: false,
