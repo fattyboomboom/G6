@@ -2,16 +2,21 @@
   <div class="wolf-feed">
     <h1>Wolf Feed</h1>
     <div class="post-container">
-      <div v-for="post in posts" :key="post.uid" class="post">
-        <div class="post-header">
+      <VCard
+        v-for="post in posts"
+        :key="post.uid"
+        class="post"
+        variant="outlined"
+      >
+        <VCardItem class="post-header">
           <img :src="post.avatar" alt="Author avatar" class="avatar" />
-          <div class="author-info">
-            <div class="author-name">{{ post.name }}</div>
-            <div class="post-date">{{ post }}</div>
-          </div>
-        </div>
+
+          <div class="author-name">{{ post.name }}</div>
+
+          <div class="post-date">{{ post.PostDate }}</div>
+        </VCardItem>
         <div class="post-content">{{ post.content }}</div>
-      </div>
+      </VCard>
     </div>
   </div>
 </template>
@@ -19,7 +24,7 @@
 <script>
 import { ref, onMounted } from "vue";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import {  db} from '@/firebase'
+import { db } from "@/firebase";
 export default {
   name: "WolfFeed",
 
@@ -32,9 +37,12 @@ export default {
         const postRef = collection(db, "posts");
         const q = query(postRef, where("isDeleted", "==", false));
         const querySnapshot = await getDocs(q);
-        const postsArray = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        const postsArray = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
         posts.value = postsArray;
-        console.log(postsArray);
+        console.log(posts.value);
       } catch (err) {
         error.value = err.message;
       }
@@ -43,32 +51,13 @@ export default {
     onMounted(() => {
       fetchPosts();
     });
-    // axios
-    //   .get("http://localhost:3000/posts")
-    //   .then((response) => {
-    //     posts.value = response.data;
-    //     console.log(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
 
-
-
+   
     return { posts, error };
   },
 
   methods: {
-    formatDate(date) {
-      return new Intl.DateTimeFormat("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        hour12: true,
-      }).format(date);
-    },
+
   },
   computed: {
     displayedPosts() {
@@ -96,18 +85,20 @@ h1 {
   height: 61%;
   overflow-y: scroll;
   margin-top: 20px;
-  background-color: #4a6fa5;
-  border-top-right-radius: 25px;
-  border-top-left-radius: 25px;
+  background-color: #e0e1dd;
+
   width: 40%;
   position: absolute;
   margin-left: 36%;
 }
 
 .post {
-  border: 1px solid #e0e1dd;
+  border: solid;
+  border-color: #4a6fa5;
+  border-width: 5px;
   margin-bottom: 10px;
   padding: 10px;
+  border-radius: 25px;
 }
 
 .post-header {
@@ -129,22 +120,23 @@ h1 {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  color: #e0e1dd;
+  color: black;
 }
 
 .author-name {
   font-weight: bold;
-  color: #e0e1dd;
+  color: black;
 }
 
 .post-date {
-  color: #e0e1dd;
+  color: black;
   font-size: 14px;
   font-style: italic;
 }
 
 .post-content {
   margin-top: 2%;
-  color: #e0e1dd;
+  color: black;
+  text-align: center;
 }
 </style>
