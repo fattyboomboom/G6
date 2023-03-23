@@ -1,12 +1,9 @@
 <template>
   <v-form>
-    <v-card >
+    <v-card>
       <v-row no-gutters>
         <v-col cols="4">
-          <v-avatar
-            image="profilePictureUrl"
-          >
-          </v-avatar>
+          <v-avatar :src="profilePictureUrl"> </v-avatar>
         </v-col>
         <v-col cols="8">
           <v-card-title> Change Profile Picture </v-card-title>
@@ -15,14 +12,15 @@
               v-model="file"
               label="Upload Profile Picture"
               accept="image/*"
+              @change="uploadPicture"
             ></v-file-input>
-            <v-btn @click="uploadPicture()" class="savebtn">Save</v-btn>
+            <v-btn class="savebtn">Save</v-btn>
           </v-card-text>
         </v-col>
       </v-row>
     </v-card>
 
-    <v-card >
+    <v-card>
       <v-card-title class="text-h5">About You</v-card-title>
       <v-card-text class="">
         <v-row>
@@ -64,10 +62,11 @@
 
 <script>
 // import { ref } from 'vue'
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL, } from "firebase/storage";
+import { auth } from "@/firebase";
 
 export default {
-  name: "ProfilePictureUpload",
+  name: "SettingsForm",
   data() {
     return {
       file: null,
@@ -75,46 +74,45 @@ export default {
     };
   },
   methods: {
-    async uploadPicture() {
-      if (this.file) {
-        const name = new Date() + this.file.name;
-        const storage = getStorage();
-        const storageRef = ref(storage, name);
-        const uploadTask = uploadBytesResumable(storageRef, name);
+    async uploadPicture(e) {
+      const storage = getStorage();
+      const storageRef = ref(storage, auth.currentUser.uid + "/profilePicture/" + e.target.files[0].name);
 
-        // Register three observers:
-        // 1. 'state_changed' observer, called any time the state changes
-        // 2. Error observer, called on failure
-        // 3. Completion observer, called on successful completion
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            // Observe state change events such as progress, pause, and resume
-            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log("Upload is " + progress + "% done");
-            switch (snapshot.state) {
-              case "paused":
-                console.log("Upload is paused");
-                break;
-              case "running":
-                console.log("Upload is running");
-                break;
-            }
-          },
-          (error) => {
-            console.log(error);
-          },
-          () => {
-            // Handle successful uploads on complete
-            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-              console.log("File available at", downloadURL);
-              this.profilePictureUrl = downloadURL;
-            });
+      // 'file' comes from the Blob or File API
+      const uploadTask = uploadBytesResumable(storageRef, e.target.files[0]);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          // Observe state change events such as progress, pause, and resume
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
           }
-        );
-      }
+        },
+        (error) => {
+          // Handle unsuccessful uploads\
+          console.log(error);
+        },
+        () => {
+          // Handle successful uploads on complete
+          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log("File available at", downloadURL);
+            this.profilePictureUrl = downloadURL;
+            console.log(this.profilePictureUrl);
+            console.log(this.file);
+          });
+        }
+      );
     },
   },
 };
@@ -143,7 +141,6 @@ export default {
 .savebtn {
   margin-left: 40%;
   margin-top: 5%;
-  
 }
 .v-card-title {
   color: black;
