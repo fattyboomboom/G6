@@ -3,7 +3,7 @@
     <v-card>
       <v-row no-gutters>
         <v-col cols="4">
-          <v-avatar :src="profilePictureUrl"> </v-avatar>
+          <v-avatar :image=profilePictureUrl> </v-avatar>
         </v-col>
         <v-col cols="8">
           <v-card-title> Change Profile Picture </v-card-title>
