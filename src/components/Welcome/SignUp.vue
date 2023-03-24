@@ -6,7 +6,8 @@
         <!-- sets a white background behind the form -->
         <div v-show="modalActive" class="modal-inner">
           <!-- closes the modal and this is where the content of the slot on longin.vue is inserted -->
-          <!--<button @click="close">X</button>--> 
+        <v-btn @click="$emit('close')" append-icon="mdi-close-box-outline" variant="flat"
+      color="error"></v-btn>
           <slot />
         </div>
       </Transition>
@@ -46,7 +47,7 @@ export default {
 }
 
 .modal-inner {
-  background: #FDF0D5;
+  background: #e0e1dd;
   width: 60%;
   border: none;
   height: 98%;
@@ -54,9 +55,20 @@ export default {
   align-items: center;
 }
 
-/* button {
+button {
   position: fixed;
-  text-align: right;
+  margin-left: 50%;
+  margin-top: 1%;
+  transform: scale(1.5);
   color: red;
-} */
+
+
+ 
+  transition: all 0.3s ease;
+} 
+
+button:hover {
+  color: red;
+  transform: scale(2);
+}
 </style>

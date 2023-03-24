@@ -1,4 +1,10 @@
 <template>
+
+<BookPost>
+
+  
+</BookPost>
+
   <v-row>
     <v-col v-for="book in books" :key="book" class="d-flex" cols="3">
       <VCard class="bookcards">
@@ -27,123 +33,125 @@
 </template>
 
 <script>
+
+
 export default {
-  name: "BookListings",
-  data() {
-    return {
-      books: [
-        {
-          id: 1,
-          bookname: "History of the World Map by Map",
-          bookclass: "HIST 310",
-          bookimage: "https://m.media-amazon.com/images/I/81VTod4MpkL.jpg",
-          price: "TEST ",
-          edition: "NA",
-          date: "2023-01-05",
-        },
-        {
-          id: 2,
-          bookname: "The C++ Programming Language",
-          bookclass: "CS 135",
-          bookimage: "https://m.media-amazon.com/images/I/51iQMFmLFtL.jpg",
-          price: "Price",
-          edition: "4",
-          date: "2023-01-02",
-        },
-        {
-          id: 3,
-          bookname: "Campbell Biology 12th Edition",
-          bookclass: "BIOL 191",
-          bookimage: "https://m.media-amazon.com/images/I/41mqPR4WuCL.jpg",
-          price: "Price",
-          edition: "NA",
-          date: "2023-01-02",
-        },
-        {
-          id: 4,
-          bookname: "Mega 2560 Complete Starter Kit",
-          bookclass: "CPE 301",
-          bookimage:
-            "https://m.media-amazon.com/images/I/51K67ltZWdL._AC_SL1000_.jpg",
-          price: "Price",
-          edition: "NA",
-          date: "2023-01-01",
-        },
-        {
-          id: 5,
-          bookname: "History of the World Map by Map",
-          bookclass: "HIST 310",
-          bookimage: "https://m.media-amazon.com/images/I/51iQMFmLFtL.jpg",
-          price: "Price",
-          edition: "NA",
-          date: "2023-01-02",
-        },
-        {
-          id: 6,
-          bookname: "History of the World Map by Map",
-          bookclass: "HIST 310",
-          bookimage: "https://m.media-amazon.com/images/I/51iQMFmLFtL.jpg",
-          price: "Price",
-          edition: "NA",
-          date: "2023-01-02",
-        },
-        {
-          id: 7,
-          bookname: "History of the World Map by Map",
-          bookclass: "HIST 310",
-          bookimage: "https://m.media-amazon.com/images/I/51iQMFmLFtL.jpg",
-          price: "Price",
-          edition: "NA",
-          date: "2023-01-02",
-        },
-        {
-          id: 8,
-          bookname: "History of the World Map by Map",
-          bookclass: "HIST 310",
-          bookimage: "https://m.media-amazon.com/images/I/51iQMFmLFtL.jpg",
-          price: "Price",
-          edition: "NA",
-          date: "2023-01-02",
-        },
-        {
-          id: 9,
-          bookname: "History of the World Map by Map",
-          bookclass: "HIST 310",
-          bookimage: "https://m.media-amazon.com/images/I/51iQMFmLFtL.jpg",
-          price: "Price",
-          edition: "NA",
-          date: "2023-01-02",
-        },
-        {
-          id: 10,
-          bookname: "History of the World Map by Map",
-          bookclass: "HIST 310",
-          bookimage: "https://m.media-amazon.com/images/I/51iQMFmLFtL.jpg",
-          price: "Price",
-          edition: "NA",
-          date: "2023-01-02",
-        },
-        {
-          id: 10,
-          bookname: "History of the World Map by Map",
-          bookclass: "HIST 310",
-          bookimage: "https://m.media-amazon.com/images/I/51iQMFmLFtL.jpg",
-          price: "Price",
-          edition: "NA",
-          date: "2023-01-02",
-        },
-        {
-          id: 11,
-          bookname: "History of the World Map by Map",
-          bookclass: "HIST 310",
-          bookimage: "https://m.media-amazon.com/images/I/51iQMFmLFtL.jpg",
-          price: "Price",
-          edition: "NA",
-          date: "2023-01-01",
-        },
-      ],
-    };
-  },
+    name: "BookListings",
+    data() {
+        return {
+            books: [
+                {
+                    id: 1,
+                    bookname: "History of the World Map by Map",
+                    bookclass: "HIST 310",
+                    bookimage: "https://m.media-amazon.com/images/I/81VTod4MpkL.jpg",
+                    price: "TEST ",
+                    edition: "NA",
+                    date: "2023-01-05",
+                },
+                {
+                    id: 2,
+                    bookname: "The C++ Programming Language",
+                    bookclass: "CS 135",
+                    bookimage: "https://m.media-amazon.com/images/I/51iQMFmLFtL.jpg",
+                    price: "Price",
+                    edition: "4",
+                    date: "2023-01-02",
+                },
+                {
+                    id: 3,
+                    bookname: "Campbell Biology 12th Edition",
+                    bookclass: "BIOL 191",
+                    bookimage: "https://m.media-amazon.com/images/I/41mqPR4WuCL.jpg",
+                    price: "Price",
+                    edition: "NA",
+                    date: "2023-01-02",
+                },
+                {
+                    id: 4,
+                    bookname: "Mega 2560 Complete Starter Kit",
+                    bookclass: "CPE 301",
+                    bookimage: "https://m.media-amazon.com/images/I/51K67ltZWdL._AC_SL1000_.jpg",
+                    price: "Price",
+                    edition: "NA",
+                    date: "2023-01-01",
+                },
+                {
+                    id: 5,
+                    bookname: "History of the World Map by Map",
+                    bookclass: "HIST 310",
+                    bookimage: "https://m.media-amazon.com/images/I/51iQMFmLFtL.jpg",
+                    price: "Price",
+                    edition: "NA",
+                    date: "2023-01-02",
+                },
+                {
+                    id: 6,
+                    bookname: "History of the World Map by Map",
+                    bookclass: "HIST 310",
+                    bookimage: "https://m.media-amazon.com/images/I/51iQMFmLFtL.jpg",
+                    price: "Price",
+                    edition: "NA",
+                    date: "2023-01-02",
+                },
+                {
+                    id: 7,
+                    bookname: "History of the World Map by Map",
+                    bookclass: "HIST 310",
+                    bookimage: "https://m.media-amazon.com/images/I/51iQMFmLFtL.jpg",
+                    price: "Price",
+                    edition: "NA",
+                    date: "2023-01-02",
+                },
+                {
+                    id: 8,
+                    bookname: "History of the World Map by Map",
+                    bookclass: "HIST 310",
+                    bookimage: "https://m.media-amazon.com/images/I/51iQMFmLFtL.jpg",
+                    price: "Price",
+                    edition: "NA",
+                    date: "2023-01-02",
+                },
+                {
+                    id: 9,
+                    bookname: "History of the World Map by Map",
+                    bookclass: "HIST 310",
+                    bookimage: "https://m.media-amazon.com/images/I/51iQMFmLFtL.jpg",
+                    price: "Price",
+                    edition: "NA",
+                    date: "2023-01-02",
+                },
+                {
+                    id: 10,
+                    bookname: "History of the World Map by Map",
+                    bookclass: "HIST 310",
+                    bookimage: "https://m.media-amazon.com/images/I/51iQMFmLFtL.jpg",
+                    price: "Price",
+                    edition: "NA",
+                    date: "2023-01-02",
+                },
+                {
+                    id: 10,
+                    bookname: "History of the World Map by Map",
+                    bookclass: "HIST 310",
+                    bookimage: "https://m.media-amazon.com/images/I/51iQMFmLFtL.jpg",
+                    price: "Price",
+                    edition: "NA",
+                    date: "2023-01-02",
+                },
+                {
+                    id: 11,
+                    bookname: "History of the World Map by Map",
+                    bookclass: "HIST 310",
+                    bookimage: "https://m.media-amazon.com/images/I/51iQMFmLFtL.jpg",
+                    price: "Price",
+                    edition: "NA",
+                    date: "2023-01-01",
+                },
+            ],
+        };
+    },
+
 };
 </script>
 
@@ -159,7 +167,7 @@ export default {
   margin-top: 3%;
   margin-right: 2%;
   margin-left: 25%;
-  border-color: rgb(0, 0, 0);
+  border-color: #4a6fa5;
   border-width: 3px;
   padding: 0.5rem;
   line-height: 1.5;

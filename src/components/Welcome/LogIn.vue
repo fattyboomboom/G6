@@ -80,10 +80,10 @@
           <!-- button to save form -->
           <v-btn
             class="saveNewButton rounded-pill"
-            :disabled="!passwordsMatch || !emailsMatch"
+            :disabled="!passwordsMatch || !emailsMatch || !unrEmail"
             type="submit"
             variant="elevated"
-            @click="saveNew"
+            @click.prevent="saveNew"
           >
             Submit
           </v-btn>
@@ -142,6 +142,7 @@
         Sign Up
       </v-btn>
       <!-- <a href="" class="forgotpassword">Forgot password</a> -->
+      <v-btn @click.prevent="googleSignIn">Sign in with Google</v-btn>
     </v-form>
   </v-card>
 </template>
@@ -149,9 +150,12 @@
 <script>
 import SignUp from "./SignUp.vue";
 import { ref } from "vue";
-import axios from "axios";
+// import axios from "axios";
 import { useRouter } from "vue-router";
-
+// import { db } from '@/firebase'
+import { createUserWithEmailAndPassword,  signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, getAuth, onAuthStateChanged } from "firebase/auth"
+import { db,auth } from '@/firebase/index'
+import { serverTimestamp, doc, collection, writeBatch } from "@firebase/firestore";
 export default {
   name: "LogIn",
   components: {
@@ -164,10 +168,21 @@ export default {
     const toggleModal = () => {
       modalActive.value = !modalActive.value;
     };
+    console.log(auth)
+    onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+  
+    // ...
+  } else {
+    // User is signed out
+    // ...
+  }
+});
 
     return { modalActive, toggleModal, router };
   },
-
   data: () => {
     return {
       // Data properties for authentication
@@ -175,7 +190,6 @@ export default {
         email: null,
         password: null,
       },
-
       // Data properties for sign up
       signup: {
         firstname: "",
@@ -187,140 +201,150 @@ export default {
         retrypassword: null,
         matchingPw: null,
       },
-
-      majors: [
-        "Accounting",
-        "Acouting & Information Systems",
-        "Agricultural Economics",
-        "Agricultural Science",
-        "Anthropology",
-        "Art",
-        "Art History",
-        "Atmospheric Science",
-        "Biochemistry and Molecular Biology",
-        "Biology",
-        "Biomedical Engineering",
-        "Biotechnology",
-        "Business",
-        "Chemical Engineering",
-        "Chemistry Civil Engineering Communication Studies",
-        "Computer Science & Engineering",
-        "Computational Linguistics",
-        "Criminal Justice",
-        "Dance",
-        "Economics",
-        "Elementary Education",
-        "Electrical Engineering",
-        "Engineering Physics",
-        "English",
-        "Environmental Engineering",
-        "Environmental Science",
-        "Finance",
-        "Forest Ecology & Management",
-        "French Gender",
-        "Race & Identity",
-        "General Studies",
-        "Geography",
-        "Geological Engineering",
-        "Geology",
-        "Geophysics",
-        "History",
-        "Human Development & Family Science",
-        "Hydrogeology",
-        "Information Systems",
-        "International Affairs",
-        "International Business",
-        "Journalism",
-        "Kinesiology",
-        "Management",
-        "Marketing",
-        "Materials Science & Engineering",
-        "Mathematics",
-        "Mechanical Engineering",
-        "Metallurgical Engineering",
-        "Microbiology & Immunology",
-        "Mining Engineering",
-        "Music",
-        "Neuroscience Nevadateach",
-        "Nursing",
-        "Nursing RN to BSN",
-        "Nutrition",
-        "Packteach",
-        "Philosophy",
-        "Physics",
-        "Political Science",
-        "Phychology",
-        "Public Health",
-        "Rangeland & Ecology & Management",
-        "Secondary Education",
-        "Social Work",
-        "Sociology",
-        "Spanish",
-        "Speech Pathology",
-        "Theatre",
-        "Vetinary Science",
-        "Wildlife Ecology & Conservation",
-      ],
-
+     
       loading: false,
       required: true,
     };
   },
-
   computed: {
     passwordsMatch() {
       return this.signup.password === this.signup.retrypassword;
     },
-
     emailsMatch() {
       return this.signup.email === this.signup.retryemail;
     },
+    unrEmail() {
+      return this.signup.email.endsWith('@nevada.unr.edu');
+    }
   },
-
   methods: {
-    // method for capturing data from form
-
+  
     saveNew() {
-      var data = {
+      let formdata = {
         firstname: this.signup.firstname,
         lastname: this.signup.lastname,
         majors: this.signup.majors.id,
         email: this.signup.email,
         password: this.signup.password,
       };
+      
+      createUserWithEmailAndPassword(auth, formdata.email, formdata.password)
+        .then((result) => {
+          console.log("Successfully registered!");
+          
+        let fullName = result.user.displayName.split(' ')
+          this.firstname = fullName[0],
+          this.lastname = fullName[1]
 
-      // sending data
-      axios
-        .post("http://localhost:3000/signup", data)
-        .then((response) => {
-          console.log(response);
+        const email = result.user.email;
+        const userUID = result.user.uid;
+        const user = auth.currentUser;
+        
+        let signUpDate = new Date(user.metadata.creationTime);
+        let deletedBool = false;
+        let userRef = doc(collection(db, "users"), userUID);
+        let accountRef = doc(collection(db, "accounts"), email);
+        
+        this.router.push("/home");
+
+        let batch = writeBatch(db);
+
+        batch.set(userRef, {
+          CreatedDate: signUpDate,
+          FirstName: this.firstname,
+          LastName: this.lastname,
+          isDeleted: deletedBool,
+          uid: userUID
+        });
+
+        batch.set(accountRef, {
+          CreatedDate: signUpDate,
+          LastLogin: serverTimestamp(),
+          FirstName: this.firstname,
+          LastName: this.lastname,
+          AcctEmail: email,
+          isDeleted: deletedBool,
+          uid: userUID
+        });
+
+        batch.commit();
         })
         .catch((error) => {
-          console.log(error);
+          console.log(error.code);
+          alert(error.message);
         });
     },
-
     // capturing data from log in form
     authuser() {
-      var authdata = {
+      let authdata = {
         email: this.auth.email,
         password: this.auth.password,
       };
-
-      // sending data
-      axios
-        .post("http://localhost:3000/login", authdata)
-        .then((response) => {
-          console.log(response);
-          console.log(authdata.email);
-          if (response.status === 200) {
+          signInWithEmailAndPassword(auth, authdata.email, authdata.password)
+          .then((response) => {
+            // Signed in 
+            console.log("Successful Sign In!");
+            console.log(response);
+          
             this.router.push("/home");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+          })
+          .catch((error) => {
+            console.log(error.code);
+            console.log(error.message);
+          });
     },
+ 
+    googleSignIn()
+    {
+      const provider = new GoogleAuthProvider();
+      provider.setCustomParameters({
+       hd: "nevada.unr.edu"
+      });
+      signInWithPopup(getAuth(), provider)
+      .then((result) => {
+        console.log(result);
+        
+        let fullName = result.user.displayName.split(' ')
+            this.firstname = fullName[0],
+            this.lastname = fullName[1]
+
+        const email = result.user.email;
+        const userUID = result.user.uid;
+        const user = auth.currentUser;
+        
+        let signUpDate = new Date(user.metadata.creationTime);
+        let deletedBool = false;
+        const userRef = doc(collection(db, "users"), userUID);
+        const accountRef = doc(collection(db, "accounts"), email);
+        
+        this.router.push("/home");
+
+        let batch = writeBatch(db);
+
+        batch.set(userRef, {
+          CreatedDate: signUpDate,
+          FirstName: this.firstname,
+          LastName: this.lastname,
+          isDeleted: deletedBool,
+          uid: userUID
+        });
+
+        batch.set(accountRef, {
+          CreatedDate: signUpDate,
+          LastLogin: serverTimestamp(),
+          FirstName: this.firstname,
+          LastName: this.lastname,
+          AcctEmail: email,
+          isDeleted: deletedBool,
+          uid: userUID
+        });
+
+        batch.commit();
+      })
+      .catch((error)=> {
+      alert(error.message);
+      })
+    }
   },
 };
 </script>
@@ -336,11 +360,11 @@ h1 {
   font-size: 2.8em;
   padding: 10px 0;
   font-weight: 800;
-  font-family: cursive;
+ 
 }
 
 .v-text-field {
-  background-color: #fdf0d5;
+  background-color: #e0e1dd;
   /* border-radius: 15px; */
   font-size: 12px;
   display: block;
@@ -377,7 +401,7 @@ p {
   /* padding: 60px 0; */
   text-align: center;
   background: #4a6fa5;
-  color: #fdf0d5;
+  color: #e0e1dd;
 }
 .v-card {
   box-shadow: 0 16px 56px rgba(0, 0, 0, 0.1), 0 16px 56px rgba(0, 0, 0, 0.1),

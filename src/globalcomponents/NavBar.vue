@@ -38,25 +38,52 @@
       ></v-list-item>
       <v-divider color="white"></v-divider>
       <v-list-item
+        prepend-icon="mdi-cog"
+        title="Settings"
+        value="settings"
+        to="/"
+        @click.prevent="Logout"
+      ></v-list-item>
+      <v-divider color="white"></v-divider>
+      <v-list-item
         prepend-icon="mdi-logout"
         title="Sign Out"
         value="signOut"
         to="/"
-        @click="logout"
+        @click.prevent="Logout"
       ></v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>
 
 <script>
+import { getAuth, signOut } from "firebase/auth"
+// import { useRouter } from "vue-router";
+
 export default {
   name: "NavBar",
-  methods: {logout() {
-      // Remove the token from the local storage
-      localStorage.removeItem('token')
-      // Navigate back to the login page
-      this.$router.push('/')
-    }}
+  methods: {
+    Logout() {
+
+    const auth = getAuth();
+    console.log(auth.currentUser)
+    signOut(auth).then(() => {
+      console.log(auth.currentUser)
+      // Sign-out successful.
+      console.log("Sign Out")
+      // router.push("/")
+    }).catch((error) => {
+      console.log(error)
+    })
+}
+
+    // logout() {
+    //   // Remove the token from the local storage
+    //   localStorage.removeItem('token')
+    //   // Navigate back to the login page
+    //   this.$router.push('/')
+    // }}
+  }
 };
 </script>
 

@@ -21,15 +21,21 @@
         </li>
       </VListItem>
     </v-list>
+    <div v-show="editbtn" @click="editToggle"> 
+      <v-btn class="editbutton">Edit</v-btn>
+    </div>
+    <div v-show="!editbtn">
     <VBtn
       class="addclass"
+    
       color="success"
       width="50%"
       rounded="0"
-      @click="addClass"
+      @click="addClass(); editToggle();"
       >Add</VBtn
     >
     <VBtn class="deleteclass" width="50%" rounded="0">Delete</VBtn>
+  </div>
   </v-card>
 </template>
 
@@ -44,6 +50,7 @@ export default {
 
     const schedule = ref([]);
     const error = ref(null);
+
 
     axios
       .get("http://localhost:3000/schedule")
@@ -67,7 +74,8 @@ export default {
 
   data() {
     return {
-      class: ""
+      class: "",
+      editbtn: true
     };
   },
 
@@ -75,15 +83,11 @@ export default {
     addClass() {
 
       var data = {
-        firstname: this.signup.firstname,
-        lastname: this.signup.lastname,
-        majors: this.signup.majors.id,
-        email: this.signup.email,
-        password: this.signup.password,
+        class: this.class,
       };
 
       axios
-        .post("http://localhost:3000/signup", data)
+        .post("http://localhost:3000/addclass", data)
         .then((response) => {
           console.log(response);
         })
@@ -91,6 +95,10 @@ export default {
           console.log(error);
         });
     },
+
+    editToggle() {
+      this.editbtn = !this.editbtn
+    }
     },
   };
 
@@ -109,6 +117,18 @@ export default {
 
 h2 {
   text-align: center;
+}
+
+.editbutton {
+  background-color: #4a6fa5;
+  width: 100%;
+  transition: width 2s, height 2s, transform 2s;
+}
+
+.editbutton:hover {
+  background-color: #669bbc;
+
+  transform: rotateY(360deg);
 }
 
 .addclass {

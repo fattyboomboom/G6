@@ -1,31 +1,19 @@
 <template>
-  <v-app>
-    <div class="wolf-feed">
-      <h1>Wolf Feed</h1>
-        
-      <div class="post-container">
-        <div v-for="post in posts" :key="post.id" class="post">
-          <div class="post-header">
-            <img :src="post.avatar" alt="Author avatar" class="avatar" />
-            <div class="author-info">
-              <div class="author-name">{{ post.user }}</div>
-              <div class="post-date">{{ post.date }}</div>
-              <div class="post-date">{{ post.time }}</div>
-            </div>
-            <div class="delete-button">
-              <v-btn
-                variant="plain"
-                icon="mdi-trash-can-outline"
-                color="red-accent-4"
-                @click="$emit('remove')"
-              ></v-btn>
-            </div>
+  <div class="wolf-feed">
+    <h1>Wolf Feed</h1>
+    <div class="post-container">
+      <div v-for="post in posts" :key="post.id" class="post">
+        <div class="post-header">
+          <img :src="post.avatar" alt="Author avatar" class="avatar" />
+          <div class="author-info">
+            <div class="author-name">{{ post.name }}</div>
+            <div class="post-date">{{ formatDate(post.date) }}</div>
           </div>
-          <div class="post-content">{{ post.post }}</div>
         </div>
+        <div class="post-content">{{ post.content }}</div>
       </div>
     </div>
-  </v-app>
+  </div>
 </template>
 
 <script>
@@ -38,18 +26,15 @@ export default {
   setup() {
     const posts = ref([]);
     const error = ref(null);
-
-    setInterval(function () {
-      axios
-        .get("http://localhost:5000/posts")
-        .then((response) => {
-          posts.value = response.data;
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }, 3000);
+    axios
+      .get("http://localhost:3000/posts")
+      .then((response) => {
+        posts.value = response.data;
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     return { posts, error };
   },
@@ -89,22 +74,15 @@ h1 {
 }
 
 .post-container {
-  height: 59%;
+  height: 61%;
   overflow-y: scroll;
   margin-top: 20px;
   background-color: #4a6fa5;
   border-top-right-radius: 25px;
   border-top-left-radius: 25px;
-  border-radius: 5%;
   width: 40%;
   position: absolute;
   margin-left: 36%;
-  display: flex;
-  flex-direction: column-reverse;
-
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
 }
 
 .post {
@@ -125,7 +103,7 @@ h1 {
   width: 50px;
   height: 50px;
   margin-right: 10px;
-  border-radius: 45%;
+  border-radius: 50%;
 }
 
 .author-info {
@@ -149,11 +127,5 @@ h1 {
 .post-content {
   margin-top: 2%;
   color: #e0e1dd;
-}
-
-.delete-button {
-  display:-webkit-flex;
-  justify-content: flex-end;
-  width: 100%;
 }
 </style>

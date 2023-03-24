@@ -1,4 +1,4 @@
-# test
+# g6
 
 ## Project setup
 ```

@@ -3,7 +3,7 @@
     <VToolbar class="toolbar">
       <v-btn
       rounded="pill"
-      color="blue-grey"
+     
       prepend-icon="mdi-pencil-outline"
       
     >Edit</v-btn>
@@ -30,22 +30,40 @@
     >
     <v-btn
       rounded="pill"
-      color="blue-grey"
       prepend-icon="mdi-plus"
-      
-    >Create</v-btn></VToolbar>
+      @click="isOpen = true"
+    >Create</v-btn>
+  </VToolbar>
+  
+ <!-- <v-text-field class="searchbar"></v-text-field>-->
   </v-container>
+
+  <BookPost :open="isOpen" @close="isOpen = !isOpen">
+
+  </BookPost>
 </template>
 
 <script>
+import BookPost from "../components/Resell/BookPost.vue";
+import { ref } from "vue";
+
+
 export default {
   name: "ListingsFilter",
+  components: {BookPost},
+
+  setup() {
+    const isOpen = ref(false)
+
+    return { isOpen }
+  }
 };
 </script>
 
 <style scoped>
 .dropdowncontainer {
   background-color: #166088;
+  
 }
 
 .dropdown {
@@ -55,13 +73,17 @@ export default {
 
 .toolbar {
   width: 50%;
-  height: 75%;
+  height: 80%;
   margin: auto;
   background-color: #166088;
 }
 
 .v-btn {
   background-color: #c0d6df;
+  height: 60%;
 
 }
+
+
+
 </style>
