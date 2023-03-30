@@ -9,12 +9,19 @@
         variant="outlined"
       >
         <VCardItem class="post-header">
-          <img :src="post.avatar" alt="Author avatar" class="avatar" />
+          <v-row no-gutters>
+            <img :src="post.avatar" alt="Author avatar" class="avatar" />
 
-          <div class="author-name">{{ post.name }}</div>
+            <div class="author-name">{{ post.name }}</div>
 
-          <div class="post-date">{{ post.PostDate }}</div>
+            <div class="post-date">
+              <div>
+                {{ formatDistanceToNow(post.PostDate) }} ago
+              </div>
+            </div>
+          </v-row>
         </VCardItem>
+
         <div class="post-content">{{ post.content }}</div>
       </VCard>
     </div>
@@ -25,6 +32,9 @@
 import { ref, onMounted } from "vue";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/firebase";
+import { formatDistanceToNow } from "date-fns";
+
+
 export default {
   name: "WolfFeed",
 
@@ -52,12 +62,29 @@ export default {
       fetchPosts();
     });
 
-   
     return { posts, error };
   },
 
   methods: {
+    formatTime(timestamp) {
+      const date = timestamp.toDate();
+      const hours = date.getHours();
+      const minutes = date.getMinutes().toString().padStart(2, "0");
+      const ampm = hours >= 12 ? "PM" : "AM";
+      const twelveHours = hours % 12 || 12;
+      return `${twelveHours}:${minutes} ${ampm}`;
+    },
 
+    formatDate(timestamp) {
+      const date = timestamp.toDate();
+      const options = { month: "short", day: "numeric", year: "2-digit" };
+      return new Intl.DateTimeFormat("en-US", options).format(date);
+    },
+
+    formatDistanceToNow(timestamp) {
+      const date = timestamp.toDate();
+      return formatDistanceToNow(date);
+    },
   },
   computed: {
     displayedPosts() {
@@ -102,19 +129,20 @@ h1 {
 }
 
 .post-header {
-  display: flex;
+  /* display: flex; */
+  align-items: center;
 }
 
 ::-webkit-scrollbar {
   display: none;
 }
-
+/* 
 .avatar {
   width: 50px;
   height: 50px;
   margin-right: 10px;
   border-radius: 50%;
-}
+} */
 
 .author-info {
   display: flex;
@@ -126,12 +154,14 @@ h1 {
 .author-name {
   font-weight: bold;
   color: black;
+  font-weight: bold;
 }
 
 .post-date {
   color: black;
   font-size: 14px;
-  font-style: italic;
+  margin-left: auto;
+ 
 }
 
 .post-content {

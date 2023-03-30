@@ -64,6 +64,7 @@
 // import { ref } from 'vue'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL, } from "firebase/storage";
 import { auth } from "@/firebase";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 export default {
   name: "SettingsForm",
@@ -75,45 +76,52 @@ export default {
   },
   methods: {
     async uploadPicture(e) {
-      const storage = getStorage();
-      const storageRef = ref(storage, auth.currentUser.uid + "/profilePicture/" + e.target.files[0].name);
+  const storage = getStorage();
+  const storageRef = ref(storage, auth.currentUser.uid + "/profilePicture/" + e.target.files[0].name);
 
-      // 'file' comes from the Blob or File API
-      const uploadTask = uploadBytesResumable(storageRef, e.target.files[0]);
+  // 'file' comes from the Blob or File API
+  const uploadTask = uploadBytesResumable(storageRef, e.target.files[0]);
 
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          // Observe state change events such as progress, pause, and resume
-          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload is " + progress + "% done");
-          switch (snapshot.state) {
-            case "paused":
-              console.log("Upload is paused");
-              break;
-            case "running":
-              console.log("Upload is running");
-              break;
-          }
-        },
-        (error) => {
-          // Handle unsuccessful uploads\
-          console.log(error);
-        },
-        () => {
-          // Handle successful uploads on complete
-          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log("File available at", downloadURL);
-            this.profilePictureUrl = downloadURL;
-            console.log(this.profilePictureUrl);
-            console.log(this.file);
-          });
-        }
-      );
+  uploadTask.on(
+    "state_changed",
+    (snapshot) => {
+      // Observe state change events such as progress, pause, and resume
+      // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+      const progress =
+        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log("Upload is " + progress + "% done");
+      switch (snapshot.state) {
+        case "paused":
+          console.log("Upload is paused");
+          break;
+        case "running":
+          console.log("Upload is running");
+          break;
+      }
     },
+    (error) => {
+      // Handle unsuccessful uploads\
+      console.log(error);
+    },
+    async () => {
+      // Handle successful uploads on complete
+      // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+      const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+      console.log("File available at", downloadURL);
+      this.profilePictureUrl = downloadURL;
+
+      const db = getFirestore();
+      const userRef = doc(db, "users", auth.currentUser.uid);
+
+      try {
+        await setDoc(userRef, { profilePicture: downloadURL }, { merge: true });
+        console.log("Profile picture URL saved to Firestore");
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  );
+},
   },
 };
 </script>

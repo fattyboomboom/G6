@@ -157,8 +157,11 @@ import SignUp from "./SignUp.vue";
 import { ref } from "vue";
 // import axios from "axios";
 import { useRouter } from "vue-router";
+// import { db } from '@/firebase'
 import { createUserWithEmailAndPassword,  signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, getAuth, onAuthStateChanged } from "firebase/auth"
-import { auth } from '@/firebase'
+import { db,auth } from '@/firebase/index'
+import { serverTimestamp, doc, collection, writeBatch } from "@firebase/firestore";
+
 export default {
   name: "LogIn",
   components: {
@@ -272,18 +275,49 @@ export default {
       });
       signInWithPopup(getAuth(), provider)
       .then((result) => {
-        console.log(result.user)
+        console.log(result);
+        
+        let fullName = result.user.displayName.split(' ')
+            this.firstname = fullName[0],
+            this.lastname = fullName[1]
+        const email = result.user.email;
+        const userUID = result.user.uid;
+        const user = auth.currentUser;
+        
+        let signUpDate = new Date(user.metadata.creationTime);
+        let deletedBool = false;
+        const userRef = doc(collection(db, "users"), userUID);
+        const accountRef = doc(collection(db, "accounts"), email);
         
         this.router.push("/home");
+        let batch = writeBatch(db);
+        batch.set(userRef, {
+          CreatedDate: signUpDate,
+          FirstName: this.firstname,
+          LastName: this.lastname,
+          isDeleted: deletedBool,
+          uid: userUID
+        });
+        batch.set(accountRef, {
+          CreatedDate: signUpDate,
+          LastLogin: serverTimestamp(),
+          FirstName: this.firstname,
+          LastName: this.lastname,
+          AcctEmail: email,
+          isDeleted: deletedBool,
+          uid: userUID
+        });
+        batch.commit();
       })
       .catch((error)=> {
       alert(error.message);
-      })}
+      })
+    }
+  },
+};
 
       
-  },
-  
-};
+
 </script>
 
 <style scoped>
