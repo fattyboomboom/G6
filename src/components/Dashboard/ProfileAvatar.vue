@@ -1,7 +1,7 @@
 <template>
   <v-card class="avatar" border="true">
     <v-avatar
-      image="https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg"
+      image="https://firebasestorage.googleapis.com/v0/b/wolfcampus-d04e6.appspot.com/o/Default%20photos%2FprofileDefault.png?alt=media&token=7c12628a-0b1c-42d5-ad5b-4dff8902fe77"
     >
     </v-avatar>
     <v-divider thickness="2"></v-divider>

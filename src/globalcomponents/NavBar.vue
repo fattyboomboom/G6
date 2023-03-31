@@ -5,8 +5,8 @@
     <v-list>
       <v-list-item
         prepend-avatar="https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg"
-        title="Tom Anderson"
-        subtitle="TomA@gmail.com"
+        title="UserName"
+        subtitle="email"
       ></v-list-item>
     </v-list>
     <v-divider color="white"></v-divider>
@@ -49,14 +49,25 @@
 </template>
 
 <script>
+// import { ref } from 'vue';
+// import { auth } from '@/firebase'
 export default {
+
   name: "NavBar",
+  // setup(){
+  //   const displayName = ref(auth.currentUser.displayName);
+  //   const userEmail= ref(auth.currentUser.email);
+
+  //  return{userEmail, displayName};
+  // },
   methods: {logout() {
       // Remove the token from the local storage
       localStorage.removeItem('token')
       // Navigate back to the login page
       this.$router.push('/')
-    }}
+    }},
+
+    
 };
 </script>
 
