@@ -23,6 +23,7 @@ import FilterMenu from './globalcomponents/ListingsFilter.vue'
 import NavBarVue from './globalcomponents/NavBar.vue'
 import ListingsFilter from './globalcomponents/ListingsFilter.vue'
 import SettingsView from './views/SettingsView.vue'
+import AddClass from './components/Dashboard/AddClass.vue'
 
 import axios from "axios";
 
@@ -43,6 +44,7 @@ const router = createRouter({
     { path: '/notes', component: NotesView, meta: {requiresAuth:true}  },
     { path: '/profile', component: ProfileView, meta: {requiresAuth:true} },
     { path: '/settings', component: SettingsView, meta: {requiresAuth:true} },
+    { path: '/addclass', component: AddClass, meta: {requiresAuth:true} }
   ]
 });
 

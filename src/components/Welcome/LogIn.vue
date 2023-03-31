@@ -297,7 +297,7 @@ export default {
           LastName: this.lastname,
           isDeleted: deletedBool,
           uid: userUID
-        });
+        }, { merge: true});
         batch.set(accountRef, {
           CreatedDate: signUpDate,
           LastLogin: serverTimestamp(),
@@ -306,7 +306,7 @@ export default {
           AcctEmail: email,
           isDeleted: deletedBool,
           uid: userUID
-        });
+        }, { merge: true});
         batch.commit();
       })
       .catch((error)=> {

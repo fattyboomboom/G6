@@ -1,6 +1,6 @@
 <template>
   <v-card class="avatar" border="true">
-    <v-avatar :image="profileImage"></v-avatar>
+    <v-avatar :image=profileImage size="250"></v-avatar>
     <v-divider thickness="2"></v-divider>
     <h2>Name: {{ username }}</h2>
 
@@ -11,8 +11,8 @@
 
 <script>
 import { auth, db } from "@/firebase";
-import { ref } from "vue";
-import { doc, getDoc } from "firebase/firestore";
+import { ref, onMounted } from "vue";
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 export default {
   name: "ProfileAvatar",
@@ -21,23 +21,20 @@ export default {
     const major = ref("Undecided");
     const profileImage = ref("");
 
-    async function getImage(uid) {
-      const docRef = doc(db, "users", uid);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        const imageUrl = data.profilePicture;
-        return imageUrl;
-      } else {
-        console.log("No such document!");
-      }
-    }
-
-    getImage(auth.currentUser.uid).then((url) => {
-      profileImage.value = url;
+    const userRef = collection(db, "users");
+    const q = query(userRef, where("uid", "==", auth.currentUser.uid));
+    
+    onMounted(async () => {
+    profileImage.value = getDocs(q).then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        console.log(doc.data().profilePicture);
+        profileImage.value = doc.data().profilePicture;
+      });
     });
+  });
 
+
+console.log(profileImage)
     return { username, major, profileImage };
   },
 };

@@ -39,7 +39,9 @@ export default {
   right: 0;
   bottom: 0;
   z-index: 99;
-  background-color: rgb(65, 65, 65);
+  background-color: rgba(255, 255, 255, 0.5); /* set a semi-transparent white background */
+  backdrop-filter: blur(10px); /* apply a blur effect */
+  opacity: 1; /* set the overall opacity */
   
   display: flex;
   align-items: center;

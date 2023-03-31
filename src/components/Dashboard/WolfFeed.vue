@@ -30,10 +30,8 @@
 
 <script>
 import { ref, onMounted } from "vue";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "@/firebase";
 import { formatDistanceToNow } from "date-fns";
-
+import { fetchPosts } from "@/api/api";
 
 export default {
   name: "WolfFeed",
@@ -42,15 +40,9 @@ export default {
     const posts = ref([]);
     const error = ref(null);
 
-    const fetchPosts = async () => {
+    const fetchPostsData = async () => {
       try {
-        const postRef = collection(db, "posts");
-        const q = query(postRef, where("isDeleted", "==", false));
-        const querySnapshot = await getDocs(q);
-        const postsArray = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+        const postsArray = await fetchPosts();
         posts.value = postsArray;
         console.log(posts.value);
       } catch (err) {
@@ -59,7 +51,7 @@ export default {
     };
 
     onMounted(() => {
-      fetchPosts();
+      fetchPostsData();
     });
 
     return { posts, error };

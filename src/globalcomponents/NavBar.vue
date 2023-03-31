@@ -48,8 +48,8 @@
         prepend-icon="mdi-logout"
         title="Sign Out"
         value="signOut"
-        to="/"
-        @click.prevent="Logout"
+        @click="Logout"
+       
       ></v-list-item>
     </v-list>
   </v-navigation-drawer>
