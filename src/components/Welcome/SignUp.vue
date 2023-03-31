@@ -49,7 +49,7 @@ export default {
 }
 
 .modal-inner {
-  background: #e0e1dd;
+
   width: 60%;
   border: none;
   height: 98%;
@@ -60,17 +60,12 @@ export default {
 button {
   position: fixed;
   margin-left: 50%;
-  margin-top: 1%;
+  margin-top: 5%;
   transform: scale(1.5);
-  color: red;
+
+  z-index: 100;
 
 
- 
-  transition: all 0.3s ease;
 } 
 
-button:hover {
-  color: red;
-  transform: scale(2);
-}
 </style>

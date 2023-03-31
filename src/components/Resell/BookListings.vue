@@ -176,7 +176,7 @@ export default {
 }
 
 .bookcards:hover {
-  transform: scale(1.1) rotate(5deg);
+  transform: scale(1.1) rotate(1deg);
   box-shadow: 2px 2px black;
 }
 

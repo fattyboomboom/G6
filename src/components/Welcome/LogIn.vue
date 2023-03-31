@@ -69,13 +69,7 @@
               placeholder="re-enter your password"
             ></v-text-field>
           </v-row>
-          <v-autocomplete
-            class="rounded-xl"
-            label="majors"
-            :items="majors"
-            v-model="signup.majors"
-          >
-          </v-autocomplete>
+       
 
           
 
@@ -200,7 +194,6 @@ export default {
       signup: {
         firstname: "",
         lastname: "",
-        majors: "",
         email: "",
         retryemail: "",
         password: null,
