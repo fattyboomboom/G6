@@ -48,6 +48,7 @@
             ></v-text-field>
           </v-row>
 
+          <v-hover>
           <v-row>
             <!-- sign up password input -->
             <v-text-field
@@ -76,15 +77,13 @@
             v-model="signup.majors"
           >
           </v-autocomplete>
-
-          
+          </v-hover>
 
           <!-- button to save form -->
           <v-btn
             class="saveNewButton rounded-pill"
             :disabled="!passwordsMatch || !emailsMatch || !unrEmail"
             type="submit"
-            variant="elevated"
             @click.prevent="saveNew"
           >
             Submit
@@ -124,8 +123,8 @@
 
       <!-- button to submit log in information -->
       <v-btn
-        class="signinbutton rounded-t-xl"
-        color="success"
+        class="signinbutton rounded-t-xl text-black"
+        color="login"
         size="large"
         type="submit"
         variant="elevated"
@@ -137,8 +136,8 @@
 
       <!-- button to bring up sign up form -->
       <v-btn
-        class="signupbutton rounded-b-xl"
-        color="primary"
+        class="signupbutton rounded-b-xl text-black"
+        color="login"
         size="large"
         variant="elevated"
         @click.prevent="toggleModal"
@@ -350,12 +349,12 @@ h1 {
   width: 80%;
 }
 
-.submitsignup,
+/* .submitsignup,
 .signupbutton:hover,
 .signinbutton:hover {
   scale: 1.1;
   background-color: #649fc4;
-}
+} */
 
 .submitsignup {
   width: 8%;

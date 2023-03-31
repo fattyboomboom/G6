@@ -17,7 +17,7 @@
     "roboto-fontface": "*",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
-    "vuetify": "^3.0.0-beta.0",
+    "vuetify": "^3.1.4",
     "webfontloader": "^1.0.0"
   },
   "devDependencies": {
@@ -28,12 +28,11 @@
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
-    "bootstrap": "^4.3.1",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
     "mutationobserver-shim": "^0.3.3",
     "popper.js": "^1.16.0",
-    "portal-vue": "^2.1.6",
+    "portal-vue": "^3.0.0",
     "sass": "^1.19.0",
     "sass-loader": "^8.0.0",
     "vue-cli-plugin-bootstrap": "~0.4.0",
@@ -59,5 +58,9 @@
     "last 2 versions",
     "not dead",
     "not ie 11"
-  ]
+  ],
+  "description": "```\r yarn install\r ```",
+  "main": "babel.config.js",
+  "author": "",
+  "license": "ISC"
 }

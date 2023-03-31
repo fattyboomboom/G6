@@ -30,7 +30,7 @@
 
     <VBtn
       class="addclass"
-      color="success"
+      color="secondary"
       width="50%"
       rounded="0"
       @click="addingItem = true"
@@ -118,7 +118,6 @@ export default {
   right: 1%;
   width: 20%;
   top: 1%;
-  color: #e0e1dd;
   border: none;
   border-radius: 25px;
 }
