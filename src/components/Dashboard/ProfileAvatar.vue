@@ -12,7 +12,7 @@
 <script>
 import { auth, db } from "@/firebase";
 import { ref } from "vue";
-import {  doc, getDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 
 export default {
   name: "ProfileAvatar",
@@ -21,7 +21,6 @@ export default {
     const major = ref("Undecided");
     const profileImage = ref("");
 
-   
     async function getImage(uid) {
       const docRef = doc(db, "users", uid);
       const docSnap = await getDoc(docRef);
@@ -40,10 +39,6 @@ export default {
     });
 
     return { username, major, profileImage };
-  },
-
-  data() {
-    return {};
   },
 };
 </script>

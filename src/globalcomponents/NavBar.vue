@@ -57,31 +57,29 @@
 
 <script>
 import { getAuth, signOut } from "firebase/auth"
-// import { useRouter } from "vue-router";
+//  import { useRouter } from "vue-router";
 
 export default {
   name: "NavBar",
+  setup() {
+    // const router = useRouter();
+  },
   methods: {
     Logout() {
 
-    const auth = getAuth();
-    console.log(auth.currentUser)
-    signOut(auth).then(() => {
-      console.log(auth.currentUser)
-      // Sign-out successful.
-      console.log("Sign Out")
-      // router.push("/")
-    }).catch((error) => {
-      console.log(error)
-    })
-}
+        const auth = getAuth();
+        console.log(auth.currentUser)
+        signOut(auth).then(() => {
+          console.log(auth.currentUser)
+          // Sign-out successful.
+          console.log("Sign Out")
+          this.$router.push('/')
+        }).catch((error) => {
+          console.log(error)
+        })
+    }
 
-    // logout() {
-    //   // Remove the token from the local storage
-    //   localStorage.removeItem('token')
-    //   // Navigate back to the login page
-    //   this.$router.push('/')
-    // }}
+ 
   }
 };
 </script>
