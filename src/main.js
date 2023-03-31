@@ -9,7 +9,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { getCurrentUser } from '@/firebase'
 // import { auth } from "./firebase"; // adjust the path to your Firebase configuration file
 
-
 loadFonts()
 
 import BookResellView from './views/BookResellView.vue'
@@ -22,7 +21,6 @@ import NotesView from './views/NotesCards.vue'
 import FilterMenu from './globalcomponents/ListingsFilter.vue'
 import NavBarVue from './globalcomponents/NavBar.vue'
 import ListingsFilter from './globalcomponents/ListingsFilter.vue'
-import SettingsView from './views/SettingsView.vue'
 
 import axios from "axios";
 
@@ -30,7 +28,6 @@ export default axios.create({
   baseURL: "http://localhost:3000",
   timeout: 1000
 });
-
 
 const router = createRouter({
   history: createWebHistory(),
@@ -41,16 +38,11 @@ const router = createRouter({
     { path: '/', component: WelcomeView },
     { path: '/explore', component: ExplorePage, meta: {requiresAuth:true}},
     { path: '/notes', component: NotesView, meta: {requiresAuth:true}  },
-    { path: '/profile', component: ProfileView, meta: {requiresAuth:true} },
-    { path: '/settings', component: SettingsView, meta: {requiresAuth:true} },
+    { path: '/profile', component: ProfileView, meta: {requiresAuth:true} }
   ]
 });
 
-
-
 // const auth = getAuth();
-
-
 
 router.beforeEach(async (to) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
@@ -58,12 +50,6 @@ router.beforeEach(async (to) => {
     return '/';
   } 
 })
-
-
-      
-    
-
-
 
 createApp(App)
   .use(router)

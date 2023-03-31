@@ -2,114 +2,106 @@
   <v-card class="classcard" variant="outlined">
     <v-list bg-color="#4a6fa5">
       <VListItemTitle class="itemtitle">
+        <!-- <VBtn color="indigo" rounded="" >
+              <v-icon>mdi-plus</v-icon>
+            </VBtn> -->
         <h2>My Classes</h2>
       </VListItemTitle>
 
       <VDivider thickness="2"></VDivider>
 
-      <v-list>
-        <v-list-item v-for="(item, index) in items" :key="index">
-          <li>
-            <a href="class page">{{ item }}</a>
-          </li>
-          <div v-show="!editbtn">
-            <v-btn icon @click="removeClass(index)">
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-          </div>
-        </v-list-item>
-        <v-list-item v-if="addingItem">
-          <v-text-field
-            v-model="newItem"
-            @keydown.enter="addItem"
-            label="New Item"
-          ></v-text-field>
-        </v-list-item>
-      </v-list>
+      <VListItem
+        class="listitem"
+        v-for="classes in schedule"
+        :key="classes.id"
+        draggable="true"
+      >
+        <li>
+          <a href="class page">{{ classes.id }} </a>
+        </li>
+      </VListItem>
     </v-list>
-
+    <div v-show="editbtn" @click="editToggle"> 
+      <v-btn class="editbutton">Edit</v-btn>
+    </div>
+    <div v-show="!editbtn">
     <VBtn
       class="addclass"
-      color="secondary"
+    
+      color="success"
       width="50%"
       rounded="0"
-      @click="addingItem = true"
+      @click="addClass(); editToggle();"
       >Add</VBtn
     >
-
-    <VBtn class="deleteclass" width="50%" rounded="0" @click="editToggle">Delete</VBtn>
+    <VBtn class="deleteclass" width="50%" rounded="0">Delete</VBtn>
+  </div>
   </v-card>
 </template>
 
 <script>
-import { ref, onMounted, watch } from "vue";
-import { db } from "@/firebase";
-import { collection, addDoc } from "firebase/firestore";
-import { getDocs, query, where } from "firebase/firestore";
+import axios from "axios";
+import { ref} from "vue";
 
 export default {
   name: "MyClasses",
 
   setup() {
-    const newItem = ref("");
-    const items = ref([]);
-    let editbtn = ref(true);
 
-    async function addItem() {
-      if (newItem.value !== "") {
-        // Check if the item already exists in Firebase
-        const q = query(collection(db, "classes"), where("name", "==", newItem.value));
-        const querySnapshot = await getDocs(q);
-        if (querySnapshot.empty) {
-          // Add the new item to Firebase
-          const docRef = await addDoc(collection(db, "classes"), { className: newItem.value });
-          // Add the document ID to the `items` array
-          items.value.push(docRef.id);
-        }
-        newItem.value = "";
-      }
-    }
+    const schedule = ref([]);
+    const error = ref(null);
 
-    // Load the initial items from Firebase
-    onMounted(async () => {
-      const snapshot = await db.collection("classes").get();
-      snapshot.forEach((doc) => {
-        items.value.push(doc.id);
+
+    axios
+      .get("http://localhost:3000/schedule")
+      .then((response) => {
+        schedule.value = response.data;
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
       });
-    });
 
-    function removeClass(index) {
-      items.value.splice(index, 1);
-    }
+      return { schedule, error };
+  },
 
-    function editToggle() {
-      editbtn.value = !editbtn.value;
-    }
+  props: {
+    className: {
+      type: String,
+      required: false,
+    },
+  },
 
-
-    watch(items, async (newVal) => {
-      // create a reference to the 'classes' collection
-      const classesRef = collection(db, "classes");
-
-      // loop through the new items and add them to the 'classes' collection
-      for (const item of newVal) {
-        await addDoc(classesRef, { name: item });
-      }
-    });
-
-    const addingItem = ref(false);
-
+  data() {
     return {
-      newItem,
-      items,
-      addingItem,
-      addItem,
-      removeClass,
-      editToggle,
-      editbtn,
+      class: "",
+      editbtn: true
     };
   },
-};
+
+  methods: {
+    addClass() {
+
+      var data = {
+        class: this.class,
+      };
+
+      axios
+        .post("http://localhost:3000/addclass", data)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    editToggle() {
+      this.editbtn = !this.editbtn
+    }
+    },
+  };
+
 </script>
 
 <style scoped>
@@ -118,6 +110,7 @@ export default {
   right: 1%;
   width: 20%;
   top: 1%;
+  color: #e0e1dd;
   border: none;
   border-radius: 25px;
 }
@@ -170,15 +163,6 @@ v-card {
 }
 .itemtitle {
   background-color: #4a6fa5;
-}
-input {
-  color: white;
-  width: 70%;
-  margin: 0 15%;
-  border: none;
-  border-radius: 5px;
-  list-style: none;
-  margin-top: 3%;
 }
 
 .listitem:hover {
