@@ -1,9 +1,6 @@
 <template>
   <v-card class="avatar" border="true">
-    <v-avatar
-      image="https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg"
-    >
-    </v-avatar>
+    <v-avatar :image="profileImage"></v-avatar>
     <v-divider thickness="2"></v-divider>
     <h2>Name: {{ username }}</h2>
 
@@ -13,15 +10,34 @@
 </template>
 
 <script>
-import { auth } from "@/firebase/index";
+import { auth, db } from "@/firebase";
 import { ref } from "vue";
+import {  doc, getDoc } from "firebase/firestore";
 
 export default {
   name: "ProfileAvatar",
   setup() {
     const username = ref(auth.currentUser.displayName);
     const major = ref("Undecided");
-    const profileImage = ref(auth.currentUser.photoURL);
+    const profileImage = ref("");
+
+   
+    async function getImage(uid) {
+      const docRef = doc(db, "users", uid);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        const imageUrl = data.profilePicture;
+        return imageUrl;
+      } else {
+        console.log("No such document!");
+      }
+    }
+
+    getImage(auth.currentUser.uid).then((url) => {
+      profileImage.value = url;
+    });
 
     return { username, major, profileImage };
   },

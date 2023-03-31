@@ -1,26 +1,39 @@
 <template>
-  <v-app>
-    <div class="wolf-feed">
-      <h1>Wolf Feed</h1>
-      <div class="post-container">
-        <div v-for="post in posts" :key="post.id" class="post">
-          <div class="post-header">
+  <div class="wolf-feed">
+    <h1>Wolf Feed</h1>
+    <div class="post-container">
+      <VCard
+        v-for="post in posts"
+        :key="post.uid"
+        class="post"
+        variant="outlined"
+      >
+        <VCardItem class="post-header">
+          <v-row no-gutters>
             <img :src="post.avatar" alt="Author avatar" class="avatar" />
-            <div class="author-info">
-              <div class="author-name">{{ post.name }}</div>
-              <div class="post-date">{{ formatDate(post.date) }}</div>
+
+            <div class="author-name">{{ post.name }}</div>
+
+            <div class="post-date">
+              <div>
+                {{ formatDistanceToNow(post.PostDate) }} ago
+              </div>
             </div>
-          </div>
-          <div class="post-content">{{ post.content }}</div>
-        </div>
-      </div>
+          </v-row>
+        </VCardItem>
+
+        <div class="post-content">{{ post.content }}</div>
+      </VCard>
     </div>
-  </v-app>
+  </div>
 </template>
 
 <script>
-import { ref } from "vue";
-import axios from "axios";
+import { ref, onMounted } from "vue";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "@/firebase";
+import { formatDistanceToNow } from "date-fns";
+
 
 export default {
   name: "WolfFeed",
@@ -28,29 +41,49 @@ export default {
   setup() {
     const posts = ref([]);
     const error = ref(null);
-    axios
-      .get("http://localhost:3000/posts")
-      .then((response) => {
-        posts.value = response.data;
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+
+    const fetchPosts = async () => {
+      try {
+        const postRef = collection(db, "posts");
+        const q = query(postRef, where("isDeleted", "==", false));
+        const querySnapshot = await getDocs(q);
+        const postsArray = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        posts.value = postsArray;
+        console.log(posts.value);
+      } catch (err) {
+        error.value = err.message;
+      }
+    };
+
+    onMounted(() => {
+      fetchPosts();
+    });
 
     return { posts, error };
   },
 
   methods: {
-    formatDate(date) {
-      return new Intl.DateTimeFormat("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        hour12: true,
-      }).format(date);
+    formatTime(timestamp) {
+      const date = timestamp.toDate();
+      const hours = date.getHours();
+      const minutes = date.getMinutes().toString().padStart(2, "0");
+      const ampm = hours >= 12 ? "PM" : "AM";
+      const twelveHours = hours % 12 || 12;
+      return `${twelveHours}:${minutes} ${ampm}`;
+    },
+
+    formatDate(timestamp) {
+      const date = timestamp.toDate();
+      const options = { month: "short", day: "numeric", year: "2-digit" };
+      return new Intl.DateTimeFormat("en-US", options).format(date);
+    },
+
+    formatDistanceToNow(timestamp) {
+      const date = timestamp.toDate();
+      return formatDistanceToNow(date);
     },
   },
   computed: {
@@ -79,55 +112,61 @@ h1 {
   height: 61%;
   overflow-y: scroll;
   margin-top: 20px;
-  background-color: #4a6fa5;
-  border-top-right-radius: 25px;
-  border-top-left-radius: 25px;
+  background-color: #e0e1dd;
+
   width: 40%;
   position: absolute;
   margin-left: 36%;
 }
 
 .post {
-  border: 1px solid #e0e1dd;
+  border: solid;
+  border-color: #4a6fa5;
+  border-width: 5px;
   margin-bottom: 10px;
   padding: 10px;
+  border-radius: 25px;
 }
 
 .post-header {
-  display: flex;
+  /* display: flex; */
+  align-items: center;
 }
 
 ::-webkit-scrollbar {
   display: none;
 }
-
+/* 
 .avatar {
   width: 50px;
   height: 50px;
   margin-right: 10px;
   border-radius: 50%;
-}
+} */
 
 .author-info {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  color: #e0e1dd;
+  color: black;
 }
 
 .author-name {
   font-weight: bold;
-  color: #e0e1dd;
+  color: black;
+  font-weight: bold;
 }
 
 .post-date {
-  color: #e0e1dd;
+  color: black;
   font-size: 14px;
-  font-style: italic;
+  margin-left: auto;
+ 
 }
 
 .post-content {
   margin-top: 2%;
-  color: #e0e1dd;
+  color: black;
+  text-align: center;
 }
 </style>

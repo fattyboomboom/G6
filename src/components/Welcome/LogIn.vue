@@ -48,6 +48,7 @@
             ></v-text-field>
           </v-row>
 
+          <v-hover>
           <v-row>
             <!-- sign up password input -->
             <v-text-field
@@ -76,17 +77,19 @@
             v-model="signup.majors"
           >
           </v-autocomplete>
+          </v-hover>
 
           <!-- button to save form -->
           <v-btn
             class="saveNewButton rounded-pill"
             :disabled="!passwordsMatch || !emailsMatch || !unrEmail"
             type="submit"
-            variant="elevated"
             @click.prevent="saveNew"
           >
             Submit
           </v-btn>
+
+          
         </form>
       </div>
     </v-card>
@@ -120,8 +123,8 @@
 
       <!-- button to submit log in information -->
       <v-btn
-        class="signinbutton rounded-t-xl"
-        color="success"
+        class="signinbutton rounded-t-xl text-black"
+        color="login"
         size="large"
         type="submit"
         variant="elevated"
@@ -133,16 +136,17 @@
 
       <!-- button to bring up sign up form -->
       <v-btn
-        class="signupbutton rounded-b-xl"
-        color="primary"
+        class="signupbutton rounded-b-xl text-black"
+        color="login"
         size="large"
         variant="elevated"
         @click.prevent="toggleModal"
       >
         Sign Up
       </v-btn>
-      <!-- <a href="" class="forgotpassword">Forgot password</a> -->
+      <!--  -->
       <v-btn @click.prevent="googleSignIn">Sign in with Google</v-btn>
+      <a  class="forgotpassword">Forgot password</a>
     </v-form>
   </v-card>
 </template>
@@ -156,6 +160,7 @@ import { useRouter } from "vue-router";
 import { createUserWithEmailAndPassword,  signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, getAuth, onAuthStateChanged } from "firebase/auth"
 import { db,auth } from '@/firebase/index'
 import { serverTimestamp, doc, collection, writeBatch } from "@firebase/firestore";
+
 export default {
   name: "LogIn",
   components: {
@@ -220,7 +225,7 @@ export default {
   methods: {
   
     saveNew() {
-      let formdata = {
+      var formdata = {
         firstname: this.signup.firstname,
         lastname: this.signup.lastname,
         majors: this.signup.majors.id,
@@ -229,54 +234,21 @@ export default {
       };
       
       createUserWithEmailAndPassword(auth, formdata.email, formdata.password)
-        .then((result) => {
+        .then((response) => {
           console.log("Successfully registered!");
-          
-        let fullName = result.user.displayName.split(' ')
-          this.firstname = fullName[0],
-          this.lastname = fullName[1]
-
-        const email = result.user.email;
-        const userUID = result.user.uid;
-        const user = auth.currentUser;
-        
-        let signUpDate = new Date(user.metadata.creationTime);
-        let deletedBool = false;
-        let userRef = doc(collection(db, "users"), userUID);
-        let accountRef = doc(collection(db, "accounts"), email);
-        
-        this.router.push("/home");
-
-        let batch = writeBatch(db);
-
-        batch.set(userRef, {
-          CreatedDate: signUpDate,
-          FirstName: this.firstname,
-          LastName: this.lastname,
-          isDeleted: deletedBool,
-          uid: userUID
-        });
-
-        batch.set(accountRef, {
-          CreatedDate: signUpDate,
-          LastLogin: serverTimestamp(),
-          FirstName: this.firstname,
-          LastName: this.lastname,
-          AcctEmail: email,
-          isDeleted: deletedBool,
-          uid: userUID
-        });
-
-        batch.commit();
+          console.log(response.message);
         })
         .catch((error) => {
           console.log(error.code);
           alert(error.message);
         });
+    
+  
+  
     },
     // capturing data from log in form
     authuser() {
-      let authdata = {
+      var authdata = {
         email: this.auth.email,
         password: this.auth.password,
       };
@@ -284,14 +256,14 @@ export default {
           .then((response) => {
             // Signed in 
             console.log("Successful Sign In!");
-            console.log(response);
-          
+            console.log(response.message);
             this.router.push("/home");
           })
           .catch((error) => {
             console.log(error.code);
             console.log(error.message);
           });
+   
     },
  
     googleSignIn()
@@ -307,7 +279,6 @@ export default {
         let fullName = result.user.displayName.split(' ')
             this.firstname = fullName[0],
             this.lastname = fullName[1]
-
         const email = result.user.email;
         const userUID = result.user.uid;
         const user = auth.currentUser;
@@ -318,9 +289,7 @@ export default {
         const accountRef = doc(collection(db, "accounts"), email);
         
         this.router.push("/home");
-
         let batch = writeBatch(db);
-
         batch.set(userRef, {
           CreatedDate: signUpDate,
           FirstName: this.firstname,
@@ -328,7 +297,6 @@ export default {
           isDeleted: deletedBool,
           uid: userUID
         });
-
         batch.set(accountRef, {
           CreatedDate: signUpDate,
           LastLogin: serverTimestamp(),
@@ -338,7 +306,6 @@ export default {
           isDeleted: deletedBool,
           uid: userUID
         });
-
         batch.commit();
       })
       .catch((error)=> {
@@ -348,12 +315,14 @@ export default {
   },
 };
 
+      
+
 </script>
 
 <style scoped>
 p,
 a {
-  margin: 0;
+  margin: 5px;
   padding: 0;
 }
 
@@ -380,12 +349,12 @@ h1 {
   width: 80%;
 }
 
-.submitsignup,
+/* .submitsignup,
 .signupbutton:hover,
 .signinbutton:hover {
   scale: 1.1;
   background-color: #649fc4;
-}
+} */
 
 .submitsignup {
   width: 8%;
