@@ -42,7 +42,7 @@ const router = createRouter({
     { path: '/explore', component: ExplorePage, meta: {requiresAuth:true}},
     { path: '/notes', component: NotesView, meta: {requiresAuth:true}  },
     { path: '/user=:uid', component: ProfileView},
-    { path: '/classes/:classPrefix/:classNumber', component: ClassPage}
+    { path: '/classes/:classPrefix([A-Z]{2,4}):classNumber(\\d+)', component: ClassPage }
   ]
 });
 
