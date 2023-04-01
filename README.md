@@ -17,3 +17,4 @@ npm run serve
 ```
 /src/firebase/index.js
 ```
+**Warning:** Always ensure that the 'firebase' directory is git ignored.
