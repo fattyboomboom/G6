@@ -2,18 +2,18 @@
   <v-container>
     <v-row>
       <v-col md="12" >
-        <v-avatar >
-          <v-img src="https://cdn.mos.cms.futurecdn.net/Py7jzQuvEBcZDTbLW3rtTG.jpg" ></v-img>
+        <v-avatar :image=profilePicture >
+         
         </v-avatar>
-        <h2 class="my-4">Deandre Mylove</h2>
-        <v-btn color="primary" class="mb-4" v-model="follow" @click="followClicked">{{ followText }}</v-btn>
+        <h2 class="my-4">{{ firstname }} {{ lastname }}</h2>
+        <v-btn color="login" class="mb-4" v-model="follow" @click="followClicked">{{ followText }}</v-btn>
         <v-card class="class-list mt-6">
           <v-card-text>
-          <h1>Class</h1>
+          <h1>Classes</h1>
           
             <v-list >
-              <v-list-item v-for="(interest, index) in classes" :key="index">
-                <v-list-item-title>{{ interest }}</v-list-item-title>
+              <v-list-item v-for="(userClass, index) in classes" :key="index">
+                <router-link style="text-decoration: underline; cursor: pointer" :to="'/classes/' + userClass">{{ userClass }}</router-link>
               </v-list-item>
             </v-list>
           </v-card-text>
@@ -25,23 +25,39 @@
 </template>
 
 <script>
+import { ref} from "vue";
+import { useRoute } from "vue-router";
+import { db } from '@/firebase';
+import { collection, doc, getDoc } from "@firebase/firestore";
 export default {
-  name: "ProfilePage",
-  data: () => ({
-    follow: false,
-    classes: ['CS 420', 'MATH 381', 'PHYS 181', 'IS 301']
-  }),
-  computed: {
-    followText() {
-      return this.follow ? 'Following' : 'Follow'
-    }
-  },
-  methods: {
-    followClicked() {
-      this.follow = !this.follow
-    }
+  name: "OtherProfileAvatar",
+  setup() {
+    const route = useRoute();
+    const uid = ref(route.params.uid);
+    const firstname= ref("");
+    const lastname=ref("");
+    const profilePicture=ref("");
+    const major = ref("Undecided");
+    const classes = ref([])
+
+    const fetchUserData = async (uid) => {
+      const userRef = doc(collection(db, 'users'), uid);
+      const userDoc = await getDoc(userRef);
+      console.log(userDoc.data())
+      return userDoc.data();
+    };
+    const getUserData = async () => {
+      const user = await fetchUserData(uid.value);
+      firstname.value = user.FirstName;
+      lastname.value = user.LastName;
+      profilePicture.value = user.profilePicture;
+      classes.value = user.classes || [];
+    };
+    getUserData();
+    console.log(classes)
+    return { firstname, lastname, major, profilePicture, classes };
   }
-}
+};
 </script>
 
 <style scoped>
