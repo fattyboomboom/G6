@@ -51,7 +51,8 @@
           PostDate: serverTimestamp(),
           uid: auth.currentUser.uid,
           classPrefix: this.classPrefix,
-          classNumber: this.classNumber
+          classNumber: this.classNumber,
+          postType: "post"
         });
          console.log(res)
 

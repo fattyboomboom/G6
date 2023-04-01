@@ -6,7 +6,7 @@
     <!-- <ClassAnnouncements></ClassAnnouncements> -->
     <ClassPost></ClassPost>
     <ClassFeed></ClassFeed>
-  
+    <ClassNotes></ClassNotes>
   </template>
   
   <script>
@@ -15,6 +15,7 @@
   import ClassPost from "@/components/Classes/ClassPost.vue"
   import ClassFeed from "@/components/Classes/ClassFeed.vue"
   // import ClassAnnouncements from "@/components/Classes/ClassAnnouncements.vue";
+  import ClassNotes from "@/components/Classes/ClassNotes.vue"
 
   export default {
   name: "ClassPage",
@@ -22,6 +23,7 @@
     ClassInfo,
     ClassPost,
     ClassFeed,
+    ClassNotes
     // ClassAnnouncements
   },
   };

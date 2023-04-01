@@ -125,7 +125,7 @@
       <!-- button to submit log in information -->
       <v-btn
         class="signinbutton rounded-t-xl"
-        color="success"
+        color="login"
         size="large"
         type="submit"
         variant="elevated"
@@ -138,7 +138,7 @@
       <!-- button to bring up sign up form -->
       <v-btn
         class="signupbutton rounded-b-xl"
-        color="primary"
+        color="login"
         size="large"
         variant="elevated"
         @click.prevent="toggleModal"

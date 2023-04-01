@@ -1,6 +1,6 @@
 <template>
     <v-card class="avatar" border="true">
-      <div class="avatar-container ml-5">
+      <div class="avatar-container">
       <v-avatar
         :image=classPhoto
         size = 200
@@ -9,6 +9,8 @@
       </div>
       <v-divider thickness="2"></v-divider>
       <h2 style="text-align: center;">{{ classPrefix }}{{ classNumber }}</h2>
+      <v-divider thickness="2"></v-divider>
+      <h3 style="text-align: center;">Students</h3>
   
       
       
@@ -71,16 +73,22 @@ export default {
     margin-top: 1%;
     background-color: #e0e1dd;
     border: 6px solid #4a6fa5;
-    width: 20%;
+    width: 25%;
     border-radius: 25px;
     box-sizing: border-box;
+    align-items: center;
   }
+  .avatar-container {
+  display: flex;
+  justify-content: center;
+ 
+}
   .v-avatar {
     width: 70%;
     height: auto;
-    margin-left: 15%;
     margin-top: 2%;
     margin-bottom: 2%;
+
   }
   
   body {
@@ -98,6 +106,12 @@ export default {
     text-align: left;
     line-height: 2;
   }
-
+  h3 {
+    color: black;
+    font-size: 1.25rem;
+    margin-inline: 5%;
+    text-align: left;
+    line-height: 2;
+  }
   </style>
   
