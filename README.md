@@ -1,24 +1,19 @@
-# g6
+WolfCampus
+
+Built using Vue 3 and Firebase 9
 
 ## Project setup
+Within Project Directory
 ```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-```
-yarn serve
+npm install
 ```
 
-### Compiles and minifies for production
+### Run Project
 ```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
+npm run serve
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+####To use this project, make sure to add your Firebase configuration file to the following location: 
+```
+/src/firebase/index.js
+```
