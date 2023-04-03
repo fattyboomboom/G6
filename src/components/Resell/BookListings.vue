@@ -4,7 +4,6 @@
 
   
 </BookPost>
-
   <v-row>
     <v-col v-for="book in books" :key="book" class="d-flex" cols="3">
       <VCard class="bookcards">

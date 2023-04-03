@@ -15,7 +15,7 @@
 <script>
 // import axios from "axios";
 import { db, auth } from "@/firebase";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, doc, getDoc } from "firebase/firestore";
 
 export default {
   name: "WallPost",
@@ -37,26 +37,32 @@ export default {
     },
 
     async submitPost() {
+  // Get a reference to the current user's document
+  const userRef = doc(db, "users", auth.currentUser.uid);
 
-      const res = await addDoc(collection(db, "posts"), {
-        content: this.postContent.replace(/fuck|shit|bitch|asshole|ass/gi, " **** "),
-        PostDate: serverTimestamp(),
-        uid: auth.currentUser.uid,
-        isDeleted: false,
-      });
-      console.log(res);
-      // axios
-      //   .post("http://localhost:3000/posts", { content: this.postContent })
-      //   .then((response) => {
-      //     console.log("Post saved to database:", response.data);
-      //   })
-      //   .catch((error) => {
-      //     console.error("Error saving post to database:", error);
-      //   });
+  // Get the user's profile picture URL, first name, and last name from their document
+  const userDoc = await getDoc(userRef);
+  const data = userDoc.data();
+  const profilePicture = data.profilePicture;
+  const firstName = data.FirstName;
+  const lastName = data.LastName;
 
-      // Clear the textarea content
-      this.postContent = "";
-    },
+  // Add the post to the "posts" collection with the profile picture URL, first name, and last name included
+  const res = await addDoc(collection(db, "posts"), {
+    content: this.postContent.replace(/fuck|shit|bitch|asshole|ass/gi, " **** "),
+    PostDate: serverTimestamp(),
+    uid: auth.currentUser.uid,
+    isDeleted: false,
+    profilePicture: profilePicture,
+    firstName: firstName,
+    lastName: lastName
+  });
+  console.log(res);
+
+  // Clear the textarea content
+  this.postContent = "";
+},
+
   },
 };
 </script>

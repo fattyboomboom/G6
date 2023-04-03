@@ -1,6 +1,6 @@
 <template>
   <v-card class="avatar" border="true">
-    <v-avatar :image=profileImage size="250"></v-avatar>
+    <v-avatar :image=profileImage ></v-avatar>
     <v-divider thickness="2"></v-divider>
     <h2>Name: {{ username }}</h2>
 
@@ -23,22 +23,19 @@ export default {
 
     const userRef = collection(db, "users");
     const q = query(userRef, where("uid", "==", auth.currentUser.uid));
-    
+    console.log(q)
     onMounted(async () => {
-    profileImage.value = getDocs(q).then((querySnapshot) => {
+      const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        console.log(doc.data().profilePicture);
         profileImage.value = doc.data().profilePicture;
       });
     });
-  });
 
-
-console.log(profileImage)
     return { username, major, profileImage };
   },
 };
 </script>
+
 
 <style scoped>
 .avatar {
@@ -50,10 +47,11 @@ console.log(profileImage)
   border: none;
   border-radius: 25px;
   box-sizing: border-box;
+  height: 40%;
 }
 .v-avatar {
   width: 70%;
-  height: auto;
+  height: 65%;
   margin-left: 15%;
   margin-top: 2%;
   margin-bottom: 2%;

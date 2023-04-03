@@ -77,10 +77,11 @@ export default {
   methods: {
     async uploadPicture(e) {
   const storage = getStorage();
-  const storageRef = ref(storage, auth.currentUser.uid + "/profilePicture/" + e.target.files[0].name);
+  const file = e.target.files[0];
+  const storageRef = ref(storage, auth.currentUser.uid + "/profilePicture/" + file.name);
 
   // 'file' comes from the Blob or File API
-  const uploadTask = uploadBytesResumable(storageRef, e.target.files[0]);
+  const uploadTask = uploadBytesResumable(storageRef, file);
 
   uploadTask.on(
     "state_changed",
@@ -106,22 +107,28 @@ export default {
     async () => {
       // Handle successful uploads on complete
       // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-      const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-      console.log("File available at", downloadURL);
-      this.profilePictureUrl = downloadURL;
+      const originalDownloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+      console.log("Original file available at", originalDownloadURL);
 
+      // Retrieve the download URL of the resized image using the Image Resize extension
+      const resizedImageRef = ref(storage, auth.currentUser.uid + "/profilePicture/" + file.name + "_200xauto.jpg");
+      const resizedDownloadURL = await getDownloadURL(resizedImageRef);
+      console.log("Resized file available at", resizedDownloadURL);
+      
+      // Update the profile picture URL in Firestore with the download URL of the resized image
       const db = getFirestore();
       const userRef = doc(db, "users", auth.currentUser.uid);
 
       try {
-        await setDoc(userRef, { profilePicture: downloadURL }, { merge: true });
+        await setDoc(userRef, { profilePicture: resizedDownloadURL }, { merge: true });
         console.log("Profile picture URL saved to Firestore");
+        this.profilePictureUrl = resizedDownloadURL;
       } catch (error) {
         console.error(error);
       }
     }
   );
-},
+}
   },
 };
 </script>
