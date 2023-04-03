@@ -2,16 +2,37 @@
     <div class="Class-feed">
         <h1>Class Feed</h1>
         <div class="post-container">
-            <VCard v-for="post in posts" :key="post.uid" class="post" variant="outlined">
-                <VCardItem class="post-header">
-                    <img :src="post.avatar" alt="Author avatar" class="avatar" />
+            <v-card v-for="post in posts" :key="post.uid" class="post" variant="outlined" :title="`${ post.firstName } ${ post.lastName }`">
+                <template v-slot:prepend>
+                    <v-avatar color="grey-darken-3"
+                        image="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"></v-avatar>
+                </template>
+                <v-card-text class="text-h6">
+                    {{ post.content }}
+                </v-card-text>
+                <v-card-actions>
+                    <v-list-item class="w-100">
 
-                    <div class="author-name">{{ post.name }}</div>
+                        <div class="justify-self-start">
+                            <span class="subtitle me-2">[section] </span>
+                        </div>
+                        <template v-slot:append>
+                            <div class="justify-self-end">
+                                <span class="subtitle me-2">{{ formatDate(post.PostDate) }}</span>
+                                <span class="me-2">·</span>
+                                <span class="subtitle me-2">{{ formatTime(post.PostDate) }}</span>
+                                <span class="me-1">·</span>
+                                <v-btn class="me-1" icon>
+                                    <v-icon>mdi-heart-outline</v-icon>
+                                </v-btn>
+                                <span class="subheading ml-0">{{ post.likes }}</span>
 
-                    <div class="post-date">{{ post.PostDate }}</div>
-                </VCardItem>
-                <div class="post-content">{{ post.content }}</div>
-            </VCard>
+                            </div>
+                        </template>
+
+                    </v-list-item>
+                </v-card-actions>
+            </v-card>
         </div>
     </div>
 </template>
@@ -56,6 +77,19 @@ export default {
         return { posts, error };
     },
     methods: {
+        formatTime(timestamp) {
+            const date = timestamp.toDate();
+            const hours = date.getHours();
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            const twelveHours = hours % 12 || 12;
+            return `${twelveHours}:${minutes} ${ampm}`;
+        },
+        formatDate(timestamp) {
+            const date = timestamp.toDate();
+            const options = { month: 'numeric', day: 'numeric', year: '2-digit' };
+            return new Intl.DateTimeFormat('en-US', options).format(date);
+        }
     },
     computed: {
         displayedPosts() {
@@ -137,4 +171,9 @@ h1 {
     margin-top: 2%;
     color: black;
     text-align: center;
-}</style>
+}
+.mdi-heart-outline {
+    margin-left: -5px;
+    margin-top: -3px;
+}
+</style>

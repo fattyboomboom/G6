@@ -52,6 +52,8 @@
           uid: auth.currentUser.uid,
           classPrefix: this.classPrefix,
           classNumber: this.classNumber,
+          firstName: auth.currentUser.displayName.split(' ')[0],
+          lastName: auth.currentUser.displayName.split(' ')[1],
           postType: "post"
         });
          console.log(res)
