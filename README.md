@@ -26,6 +26,7 @@ npm run serve
 3. Enter 'Y'
 4. Select Firestore & Functions
 5. Retrieve firebase project ID and paste into project selection
+6. To start emulators run: 'firebase emulators:start'
 ```
 
 ## What to do for out of date JDK
