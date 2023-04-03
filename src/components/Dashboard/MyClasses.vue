@@ -177,6 +177,6 @@ input {
 }
 
 .v-card {
-  border: 4px solid #4a6fa5;
+  border: 3px solid #4a6fa5;
 }
 </style>
