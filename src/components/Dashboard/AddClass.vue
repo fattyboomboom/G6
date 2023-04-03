@@ -2,7 +2,7 @@
   <v-form>
     <v-card>
       <v-card-title class="text-h5">Add Class</v-card-title>
-      <v-carousel :hide-delimiters="true" show-arrows="hover" height="">
+      <v-carousel hide-delimiter-background delimiter-icon="mdi-square" show-arrows="hover" height="">
         <v-carousel-item v-for="(classData, index) in classes" :key="index">
           <v-card-text class="">
             <v-col cols="12" md="12">
@@ -23,7 +23,7 @@
                 :color="colors[index % colors.length]"
               ></v-text-field>
             </v-col>
-            <v-col cols="12" md="12">
+            <v-col cols="12" md="12" class="mb-4">
               <v-text-field
                 :label="'Class Section ' + (index + 1)"
                 v-model="classData.section"
@@ -31,19 +31,19 @@
                 :color="colors[index % colors.length]"
               ></v-text-field>
             </v-col>
-            <v-divider></v-divider>
+           
           </v-card-text>
+           <v-divider class="mb-2 "></v-divider>
         </v-carousel-item>
-        
+       
       </v-carousel>
-      <v-btn @click="addClass" > Add Class </v-btn>
+      <v-btn class="addClass" @click="addClass"> Add Class </v-btn>
       <v-row>
         <v-col cols="12" md="10">
-          <v-btn block @click="saveSettings">Save</v-btn>
+          <v-btn class="saveBtn" block @click="saveSettings">Save</v-btn>
         </v-col>
       </v-row>
     </v-card>
-    
   </v-form>
 </template>
 
@@ -100,26 +100,29 @@ export default {
     255,
     0.5
   ); /* set a semi-transparent white background */
-  backdrop-filter: blur(10px); /* apply a blur effect */
-  opacity: 1; /* set the overall opacity */
+  backdrop-filter: blur(3px); /* apply a blur effect */
+  position: absolute;
+  z-index: 1;
+  margin-left: 25%;
+  margin-right: 25%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  width: 50%;
 }
 .v-card {
   border: solid;
   border-color: #4a6fa5;
   border-width: 5px;
   margin: 5%;
-  height: 80%;
+  height: 92%;
   box-shadow: 0 16px 56px rgba(0, 0, 0, 0.1), 0 16px 56px rgba(0, 0, 0, 0.1),
     0 16px 56px rgba(0, 0, 0, 0.1);
-  width: 35%;
 }
 
 .v-card-title {
   color: black;
   text-align: center;
 }
-
-
 
 .v-avatar {
   height: 100%;
@@ -132,6 +135,7 @@ export default {
   border: solid;
   border-width: 2px;
   margin-left: 11%;
+  margin-bottom: 3%;
 }
 .v-text-field {
   border-color: #4a6fa5;
@@ -145,6 +149,18 @@ export default {
     width: 80%;
     margin: 10% auto;
   }
+}
+
+.addClass {
+  /* margin-left: 11%; */
+  margin-bottom: 3%;
+  margin-inline: 40%;
+  background-color: #c0d6df;
+}
+
+.saveBtn {
+
+  background-color: #166088;
 }
 
 @media (max-width: 400px) {

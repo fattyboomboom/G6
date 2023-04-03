@@ -28,14 +28,8 @@
       </v-list>
     </v-list>
 
-    <VBtn
-      class="addclass"
-      color="success"
-      width="50%"
-      rounded="0"
-      @click="addingItem = true"
-      >Add</VBtn
-    >
+    <VBtn class="addclass" color="success" width="50%" rounded="0" @click="$emit('add-class')">Add</VBtn>
+
 
     <VBtn class="deleteclass" width="50%" rounded="0" @click="editToggle">Delete</VBtn>
   </v-card>
