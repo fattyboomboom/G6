@@ -13,7 +13,7 @@
           
             <v-list >
               <v-list-item v-for="(userClass, index) in classes" :key="index">
-                <router-link style="text-decoration: underline; cursor: pointer" :to="'/classes/' + userClass">{{ userClass }}</router-link>
+                <v-btn class="classButton" elevation="0" style="cursor: pointer" :to="'/classes/' + userClass.prefix + userClass.number">{{ userClass.prefix }}{{ userClass.number }}</v-btn>
               </v-list-item>
             </v-list>
           </v-card-text>
@@ -28,33 +28,38 @@
 import { ref} from "vue";
 import { useRoute } from "vue-router";
 import { db } from '@/firebase';
-import { collection, doc, getDoc } from "@firebase/firestore";
+import { collection, getDocs, where, query } from "@firebase/firestore";
 export default {
   name: "OtherProfileAvatar",
   setup() {
     const route = useRoute();
-    const uid = ref(route.params.uid);
+    // const uid = ref(route.params.uid);
+    const username = ref(route.params.username);
     const firstname= ref("");
     const lastname=ref("");
     const profilePicture=ref("");
     const major = ref("Undecided");
     const classes = ref([])
 
-    const fetchUserData = async (uid) => {
-      const userRef = doc(collection(db, 'users'), uid);
-      const userDoc = await getDoc(userRef);
-      console.log(userDoc.data())
-      return userDoc.data();
-    };
-    const getUserData = async () => {
-      const user = await fetchUserData(uid.value);
-      firstname.value = user.FirstName;
-      lastname.value = user.LastName;
-      profilePicture.value = user.profilePicture;
-      classes.value = user.classes || [];
-    };
+    const fetchUserData = async (username) => {
+  const usersRef = collection(db, 'users');
+  const q = query(usersRef, where('username', '==', username));
+  const querySnapshot = await getDocs(q);
+  if (querySnapshot.empty) {
+    throw new Error(`No user found with username: ${username}`);
+  }
+  const userDoc = querySnapshot.docs[0];
+  return userDoc.data();
+};
+const getUserData = async () => {
+  const user = await fetchUserData(username.value);
+  firstname.value = user.FirstName;
+  lastname.value = user.LastName;
+  profilePicture.value = user.profilePicture;
+  classes.value = user.classes || [];
+};
     getUserData();
-    console.log(classes)
+    console.log(profilePicture)
     return { firstname, lastname, major, profilePicture, classes };
   }
 };
@@ -78,11 +83,14 @@ export default {
   border-style: solid;
 }
 .v-avatar {
-  width: 70%;
+  width: 40%;
   height: auto;
-  margin-left: 15%;
   margin-top: 2%;
   margin-bottom: 2%;
+}
+
+.classButton{
+  background-color: transparent;
 }
 
 </style>

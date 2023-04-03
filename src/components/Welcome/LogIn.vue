@@ -282,6 +282,7 @@ export default {
         const email = result.user.email;
         const userUID = result.user.uid;
         const user = auth.currentUser;
+        const username = result.user.email.split('@')[0];
         
         let signUpDate = new Date(user.metadata.creationTime);
         let deletedBool = false;
@@ -295,8 +296,9 @@ export default {
           FirstName: this.firstname,
           LastName: this.lastname,
           isDeleted: deletedBool,
-          uid: userUID
-        });
+          uid: userUID,
+          username: username
+        }, {merge: true});
         batch.set(accountRef, {
           CreatedDate: signUpDate,
           LastLogin: serverTimestamp(),
@@ -304,8 +306,9 @@ export default {
           LastName: this.lastname,
           AcctEmail: email,
           isDeleted: deletedBool,
-          uid: userUID
-        });
+          uid: userUID,
+          username: username
+        },{merge: true});
         batch.commit();
       })
       .catch((error)=> {

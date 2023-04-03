@@ -70,6 +70,7 @@ setup() {
     const postsArray = [];
     querySnapshot.forEach((doc) => {
       postsArray.push({ id: doc.id, ...doc.data() });
+      
     });
     posts.value = postsArray;
   });
