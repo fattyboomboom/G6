@@ -1,17 +1,17 @@
 <template>
   <v-card class="classcard" variant="outlined">
     <v-list bg-color="#4a6fa5">
-      <VListItemTitle class="itemtitle">
+      <v-list-item-title class="itemtitle">
         <h2>My Classes</h2>
-      </VListItemTitle>
+      </v-list-item-title>
 
-      <VDivider thickness="2"></VDivider>
+      <v-divider thickness="2"></v-divider>
 
       <v-list>
         <v-list-item v-for="(item, index) in items" :key="index">
-          <li>
-            <a href="class page">{{ item }}</a>
-          </li>
+          
+           <li>{{ item.prefix }} {{ item.number }} - {{ item.section }}</li> 
+          
           <div v-show="!editbtn">
             <v-btn icon @click="removeClass(index)">
               <v-icon>mdi-close</v-icon>
@@ -38,8 +38,9 @@
 <script>
 import { ref, onMounted, watch } from "vue";
 import { db } from "@/firebase";
-import { collection, addDoc } from "firebase/firestore";
-import { getDocs, query, where } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { collection,addDoc, doc, getDoc } from "firebase/firestore";
+
 
 export default {
   name: "MyClasses",
@@ -49,27 +50,22 @@ export default {
     const items = ref([]);
     let editbtn = ref(true);
 
-    async function addItem() {
-      if (newItem.value !== "") {
-        // Check if the item already exists in Firebase
-        const q = query(collection(db, "classes"), where("name", "==", newItem.value));
-        const querySnapshot = await getDocs(q);
-        if (querySnapshot.empty) {
-          // Add the new item to Firebase
-          const docRef = await addDoc(collection(db, "classes"), { className: newItem.value });
-          // Add the document ID to the `items` array
-          items.value.push(docRef.id);
-        }
-        newItem.value = "";
-      }
-    }
 
+    const auth = getAuth();
+    const uid = auth.currentUser.uid;
+    const userDocRef = doc(db, 'users', uid);
+  
     // Load the initial items from Firebase
     onMounted(async () => {
-      const snapshot = await db.collection("classes").get();
-      snapshot.forEach((doc) => {
-        items.value.push(doc.id);
-      });
+      const userDocSnap = await getDoc(userDocRef);
+      if (userDocSnap.exists()) {
+        const data = userDocSnap.data();
+        const classes = data.classes;
+        console.log(classes);
+        items.value = classes;
+      } else {
+        console.log('No such document!');
+      }
     });
 
     function removeClass(index) {
@@ -97,7 +93,7 @@ export default {
       newItem,
       items,
       addingItem,
-      addItem,
+    
       removeClass,
       editToggle,
       editbtn,
@@ -178,5 +174,9 @@ input {
 
 .listitem:hover {
   scale: 1.2;
+}
+
+.v-card {
+  border: 4px solid #4a6fa5;
 }
 </style>

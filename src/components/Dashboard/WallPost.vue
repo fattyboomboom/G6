@@ -37,31 +37,37 @@ export default {
     },
 
     async submitPost() {
-  // Get a reference to the current user's document
-  const userRef = doc(db, "users", auth.currentUser.uid);
 
-  // Get the user's profile picture URL, first name, and last name from their document
-  const userDoc = await getDoc(userRef);
-  const data = userDoc.data();
-  const profilePicture = data.profilePicture;
-  const firstName = data.FirstName;
-  const lastName = data.LastName;
+      if (this.postContent.trim() === "") {
+        // Alert the user that the post content cannot be empty
+        alert("Post content cannot be empty");
+        return;
+      }
+      // Get a reference to the current user's document
+      const userRef = doc(db, "users", auth.currentUser.uid);
 
-  // Add the post to the "posts" collection with the profile picture URL, first name, and last name included
-  const res = await addDoc(collection(db, "posts"), {
-    content: this.postContent.replace(/fuck|shit|bitch|asshole|ass/gi, " **** "),
-    PostDate: serverTimestamp(),
-    uid: auth.currentUser.uid,
-    isDeleted: false,
-    profilePicture: profilePicture,
-    firstName: firstName,
-    lastName: lastName
-  });
-  console.log(res);
+      // Get the user's profile picture URL, first name, and last name from their document
+      const userDoc = await getDoc(userRef);
+      const data = userDoc.data();
+      const profilePicture = data.profilePicture;
+      const firstName = data.FirstName;
+      const lastName = data.LastName;
 
-  // Clear the textarea content
-  this.postContent = "";
-},
+      // Add the post to the "posts" collection with the profile picture URL, first name, and last name included
+      const res = await addDoc(collection(db, "posts"), {
+        content: this.postContent.replace(/fuck|shit|bitch|asshole|ass/gi, " **** "),
+        PostDate: serverTimestamp(),
+        uid: auth.currentUser.uid,
+        isDeleted: false,
+        profilePicture: profilePicture,
+        firstName: firstName,
+        lastName: lastName
+      });
+      console.log(res);
+
+        // Clear the textarea content
+        this.postContent = "";
+    },
 
   },
 };

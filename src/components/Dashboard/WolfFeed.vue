@@ -10,7 +10,8 @@
       >
         <VCardItem class="post-header">
           <v-row no-gutters>
-            <img :src="post.avatar" alt="Author avatar" class="avatar" />
+           <v-avatar color="grey-darken-2" size="50"
+                        image="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"></v-avatar>
 
             <div class="author-name">{{ post.name }}</div>
 
