@@ -29,6 +29,8 @@ npm run serve
 6. To start emulators run: 'firebase emulators:start'
 ```
 
+**Warning:** Using the emulators will not affect the database (production) version of our project
+
 ## What to do for out of date JDK
 ```
 1. Install latest JDK here: https://www.oracle.com/java/technologies/downloads/#jdk20-windows
