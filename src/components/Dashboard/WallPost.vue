@@ -1,5 +1,13 @@
 <template>
   <v-container>
+    <v-alert
+      type="error"
+      title="Error Submitting Post"
+      closable
+      close-label="Close"
+      v-if="err"
+      >{{ err }}</v-alert
+    >
     <v-textarea
       clearable
       clear-icon="mdi-close-circle"
@@ -13,15 +21,16 @@
 </template>
 
 <script>
-// import axios from "axios";
-import {  db, auth } from '@/firebase/index'
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-
+import axios from "axios";
+import { auth, db } from "@/firebase/index";
+import { getDoc, doc } from "firebase/firestore";
+import ErrorService from "@/helperfuncts/errorHelper.js";
 export default {
   name: "WallPost",
   data() {
     return {
       postContent: "",
+      err: "",
     };
   },
   methods: {
@@ -36,22 +45,34 @@ export default {
       return date;
     },
 
-   async submitPost() {
-      
-      const res = await addDoc(collection(db, "posts"), {
-        content: this.postContent,
-        PostDate: serverTimestamp(),
-        uid: auth.currentUser.uid
-      });
-       console.log(res)
-      // axios
-      //   .post("http://localhost:3000/posts", { content: this.postContent })
-      //   .then((response) => {
-      //     console.log("Post saved to database:", response.data);
-      //   })
-      //   .catch((error) => {
-      //     console.error("Error saving post to database:", error);
-      //   });
+    async submitPost() {
+      // const res = await addDoc(collection(db, "posts"), {
+      //   content: this.postContent,
+      //   PostDate: serverTimestamp(),
+      //   uid: auth.currentUser.uid
+      // });
+      //  console.log(res)
+      const userRef = doc(db, "users", auth.currentUser.uid);
+      const userSnap = await getDoc(userRef);
+
+      axios
+        .post("http://localhost:5000/process", {
+          content: this.postContent,
+          uid: auth.currentUser.uid,
+          lastname: userSnap.data().LastName,
+        })
+        .then((response) => {
+          console.log("Post saved to database:", response.data);
+        })
+        .catch((err) => {
+          let errorMessage = ErrorService.getErrorMessage(err.response.status);
+          this.err = errorMessage;
+          console.log(errorMessage);
+
+          setTimeout(() => {
+            this.err = "";
+          }, 10000);
+        });
 
       // Clear the textarea content
       this.postContent = "";

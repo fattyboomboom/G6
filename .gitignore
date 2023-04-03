@@ -1,7 +1,12 @@
 .DS_Store
 node_modules
 /dist
+
+# firebase cloud function services and firebase init
 /src/firebase
+firebase.json
+.firebaserc
+functions
 
 
 # local env files

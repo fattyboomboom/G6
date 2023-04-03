@@ -41,8 +41,7 @@
         prepend-icon="mdi-cog"
         title="Settings"
         value="settings"
-        to="/"
-        @click.prevent="Logout"
+        to="/settings"
       ></v-list-item>
       <v-divider color="white"></v-divider>
       <v-list-item
