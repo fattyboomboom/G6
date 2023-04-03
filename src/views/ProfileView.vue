@@ -2,9 +2,10 @@
   <v-row>
     <v-col class="profile-page">
       <ProfilePage />
+      <MyClassesProfile />
     </v-col>
     <v-col  >
-      <WolfFeed class="wolf-feed" />
+      <WolfFeedProfile class="wolf-feed" />
     </v-col>
   </v-row>
   <nav-bar></nav-bar>
@@ -13,13 +14,15 @@
 <script>
 // import ProfileAvatar from "@/components/Dashboard/ProfileAvatar.vue";
 import ProfilePage from "@/components/Profile/ProfilePage.vue";
-import WolfFeed from "@/components/Dashboard/WolfFeed.vue";
+import MyClassesProfile from "@/components/Profile/MyClassesProfile.vue";
+import WolfFeedProfile from "@/components/Profile/WolfFeedProfile.vue";
 
 export default {
   name: "ProfileView",
   components: {
-    WolfFeed,
+    WolfFeedProfile,
     ProfilePage,
+    MyClassesProfile,
   },
 };
 </script>
@@ -30,21 +33,15 @@ export default {
   top: 5%;
   /* margin-right: 5%; */
   right: -10%;
-  height: 140%;
+  height: 90%;
   width: 80%;
-  /* box-shadow: 0 16px 56px rgba(0, 0, 0, 0.1), 0 16px 56px rgba(0, 0, 0, 0.1),
-    0 16px 56px rgba(0, 0, 0, 0.1); */
   font-size: 15px;
 }
 
 .profile-page {
   position: absolute;
-  /* top: 5%; */
-  /* margin-right: 5%; */
-  /* left: 0%; */
-  /* height: 120%; */
-  /* width: 150%; */
-  /* transform: translateY(-50%); */
-  /* font-size: 15px; */
+ 
 }
+
+
 </style>
