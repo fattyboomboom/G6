@@ -1,56 +1,42 @@
-<template> 
-    <v-row> 
+<template>
     
-      <v-col> 
-        
-        <v-card> 
-          <v-card-title class="bg-black d-flex justify-space-between"> 
-            <v-spacer></v-spacer> 
-            <span class="text-center">Super User</span> 
-   
-            <v-spacer></v-spacer> 
-   
-            <v-menu> 
-              <template v-slot:activator="{ props }"> 
-                <v-btn variant= "text" v-bind="props">Class</v-btn> 
-              </template> 
-   
-              <v-list> 
-                <v-list-item     
-                title="Add"
-                value="addclass"
-                @click="openModal"
-                ></v-list-item>
-                <v-list-item     
-                title="Modify"
-                value="modclass"
-                to="/modifyclass"
-                ></v-list-item>
-              </v-list> 
-            </v-menu> 
-             <v-menu> 
-              <template v-slot:activator="{ props }"> 
-                <v-btn variant= "text" v-bind="props">User</v-btn> 
-              </template> 
-                 <v-list> 
-                <v-list-item     
-                title="Add"
-                value="adduser"
-                to="/dashboard"
-                ></v-list-item>
-                <v-list-item     
-                title="Modify"
-                value="moduser"
-                to="/modifyuser"
-                ></v-list-item>
-              </v-list> 
-            </v-menu> 
-            <v-btn variant= "text" to="/reviewreport" >Review reports</v-btn>
-          </v-card-title> 
-        </v-card> 
-      </v-col> 
-    </v-row> 
-    <v-dialog v-model="modalOpen" max-width="700px" style="background-color: white; backdrop-filter: 0;">
+    <super-nav-bar></super-nav-bar>
+
+  <v-container fluid>
+    <v-card>
+      <v-card-title class="justify-center">Reported Posts</v-card-title>
+      <v-card-text>
+        <v-simple-table>
+          <thead>
+            <tr>
+              <th class="text-left">ID</th>
+              <th class="text-left">Author</th>
+              <th class="text-left">Date</th>
+              <th class="text-left">Content</th>
+              <th class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="post in posts" :key="post.post_id">
+              <td>{{ post.id }}</td>
+              <td>{{ post.name }}</td>
+              <td>{{ post.date }}</td>
+              <td>{{ post.content }}</td>
+              <td class="text-right">
+                <v-btn color="red" class="mr-3">Delete</v-btn>
+                <!-- <v-btn color="primary">Repeal</v-btn> -->
+              </td>
+            </tr>
+            <tr>
+              <td colspan="5" class="border-top py-3"></td>
+            </tr>
+          </tbody>
+        </v-simple-table>
+      </v-card-text>
+    </v-card>
+  </v-container>
+
+  <v-dialog v-model="modalOpen" max-width="700px" style="background-color: white; backdrop-filter: 0;">
   <v-card>
     <v-card-title class="text-h5">Add Class</v-card-title>
     <v-card-text>
@@ -81,10 +67,12 @@
     </v-card-actions>
   </v-card>
 </v-dialog>
-  </template> 
-     
-  <script> 
-    import axios from "axios";
+
+
+</template>
+
+<script>
+import axios from "axios";
 import { ref, computed } from "vue";
 export default {
   name: "SuperUserDash",
@@ -151,4 +139,28 @@ export default {
     };
   },
 };
-  </script>
+</script>
+
+
+
+<style scoped>
+.v-card {
+  max-width: 80%;
+  margin: 50px auto;
+}
+td {
+  padding: 10px;
+}
+.v-btn {
+  margin: 0 10px;
+}
+.text-right {
+  text-align: right;
+}
+tbody tr {
+  border-top: 1px solid lightgray;
+}
+.black {
+  background-color: #000000;
+}
+</style>
