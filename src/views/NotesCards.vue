@@ -25,74 +25,74 @@
 </template>
 
 <script>
-import filterMenu from "@/globalcomponents/ListingsFilter.vue";
-export default {
-  name: 'NotesView',
-  components: {
-    filterMenu,
-  },
-  data() {
-    return {
-      notes: [
-        {
-          id: 0,
-          lecture: "1",
-          professor: "Monica Nicolescu",
-          image: "note.jpg",
-        },
-        {
-          id: 1,
-          lecture: "2",
-          professor: "Monica Nicolescu",
-          image: "note2.jpg",
-        },
-        {
-          id: 2,
-          lecture: "3",
-          professor: "Monica Nicolescu",
-          image: "note3.jpg",
-        },
-        {
-          id: 3,
-          lecture: "4",
-          professor: "Monica Nicolescu",
-          image: "note4.jpg",
-        },
-        {
-          id: 4,
-          lecture: "4",
-          professor: "Monica Nicolescu",
-          image: "note5.jpg",
-        },
-        {
-          id: 5,
-          lecture: "4",
-          professor: "Monica Nicolescu",
-          image: "note5.jpg",
-        },
-        {
-          id: 6,
-          lecture: "4",
-          professor: "Monica Nicolescu",
-          image: "note5.jpg",
-        },
-        {
-          id: 7,
-          lecture: "4",
-          professor: "Monica Nicolescu",
-          image: "note5.jpg",
-        },
-        {
-          id: 8,
-          lecture: "4",
-          professor: "Monica Nicolescu",
-          image: "note5.jpg",
-        },
-      ],
-    };
-  },
-  methods: {},
-};
+// import filterMenu from "@/components/Resell/ListingsFilter.vue.js";
+// export default {
+//   name: 'NotesView',
+//   components: {
+//     filterMenu,
+//   },
+//   data() {
+//     return {
+//       notes: [
+//         {
+//           id: 0,
+//           lecture: "1",
+//           professor: "Monica Nicolescu",
+//           image: "note.jpg",
+//         },
+//         {
+//           id: 1,
+//           lecture: "2",
+//           professor: "Monica Nicolescu",
+//           image: "note2.jpg",
+//         },
+//         {
+//           id: 2,
+//           lecture: "3",
+//           professor: "Monica Nicolescu",
+//           image: "note3.jpg",
+//         },
+//         {
+//           id: 3,
+//           lecture: "4",
+//           professor: "Monica Nicolescu",
+//           image: "note4.jpg",
+//         },
+//         {
+//           id: 4,
+//           lecture: "4",
+//           professor: "Monica Nicolescu",
+//           image: "note5.jpg",
+//         },
+//         {
+//           id: 5,
+//           lecture: "4",
+//           professor: "Monica Nicolescu",
+//           image: "note5.jpg",
+//         },
+//         {
+//           id: 6,
+//           lecture: "4",
+//           professor: "Monica Nicolescu",
+//           image: "note5.jpg",
+//         },
+//         {
+//           id: 7,
+//           lecture: "4",
+//           professor: "Monica Nicolescu",
+//           image: "note5.jpg",
+//         },
+//         {
+//           id: 8,
+//           lecture: "4",
+//           professor: "Monica Nicolescu",
+//           image: "note5.jpg",
+//         },
+//       ],
+//     };
+//   },
+//   methods: {},
+// };
 </script>
 
 <style scoped>

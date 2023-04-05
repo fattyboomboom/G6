@@ -19,18 +19,13 @@ import AboutViewVue from './views/AboutView.vue'
 import WelcomeView from './views/WelcomeView.vue'
 import ExplorePage from './views/ExplorePage.vue'
 import NotesView from './views/NotesCards.vue'
-import FilterMenu from './globalcomponents/ListingsFilter.vue'
+import FilterMenu from './components/Resell/ListingsFilter.vue'
 import NavBarVue from './globalcomponents/NavBar.vue'
-import ListingsFilter from './globalcomponents/ListingsFilter.vue'
+import ListingsFilter from './components/Resell/ListingsFilter.vue'
 import SettingsView from './views/SettingsView.vue'
-import AddClass from './components/Dashboard/AddClass.vue'
+import BookPost from './components/Resell/BookPost.vue'
 
-import axios from "axios";
 
-export default axios.create({
-  baseURL: "http://localhost:3000",
-  timeout: 1000
-});
 
 
 const router = createRouter({
@@ -44,14 +39,9 @@ const router = createRouter({
     { path: '/notes', component: NotesView, meta: {requiresAuth:true}  },
     { path: '/profile', component: ProfileView, meta: {requiresAuth:true} },
     { path: '/settings', component: SettingsView, meta: {requiresAuth:true} },
-    { path: '/addclass', component: AddClass, meta: {requiresAuth:true} }
+    { path: '/addbook', component: BookPost, meta: {requiresAuth:true} }
   ]
 });
-
-
-
-// const auth = getAuth();
-
 
 
 router.beforeEach(async (to) => {

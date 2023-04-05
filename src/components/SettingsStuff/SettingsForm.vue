@@ -54,7 +54,7 @@
 
     <v-row class="mt-8">
       <v-col cols="12" md="6" offset-md="3">
-        <v-btn color="primary" block @click="saveSettings">Save Settings</v-btn>
+        <v-btn  block @click="saveSettings">Save Settings</v-btn>
       </v-col>
     </v-row>
   </v-form>
@@ -148,6 +148,8 @@ export default {
 .savebtn {
   margin-left: 40%;
   margin-top: 5%;
+  background-color: #4a6fa5;
+  color: white;
 }
 .v-card-title {
   color: black;
@@ -163,6 +165,8 @@ export default {
 .v-btn {
   align-content: center;
   border-color: #4a6fa5;
+  background-color: #4a6fa5;
+  color: white;
   border: solid;
   border-width: 2px;
 }

@@ -66,6 +66,8 @@ export default {
   color: white;
   border-radius: 25px;
   width: 50%;
+  box-shadow: 0 16px 46px rgba(0, 0, 0, 0.1), 0 16px 56px rgba(0, 0, 0, 0.1),
+    0 16px 56px rgba(0, 0, 0, 0.1);
   margin-inline: 25%;
 }
 </style>

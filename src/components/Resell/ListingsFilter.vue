@@ -1,18 +1,12 @@
 <template>
   <v-container class="dropdowncontainer pa-2" fluid>
     <VToolbar class="toolbar">
-      <v-btn
-      rounded="pill"
-     
-      prepend-icon="mdi-pencil-outline"
-      
-    >Edit</v-btn>
-      
+      <v-btn rounded="pill" prepend-icon="mdi-pencil-outline">Edit</v-btn>
+
       <VAutocomplete
         :items="['HIST 310', 'CS 135', 'BIOL 191', 'CPE 301']"
         label="Classes"
         class="dropdown"
-        clearable="true"
       ></VAutocomplete>
 
       <VAutocomplete
@@ -25,45 +19,31 @@
         filled
         label="Books"
         class="dropdown"
-        clearable="true"
-      ></VAutocomplete
-    >
-    <v-btn
-      rounded="pill"
-      prepend-icon="mdi-plus"
-      @click="isOpen = true"
-    >Create</v-btn>
-  </VToolbar>
-  
- <!-- <v-text-field class="searchbar"></v-text-field>-->
+      ></VAutocomplete>
+      <v-btn rounded="pill" prepend-icon="mdi-plus" @click="$emit('add-book')"
+        >Create</v-btn
+      >
+    </VToolbar>
   </v-container>
-
-  <BookPost :open="isOpen" @close="isOpen = !isOpen">
-
-  </BookPost>
 </template>
 
 <script>
-import BookPost from "../components/Resell/BookPost.vue";
 import { ref } from "vue";
 
-
 export default {
-  name: "ListingsFilter",
-  components: {BookPost},
+  name: "ListingsFilterResell",
 
   setup() {
-    const isOpen = ref(false)
+    const isOpen = ref(false);
 
-    return { isOpen }
-  }
+    return { isOpen };
+  },
 };
 </script>
 
 <style scoped>
 .dropdowncontainer {
   background-color: #166088;
-  
 }
 
 .dropdown {
@@ -81,9 +61,5 @@ export default {
 .v-btn {
   background-color: #c0d6df;
   height: 60%;
-
 }
-
-
-
 </style>
