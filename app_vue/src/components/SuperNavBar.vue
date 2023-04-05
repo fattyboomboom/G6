@@ -1,55 +1,53 @@
-<template> 
-    <v-row> 
-    
-      <v-col> 
-        
-        <v-card> 
-          <v-card-title class="bg-black d-flex justify-space-between"> 
-            <v-spacer></v-spacer> 
-            <span class="text-center">Super User</span> 
-   
-            <v-spacer></v-spacer> 
-   
-            <v-menu> 
-              <template v-slot:activator="{ props }"> 
-                <v-btn variant= "text" v-bind="props">Class</v-btn> 
-              </template> 
-   
-              <v-list> 
-                <v-list-item     
+<template>
+
+
+        <v-card>
+          <v-card-title class="bg-black d-flex justify-space-between">
+            <v-spacer></v-spacer>
+            <span class="text-center">Super User</span>
+
+            <v-spacer></v-spacer>
+
+            <v-menu>
+
+              <template v-slot:activator="{ props }">
+                <v-btn variant= "text" v-bind="props">Class</v-btn>
+              </template>
+
+              <v-list>
+                <v-list-item
                 title="Add"
                 value="addclass"
                 @click="openModal"
                 ></v-list-item>
-                <v-list-item     
+                <v-list-item
                 title="Modify"
                 value="modclass"
                 to="/modifyclass"
                 ></v-list-item>
-              </v-list> 
-            </v-menu> 
-             <v-menu> 
-              <template v-slot:activator="{ props }"> 
-                <v-btn variant= "text" v-bind="props">User</v-btn> 
-              </template> 
-                 <v-list> 
-                <v-list-item     
+              </v-list>
+            </v-menu>
+             <v-menu>
+              <template v-slot:activator="{ props }">
+                <v-btn variant= "text" v-bind="props">User</v-btn>
+              </template>
+                 <v-list>
+                <v-list-item
                 title="Add"
                 value="adduser"
-                to="/dashboard"
+                @click="openUserModal"
                 ></v-list-item>
-                <v-list-item     
+                <v-list-item
                 title="Modify"
                 value="moduser"
                 to="/modifyuser"
                 ></v-list-item>
-              </v-list> 
-            </v-menu> 
+              </v-list>
+            </v-menu>
             <v-btn variant= "text" to="/reviewreport" >Review reports</v-btn>
-          </v-card-title> 
-        </v-card> 
-      </v-col> 
-    </v-row> 
+          </v-card-title>
+        </v-card>
+\
     <v-dialog v-model="modalOpen" max-width="700px" style="background-color: white; backdrop-filter: 0;">
   <v-card>
     <v-card-title class="text-h5">Add Class</v-card-title>
@@ -81,9 +79,40 @@
     </v-card-actions>
   </v-card>
 </v-dialog>
-  </template> 
-     
-  <script> 
+<v-dialog v-model="modalUserOpen" max-width="700px" style="background-color: white; backdrop-filter: 0;">
+  <v-card>
+    <v-card-title class="text-h5">Add User</v-card-title>
+    <v-card-text>
+      <v-form>
+        <v-text-field
+  v-model="name"
+  label="User Name"
+  :rules="[() => !!name || 'User name is required', () => isClassNameValid || 'Invalid name format']"
+  style="width: 350px;"
+></v-text-field>
+<v-text-field
+  v-model="lastName"
+  label="User Last Name"
+  :rules="[() => !!lastName || 'User last name is required', () => isClassNameValid || 'Invalid last name format']"
+  style="width: 350px;"
+></v-text-field>
+<v-text-field
+  v-model="email"
+  label="Email"
+  :rules="[() => !!email || 'Email is required']"
+  style="width: 100px;"
+></v-text-field>
+      </v-form>
+    </v-card-text>
+    <v-card-actions>
+      <v-btn color="primary" @click="addClass" :disabled="!className || !section || !professor">Add</v-btn>
+      <v-btn color="secondary" @click="() => (modalOpen = false)">Cancel</v-btn>
+    </v-card-actions>
+  </v-card>
+</v-dialog>
+  </template>
+
+  <script>
     import axios from "axios";
 import { ref, computed } from "vue";
 export default {
@@ -101,6 +130,7 @@ export default {
         console.log(error);
       });
     const modalOpen = ref(false);
+    const modalUserOpen = ref(false);
     const className = ref("");
     const section = ref("");
     const professor = ref("");
@@ -115,6 +145,10 @@ export default {
     });
     function openModal() {
       modalOpen.value = true;
+
+    }
+    function openUserModal() {
+      modalUserOpen.value = true;
     }
     function addClass() {
   if (isFormValid.value) {
@@ -146,9 +180,15 @@ export default {
       professor,
       openModal,
       addClass,
+      openUserModal,
       isClassNameValid,
       isFormValid,
     };
   },
 };
   </script>
+<style>
+.text-center {
+  margin-left: 23%;
+}
+</style>
