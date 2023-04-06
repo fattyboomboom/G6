@@ -10,8 +10,9 @@
       <v-list>
         <v-list-item v-for="(item, index) in items" :key="index">
           
-           <li>{{ item.prefix }} {{ item.number }} - {{ item.section }}</li> 
           
+         <li> <v-btn class="classButton" elevation="0" style="cursor: pointer" :to="'/classes/' + item.prefix + item.number">{{ item.prefix }} {{ item.number }}</v-btn>
+          </li> 
           <div v-show="!editbtn">
             <v-btn icon @click="removeClass(index)">
               <v-icon>mdi-close</v-icon>

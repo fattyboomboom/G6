@@ -1,7 +1,7 @@
 <template>
   <div>
     <DashboardFriends />
-    <AddClass v-if="showModal" v-click-outside="closeModal"></AddClass>
+    <AddClass class="addclass" v-if="showModal" v-click-outside="closeModal"></AddClass>
     <MyClasses @add-class="openModal"></MyClasses>
     <ProfileAvatar />
     <WallPost />

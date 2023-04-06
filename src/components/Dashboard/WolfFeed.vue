@@ -31,7 +31,7 @@
 
 <script>
 import { ref, onMounted } from "vue";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, getDocs, where, query } from "firebase/firestore";
 import { db } from "@/firebase";
 import { formatDistanceToNow } from "date-fns";
 
@@ -46,6 +46,7 @@ export default {
       try {
         const postRef = collection(db, "posts");
         const q = query(postRef, where("isDeleted", "==", false));
+        // const q = postRef.where("isDeleted", false);
         const querySnapshot = await getDocs(q);
         const postsArray = querySnapshot.docs.map((doc) => ({
           id: doc.id,
@@ -53,6 +54,7 @@ export default {
         }));
         posts.value = postsArray;
         console.log(posts.value);
+        posts.value.sort((a, b) => b.PostDate - a.PostDate);
       } catch (err) {
         error.value = err.message;
       }

@@ -23,8 +23,7 @@ import FilterMenu from './components/Resell/ListingsFilter.vue'
 import NavBarVue from './globalcomponents/NavBar.vue'
 import ListingsFilter from './components/Resell/ListingsFilter.vue'
 import SettingsView from './views/SettingsView.vue'
-import BookPost from './components/Resell/BookPost.vue'
-
+import ClassPage from './views/ClassPage.vue'
 
 
 
@@ -39,7 +38,7 @@ const router = createRouter({
     { path: '/notes', component: NotesView, meta: {requiresAuth:true}  },
     { path: '/profile', component: ProfileView, meta: {requiresAuth:true} },
     { path: '/settings', component: SettingsView, meta: {requiresAuth:true} },
-    { path: '/addbook', component: BookPost, meta: {requiresAuth:true} }
+    { path: '/classes/:classPrefix([A-Z]{2,4}):classNumber(\\d+)', component: ClassPage }
   ]
 });
 

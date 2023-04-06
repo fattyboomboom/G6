@@ -1,4 +1,5 @@
 <template>
+  
   <v-form>
     <v-card>
       <v-card-title class="text-h5">Add Class</v-card-title>
@@ -55,7 +56,7 @@ export default {
   name: "AddClass",
   data() {
     return {
-      dialog: false,
+ 
       classes: [
         {
           prefix: "",
@@ -63,7 +64,7 @@ export default {
           section: "",
         },
       ],
-      colors: ["blue", "green", "pink", "purple", "orange", "white"], // Add more colors as needed
+      colors: ["blue", "green", "pink", "purple", "orange", "white"], 
     };
   },
   methods: {
@@ -74,9 +75,9 @@ export default {
         ? userDoc.data().classes || []
         : [];
       const newClasses = this.classes.map((classData) => ({
-        prefix: classData.prefix,
-        number: classData.number,
-        section: classData.section,
+        prefix: classData.prefix.replace(/\s+/g, '').toUpperCase(),
+        number: classData.number.replace(/\s+/g, ''),
+        section: classData.section.replace(/\s+/g, ''),
       }));
       const allClasses = [...existingClasses, ...newClasses];
       await updateDoc(userRef, { classes: allClasses });
@@ -94,13 +95,7 @@ export default {
 
 <style scoped>
 .v-form {
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.5
-  ); /* set a semi-transparent white background */
-  backdrop-filter: blur(3px); /* apply a blur effect */
+  
   position: absolute;
   z-index: 1;
   margin-left: 25%;
