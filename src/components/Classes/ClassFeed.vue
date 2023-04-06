@@ -65,6 +65,7 @@ export default {
                     ...doc.data(),
                 }));
                 posts.value = postsArray;
+                posts.value.sort((a, b) => b.PostDate - a.PostDate);
                 console.log(posts.value);
             } catch (err) {
                 error.value = err.message;

@@ -18,19 +18,19 @@
             </v-btn>
         </v-banner> -->
 
-    <v-card v-for="post in posts" :key="post.id" class="ml-16 mt-8 text-white" color="#4A6FA5" max-width="800"
+    <v-card v-for="post in posts" :key="post.id" class="post ml-16 mt-8" max-width="800"
       :title="post.uid">
       <template v-slot:prepend>
         <v-avatar color="grey-darken-3"
           image="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"></v-avatar>
       </template>
 
-      <v-card-text class="text-h5 py-2 text-white">
+      <v-card-text class="text-h5 py-2">
         {{ post.content }}
       </v-card-text>
 
       <v-card-actions>
-        <v-list-item class="w-100 text-white">
+        <v-list-item class="w-100">
           <div class="justify-self-start">
             <span class="subtitle me-2">{{ post.category }}</span>
           </div>
@@ -39,8 +39,8 @@
               <span class="subtitle me-2">{{ formatDate(post.PostDate) }}</span>
               <span class="me-2">·</span>
               <span class="subtitle me-2">{{ formatTime(post.PostDate) }}</span>
-              <span class="me-2">·</span>
-              <v-btn class="me-1" icon>
+              <span class="">·</span>
+              <v-btn class="me-1"    :style="{ 'background-color': hover ? 'red' : 'transparent' }" icon>
                 <v-icon>mdi-heart-outline</v-icon>
               </v-btn>
               <span class="subheading me-2">{{ post.likes }}</span>
@@ -97,4 +97,25 @@ methods:{
 <style scoped>
     .no-border{
         border:none;
-    }</style>
+    }
+    .post {
+      border: solid;
+      border-color: #4a6fa5;
+      border-width: 5px;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 25px;
+  }
+  .mdi-heart-outline {
+   
+    margin-top: -3px;
+}
+.v-btn .mdi-heart-outline:hover {
+   
+   margin-top: -3px;
+  color: rgb(180, 25, 25);
+}
+/*.v-btn :hover .v-btn__content::before {
+    background-color: pink;
+  } */
+  </style>
