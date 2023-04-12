@@ -14,7 +14,7 @@
                     <v-list-item class="w-100">
 
                         <div class="justify-self-start">
-                            <span class="subtitle me-2">[section] </span>
+                            <span class="subtitle me-2">Section {{ post.section }} </span>
                         </div>
                         <template v-slot:append>
                             <div class="justify-self-end">

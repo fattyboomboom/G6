@@ -30,7 +30,8 @@
       return {
         postContent: "",
         classPrefix,
-        classNumber
+        classNumber,
+        
       };
     },
     methods: {
@@ -54,7 +55,8 @@
           classNumber: this.classNumber,
           firstName: auth.currentUser.displayName.split(' ')[0],
           lastName: auth.currentUser.displayName.split(' ')[1],
-          postType: "post"
+          postType: "post",
+          section: 1001
         });
          console.log(res)
 

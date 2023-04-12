@@ -42,8 +42,8 @@
               <span class="subtitle me-2">{{ formatTime(post.PostDate) }}</span>
               <!-- <span class="">·</span>
               <v-btn class="me-1"    :style="{ 'background-color': hover ? 'red' : 'transparent' }" icon>
-                <v-icon>mdi-heart-outline</v-icon>
-              </v-btn> -->
+                <v-icon>mdi-heart-outline</v-icon> 
+              </v-btn>-->
               <span class="subheading me-2">{{ post.likes }}</span>
             </div>
           </template>
@@ -68,7 +68,7 @@ setup() {
   const fetchPosts = async () => {
   try {
     const postRef = collection(db, "posts");
-    const q = query(postRef, where("category", "!=", ""));
+    const q = query(postRef, where("category", "==", "Art"));
 
     onSnapshot(q, docSnap => {
       docSnap.docChanges().forEach(change => {

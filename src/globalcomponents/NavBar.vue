@@ -4,7 +4,7 @@
   <v-navigation-drawer expand-on-hover rail color="#e0e1dd"  permanent="">
     <v-list>
       <v-list-item
-        prepend-avatar="https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg"
+        prepend-avatar="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
         title="UserName"
         subtitle="email"
       ></v-list-item>
