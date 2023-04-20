@@ -67,6 +67,7 @@
     uid: auth.currentUser.uid,
     FirstName: auth.currentUser.displayName.split(' ')[0],
     LastName: auth.currentUser.displayName.split(' ')[1],
+    likes: []
   });
   console.log(res)
 

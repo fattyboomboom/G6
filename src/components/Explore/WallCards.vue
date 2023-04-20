@@ -8,11 +8,16 @@
             {{category.title}}
           </v-card-title>
           <v-card-actions>
-            <v-btn 
-        class="ml-2" 
-        icon>
-        <v-icon :class="{'red-heart': category.isLiked}">{{ category.isLiked ? 'mdi-heart' : 'mdi-heart-outline' }}</v-icon>
-      </v-btn>
+            <v-btn
+  class="ml-2"
+  @click="isLiked(category) ? unlikeCategory(category) : likeCategory(category)"
+  :style="{ 'color': isLiked(category) ? '#C1121F' : 'black' }"
+  icon
+>
+  <v-icon v-if="!isLiked(category)">mdi-heart-outline</v-icon>
+  <v-icon v-else>mdi-heart</v-icon>
+</v-btn>
+
           </v-card-actions>
         </div>
         <v-icon class="ma-3" size="75">{{category.icon}}</v-icon>
@@ -23,8 +28,9 @@
 
 <script>
 import { ref } from 'vue';
-import { db } from '@/firebase'
-import { collection, onSnapshot } from 'firebase/firestore';
+import { db, auth } from '@/firebase'
+import { collection, onSnapshot, doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+
 export default {
   name: "WallCards",
   setup() {
@@ -36,15 +42,63 @@ export default {
 
     // Listen for changes to the categories collection
     onSnapshot(categoriesRef, (querySnapshot) => {
-      const newCategories = [];
-      querySnapshot.forEach((doc) => {
-        newCategories.push({ id: doc.id, ...doc.data() });
-      });
-      categories.value = newCategories;
-    });
+  const newCategories = [];
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+    const categoryData = {
+      id: doc.id,
+      title: data.title,
+      icon: data.icon,
+      likes: data.likes && Array.isArray(data.likes) ? data.likes : []
+    };
+    newCategories.push(categoryData);
+  });
+  categories.value = newCategories;
+});
 
     return { categories };
   },
+  methods: {
+    isLiked(category) {
+      return category.likes.includes(auth.currentUser.uid);
+    },
+    async likeCategory(category) {
+      try {
+        const uid = auth.currentUser.uid;
+
+        const categoryRef = doc(db, "categories", category.id);
+
+        // Like the category by adding the user's UID to the likes array
+        await updateDoc(categoryRef, {
+          likes: arrayUnion(uid),
+        });
+
+        category.likes.push(uid);
+      } catch (error) {
+        console.error("Error updating likes: ", error);
+      }
+    },
+
+    async unlikeCategory(category) {
+      try {
+        const uid = auth.currentUser.uid;
+
+        const categoryRef = doc(db, "categories", category.id);
+
+        // Unlike the category by removing the user's UID from the likes array
+        await updateDoc(categoryRef, {
+          likes: arrayRemove(uid),
+        });
+
+        const index = category.likes.indexOf(uid);
+        if (index > -1) {
+          category.likes.splice(index, 1);
+        }
+      } catch (error) {
+        console.error("Error updating likes: ", error);
+      }
+    }
+  }
 };
 </script>
 
@@ -66,4 +120,16 @@ export default {
   .wall-container{
     margin-top:-5px
   }
+  .v-btn .mdi-heart-outline:hover {
+
+margin-top: -3px;
+color: rgb(180, 25, 25);
+transform: scale(1.1);
+}
+
+.v-btn .mdi-heart:hover {
+
+margin-top: -3px;
+transform: scale(1.1);
+}
 </style>

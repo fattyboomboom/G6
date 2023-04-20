@@ -40,11 +40,14 @@
               <span class="subtitle me-2">{{ formatDate(post.PostDate) }}</span>
               <span class="me-2">·</span>
               <span class="subtitle me-2">{{ formatTime(post.PostDate) }}</span>
-              <!-- <span class="">·</span>
-              <v-btn class="me-1"    :style="{ 'background-color': hover ? 'red' : 'transparent' }" icon>
-                <v-icon>mdi-heart-outline</v-icon> 
-              </v-btn>-->
-              <span class="subheading me-2">{{ post.likes }}</span>
+              <span class="">·</span>
+              <v-btn class="me-1" @click="isLiked(post) ? unlikePost(post) : likePost(post)"
+                :style="{ 'color': isLiked(post) ? '#C1121F' : 'black' }" icon>
+                <v-icon v-if="!isLiked(post)">mdi-heart-outline</v-icon>
+                <v-icon v-else>mdi-heart</v-icon>
+              </v-btn>
+
+              <span class="subheading me-2">{{ post.likes.length }}</span>
             </div>
           </template>
         </v-list-item>
@@ -55,53 +58,129 @@
 
 <script>
 import { ref, onMounted } from "vue";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
-import { db } from "@/firebase";
+import { collection, onSnapshot, query, where, updateDoc, doc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { db, auth } from "@/firebase";
 export default {
-name: "PostComp",
-setup() {
-  // Reading categories from Firebase
-  const posts = ref([]);
-  const error = ref(null);
-  // Create a reference to the categories collection in Firebase Firestore
+  name: "PostComp",
+  setup() {
+    // Reading categories from Firebase
+    const posts = ref([]);
+    const error = ref(null);
+    const likedCategories = ref([]);
+    // Create a reference to the categories collection in Firebase Firestore
+    const fetchLikedCategories = async () => {
+    try {
+      const uid = auth.currentUser.uid;
+      const categoryRef = collection(db, "categories");
+      const q = query(categoryRef, where("likes", "array-contains", uid));
 
+      onSnapshot(q, (querySnapshot) => {
+        likedCategories.value = querySnapshot.docs.map((doc) => doc.id);
+      });
+    } catch (err) {
+      console.error("Error fetching liked categories: ", err);
+    }
+  };
   const fetchPosts = async () => {
-  try {
-    const postRef = collection(db, "posts");
-    const q = query(postRef, where("category", "==", "Art"));
+    try {
+      const postRef = collection(db, "posts");
+      const q = query(postRef);
 
-    onSnapshot(q, docSnap => {
-      docSnap.docChanges().forEach(change => {
-        posts.value.push(change.doc.data());
-      });
-      posts.value.sort((a, b) => b.PostDate - a.PostDate);
-      console.log(posts);
-    });
-  } catch (err) {
-    error.value = err.message;
-  }
-};
-      onMounted(() => {
-          fetchPosts();
-      });
+      onSnapshot(q, (docSnap) => {
+        docSnap.docChanges().forEach((change) => {
+          const postData = change.doc.data();
+          postData.id = change.doc.id;
 
-      return { posts, error };
+          if (likedCategories.value.includes(postData.category)) {
+            const postIndex = posts.value.findIndex((post) => post.id === postData.id);
+
+            if (postIndex >= 0) {
+              // Update the existing post in the array
+              posts.value[postIndex] = postData;
+            } else {
+              // Add new post to the array
+              posts.value.push(postData);
+            }
+          }
+        });
+        posts.value.sort((a, b) => b.PostDate - a.PostDate);
+        console.log(posts);
+      });
+    } catch (err) {
+      error.value = err.message;
+    }
+  };
+  onMounted(() => {
+    fetchLikedCategories();
+    fetchPosts();
+  });
+
+    return { posts, error };
   },
-methods:{
-  formatTime(timestamp) {
-    const date = timestamp.toDate();
-    const hours = date.getHours();
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    const twelveHours = hours % 12 || 12;
-    return `${twelveHours}:${minutes} ${ampm}`;
-  },
-  formatDate(timestamp) {
-    const date = timestamp.toDate();
-    const options = { month: 'numeric', day: 'numeric', year: '2-digit' };
-    return new Intl.DateTimeFormat('en-US', options).format(date);
+  methods: {
+    formatTime(timestamp) {
+  if (!timestamp) {
+    return '';
   }
-}
+  const date = timestamp.toDate();
+  const hours = date.getHours();
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  const twelveHours = hours % 12 || 12;
+  return `${twelveHours}:${minutes} ${ampm}`;
+},
+
+    formatDate(timestamp) {
+  if (!timestamp) {
+    return ''; 
+  }
+  const date = timestamp.toDate();
+  const options = { month: 'numeric', day: 'numeric', year: '2-digit' };
+  return new Intl.DateTimeFormat('en-US', options).format(date);
+},
+
+    isLiked(post) {
+      return post.likes.includes(auth.currentUser.uid);
+    },
+    async likePost(post) {
+      try {
+        const uid = auth.currentUser.uid;
+
+        const postRef = doc(db, "posts", post.id);
+
+        // Like the post by adding the user's UID to the likes array
+        await updateDoc(postRef, {
+          likes: arrayUnion(uid),
+        });
+
+        post.likes.push(uid);
+      } catch (error) {
+        console.error("Error updating likes: ", error);
+      }
+    },
+
+    async unlikePost(post) {
+      try {
+        const uid = auth.currentUser.uid;
+
+        const postRef = doc(db, "posts", post.id);
+
+        // Unlike the post by removing the user's UID from the likes array
+        await updateDoc(postRef, {
+          likes: arrayRemove(uid),
+        });
+
+        const index = post.likes.indexOf(uid);
+        if (index > -1) {
+          post.likes.splice(index, 1);
+        }
+      } catch (error) {
+        console.error("Error updating likes: ", error);
+      }
+    }
+
+
+  }
 };
 </script>
 
