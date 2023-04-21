@@ -13,7 +13,7 @@
            <v-avatar color="grey-darken-2" size="50"
                         image="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"></v-avatar>
 
-            <div class="author-name">{{ post.name }}</div>
+                        <div class="author-name pt-3 pl-3">{{ `${post.FirstName} ${post.LastName}` }}</div>
 
             <div class="post-date">
               <div>
@@ -31,7 +31,7 @@
 
 <script>
 import { ref, onMounted } from "vue";
-import { collection, getDocs, where, query } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase";
 import { formatDistanceToNow } from "date-fns";
 
@@ -45,16 +45,15 @@ export default {
     const fetchPosts = async () => {
       try {
         const postRef = collection(db, "posts");
-        const q = query(postRef, where("isDeleted", "==", false));
-        // const q = postRef.where("isDeleted", false);
-        const querySnapshot = await getDocs(q);
-        const postsArray = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        posts.value = postsArray;
-        console.log(posts.value);
+        
+
+        onSnapshot(postRef, docSnap => {
+          docSnap.docChanges().forEach( change => {
+            posts.value.push(change.doc.data());
+          });
         posts.value.sort((a, b) => b.PostDate - a.PostDate);
+        console.log(posts)
+        })
       } catch (err) {
         error.value = err.message;
       }

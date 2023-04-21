@@ -343,13 +343,6 @@ h1 {
   width: 80%;
 }
 
-.submitsignup,
-.signupbutton:hover,
-.signinbutton:hover {
-  scale: 1.1;
-  background-color: #649fc4;
-}
-
 .submitsignup {
   width: 8%;
 }
@@ -424,10 +417,6 @@ p {
   margin-inline: 10%;
 }
 
-.forgotpassword:hover {
-  font-size: large;
-  color: green;
-}
 
 .error {
   color: red;

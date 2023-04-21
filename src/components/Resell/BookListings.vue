@@ -1,9 +1,4 @@
 <template>
-
-<BookPost>
-
-  
-</BookPost>
   <v-row>
     <v-col v-for="book in books" :key="book" class="d-flex" cols="3">
       <VCard class="bookcards">
@@ -44,7 +39,7 @@ export default {
                     bookname: "History of the World Map by Map",
                     bookclass: "HIST 310",
                     bookimage: "https://m.media-amazon.com/images/I/81VTod4MpkL.jpg",
-                    price: "TEST ",
+                    price: "$0",
                     edition: "NA",
                     date: "2023-01-05",
                 },
@@ -53,7 +48,7 @@ export default {
                     bookname: "The C++ Programming Language",
                     bookclass: "CS 135",
                     bookimage: "https://m.media-amazon.com/images/I/51iQMFmLFtL.jpg",
-                    price: "Price",
+                    price: "$6",
                     edition: "4",
                     date: "2023-01-02",
                 },
@@ -62,8 +57,8 @@ export default {
                     bookname: "Campbell Biology 12th Edition",
                     bookclass: "BIOL 191",
                     bookimage: "https://m.media-amazon.com/images/I/41mqPR4WuCL.jpg",
-                    price: "Price",
-                    edition: "NA",
+                    price: "$22",
+                    edition: "$10",
                     date: "2023-01-02",
                 },
                 {
@@ -71,7 +66,7 @@ export default {
                     bookname: "Mega 2560 Complete Starter Kit",
                     bookclass: "CPE 301",
                     bookimage: "https://m.media-amazon.com/images/I/51K67ltZWdL._AC_SL1000_.jpg",
-                    price: "Price",
+                    price: "$0",
                     edition: "NA",
                     date: "2023-01-01",
                 },
@@ -79,8 +74,8 @@ export default {
                     id: 5,
                     bookname: "History of the World Map by Map",
                     bookclass: "HIST 310",
-                    bookimage: "https://m.media-amazon.com/images/I/51iQMFmLFtL.jpg",
-                    price: "Price",
+                    bookimage: "https://m.media-amazon.com/images/P/1496343409.01._SCLZZZZZZZ_SX500_.jpg",
+                    price: "$15",
                     edition: "NA",
                     date: "2023-01-02",
                 },
@@ -88,8 +83,8 @@ export default {
                     id: 6,
                     bookname: "History of the World Map by Map",
                     bookclass: "HIST 310",
-                    bookimage: "https://m.media-amazon.com/images/I/51iQMFmLFtL.jpg",
-                    price: "Price",
+                    bookimage: "https://m.media-amazon.com/images/P/0312185480.01._SCLZZZZZZZ_SX500_.jpg",
+                    price: "$3",
                     edition: "NA",
                     date: "2023-01-02",
                 },
@@ -97,8 +92,8 @@ export default {
                     id: 7,
                     bookname: "History of the World Map by Map",
                     bookclass: "HIST 310",
-                    bookimage: "https://m.media-amazon.com/images/I/51iQMFmLFtL.jpg",
-                    price: "Price",
+                    bookimage: "https://m.media-amazon.com/images/P/1938168003.01._SCLZZZZZZZ_SX500_.jpg",
+                    price: "$20",
                     edition: "NA",
                     date: "2023-01-02",
                 },
@@ -106,8 +101,8 @@ export default {
                     id: 8,
                     bookname: "History of the World Map by Map",
                     bookclass: "HIST 310",
-                    bookimage: "https://m.media-amazon.com/images/I/51iQMFmLFtL.jpg",
-                    price: "Price",
+                    bookimage: "https://m.media-amazon.com/images/P/111949348X.01._SCLZZZZZZZ_SX500_.jpg",
+                    price: "$13",
                     edition: "NA",
                     date: "2023-01-02",
                 },
@@ -116,7 +111,7 @@ export default {
                     bookname: "History of the World Map by Map",
                     bookclass: "HIST 310",
                     bookimage: "https://m.media-amazon.com/images/I/51iQMFmLFtL.jpg",
-                    price: "Price",
+                    price: "$5",
                     edition: "NA",
                     date: "2023-01-02",
                 },
@@ -175,8 +170,11 @@ export default {
 }
 
 .bookcards:hover {
-  transform: scale(1.1) rotate(1deg);
-  box-shadow: 2px 2px black;
+  box-shadow: 0 16px 56px rgba(0, 0, 0, 0.1), 0 16px 56px rgba(0, 0, 0, 0.1),
+  0 16px 56px rgba(0, 0, 0, 0.1);
+
+  
+  box-sizing: border-box;
 }
 
 p {

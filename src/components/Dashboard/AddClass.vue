@@ -41,7 +41,7 @@
       <v-btn class="addClass" @click="addClass"> Add Class </v-btn>
       <v-row>
         <v-col cols="12" md="10">
-          <v-btn class="saveBtn" block @click="saveSettings">Save</v-btn>
+          <v-btn class="saveBtn" block @click="saveSettings" >Save</v-btn>
         </v-col>
       </v-row>
     </v-card>
@@ -78,6 +78,7 @@ export default {
         prefix: classData.prefix.replace(/\s+/g, '').toUpperCase(),
         number: classData.number.replace(/\s+/g, ''),
         section: classData.section.replace(/\s+/g, ''),
+  
       }));
       const allClasses = [...existingClasses, ...newClasses];
       await updateDoc(userRef, { classes: allClasses });

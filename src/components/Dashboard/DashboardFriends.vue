@@ -1,7 +1,7 @@
 <template>
   <VCard :border="true" class="friendslist" variant="outlined">
     <a href="friends">
-      <VCardTitle class="cardtitle"> <h2>Friends</h2></VCardTitle></a
+      <VCardTitle class="cardtitle"> <h2>Following</h2></VCardTitle></a
     >
     <VDivider color="#003049" thickness="2"></VDivider>
     <v-row no-gutters>
@@ -34,28 +34,47 @@
         </VCard>
       </v-col>
     </v-row>
+    <a href="friends" class="view-all-link">
+      <p>View All</p>
+    </a>
   </VCard>
 </template>
 
 <script>
 import { ref } from "vue";
-import axios from "axios";
+
 export default {
   name: "DashFriends",
 
   setup() {
-    const friends = ref([]);
-    const error = ref(null);
+    const friends = ref([
+      {
+        name: "Johnhy Davis",
+        image: "https://randomuser.me/api/portraits/men/86.jpg",
+      },
+      {
+        name: "Patricia Moore",
+        image: "https://randomuser.me/api/portraits/women/24.jpg",
+      },
+      {
+        name: "Jazzi Johnson",
+        image: "https://randomuser.me/api/portraits/women/69.jpg",
+      },
+      {
+        name: "Tyler Evans",
+        image: "https://randomuser.me/api/portraits/men/52.jpg",
+      },
+      {
+        name: "Alice Johnson",
+        image: "https://randomuser.me/api/portraits/women/39.jpg",
+      },
+      {
+        name: "Richard Harris",
+        image: "https://randomuser.me/api/portraits/men/59.jpg",
+      },
+    ]);
 
-    axios.get("http://localhost:3000/friends").then(response => {
-      friends.value = response.data;
-      console.log(response.data);
-  })
-  .catch(error => {
-    console.log(error);
-  });
-
-    return { friends, error };
+    return { friends };
   },
 };
 </script>

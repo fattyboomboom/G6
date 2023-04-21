@@ -9,17 +9,7 @@
         class="dropdown"
       ></VAutocomplete>
 
-      <VAutocomplete
-        :items="[
-          'History of the World Map by Map',
-          'The C++ Programming Language',
-          'Campbell Biology 12th Edition',
-          'Mega 2560 Complete Starter Kit',
-        ]"
-        filled
-        label="Books"
-        class="dropdown"
-      ></VAutocomplete>
+      
       <v-btn rounded="pill" prepend-icon="mdi-plus" @click="$emit('add-book')"
         >Create</v-btn
       >

@@ -29,7 +29,7 @@
       </v-list>
     </v-list>
 
-    <VBtn class="addclass" color="success" width="50%" rounded="0" @click="$emit('add-class')">Add</VBtn>
+    <VBtn class="addclass"  width="50%" rounded="0" @click="$emit('add-class')">Add</VBtn>
 
 
     <VBtn class="deleteclass" width="50%" rounded="0" @click="editToggle">Delete</VBtn>
@@ -57,16 +57,21 @@ export default {
     const userDocRef = doc(db, 'users', uid);
   
     // Load the initial items from Firebase
-    onMounted(async () => {
-      const userDocSnap = await getDoc(userDocRef);
-      if (userDocSnap.exists()) {
-        const data = userDocSnap.data();
-        const classes = data.classes;
-        console.log(classes);
-        items.value = classes;
-      } else {
-        console.log('No such document!');
-      }
+    const fetchPosts = async () => {
+  try {
+    const userDocSnap = await getDoc(userDocRef);
+    if (userDocSnap.exists()) {
+      const data = userDocSnap.data();
+      const classes = data.classes;
+      console.log(classes);
+      items.value = classes;
+    }
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+onMounted(() => {
+      fetchPosts();
     });
 
     function removeClass(index) {
@@ -133,6 +138,7 @@ h2 {
 .addclass {
   left: 0%;
   background-color: #669bbc;
+  color: white;
 }
 .deleteclass {
   right: 0%;

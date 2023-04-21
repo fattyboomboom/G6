@@ -17,7 +17,7 @@ const myCustomTheme = {
   colors: {
     background: '#e0e1dd',
     surface: '#e0e1dd',
-    primary: '#6200EE',
+    primary: '#669bbc',
     'primary-darken-1': '#3700B3',
     secondary: '#669bbc',
     'black': '#00000',

@@ -1,6 +1,6 @@
 <template>
   <v-card class="avatar" border="true">
-    <v-avatar :image=profileImage ></v-avatar>
+    <v-avatar> <v-img :src="profileImage"></v-img> </v-avatar>
     <v-divider thickness="2"></v-divider>
     <h2>Name: {{ username }}</h2>
 
@@ -23,7 +23,7 @@ export default {
 
     const userRef = collection(db, "users");
     const q = query(userRef, where("uid", "==", auth.currentUser.uid));
-    console.log(q)
+    console.log(q);
     onMounted(async () => {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
@@ -35,7 +35,6 @@ export default {
   },
 };
 </script>
-
 
 <style scoped>
 .avatar {

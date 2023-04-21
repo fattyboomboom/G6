@@ -1,7 +1,7 @@
 <template>
  
   <!-- This nav drawer is set to permanent. will always be available on every screen size. -->
-  <v-navigation-drawer expand-on-hover rail color="#e0e1dd"  permanent="">
+  <v-navigation-drawer  rail color="#e0e1dd"  permanent="">
     <v-list>
       <v-list-item
         prepend-avatar="https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg"
