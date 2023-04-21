@@ -1,9 +1,13 @@
 <template>
-  
   <v-form>
     <v-card>
       <v-card-title class="text-h5">Add Class</v-card-title>
-      <v-carousel hide-delimiter-background delimiter-icon="mdi-square" show-arrows="hover" height="">
+      <v-carousel
+        hide-delimiter-background
+        delimiter-icon="mdi-square"
+        show-arrows="hover"
+        height=""
+      >
         <v-carousel-item v-for="(classData, index) in classes" :key="index">
           <v-card-text class="">
             <v-col cols="12" md="12">
@@ -24,17 +28,14 @@
                 :color="colors[index % colors.length]"
               ></v-text-field>
             </v-col>
-           
-           
           </v-card-text>
-           <v-divider class="mb-2 "></v-divider>
+          <v-divider class="mb-2"></v-divider>
         </v-carousel-item>
-       
       </v-carousel>
       <v-btn class="addClass" @click="addClass"> Add Class </v-btn>
       <v-row>
         <v-col cols="12" md="10">
-          <v-btn class="saveBtn" block @click="saveSettings" >Save</v-btn>
+          <v-btn class="saveBtn" block @click="saveSettings">Save</v-btn>
         </v-col>
       </v-row>
     </v-card>
@@ -49,7 +50,6 @@ export default {
   name: "AddClass",
   data() {
     return {
- 
       classes: [
         {
           prefix: "",
@@ -57,7 +57,7 @@ export default {
           section: "",
         },
       ],
-      colors: ["blue", "green", "pink", "purple", "orange", "white"], 
+      colors: ["blue", "green", "pink", "purple", "orange", "white"],
     };
   },
   methods: {
@@ -68,31 +68,43 @@ export default {
         ? userDoc.data().classes || []
         : [];
       const newClasses = this.classes.map((classData) => ({
-        prefix: classData.prefix.replace(/\s+/g, '').toUpperCase(),
-        number: classData.number.replace(/\s+/g, ''),
-        section: classData.section.replace(/\s+/g, ''),
-  
+        prefix: classData.prefix.replace(/\s+/g, "").toUpperCase(),
+        number: classData.number.replace(/\s+/g, ""),
+        section: classData.section.replace(/\s+/g, ""),
       }));
-      const allClasses = [...existingClasses, ...newClasses];
+
+      // Filter out classes that already exist in existingClasses
+      const uniqueNewClasses = newClasses.filter((newClass) => {
+        return !existingClasses.some(
+          (existingClass) =>
+            existingClass.prefix === newClass.prefix &&
+            existingClass.number === newClass.number &&
+            existingClass.section === newClass.section
+        );
+      });
+      const allClasses = [...existingClasses, ...uniqueNewClasses];
       await updateDoc(userRef, { classes: allClasses });
-      
+
       newClasses.forEach(async (classData) => {
-    const classRef = doc(
-      db,
-      "classes",
-      classData.prefix + " " + classData.number
-    );
-    const classDoc = await getDoc(classRef);
-    const existingStudents = classDoc.exists()
-      ? classDoc.data().students || []
-      : [];
-    const allStudents = [...existingStudents, auth.currentUser.uid];
+        const classRef = doc(
+          db,
+          "classes",
+          classData.prefix + " " + classData.number
+        );
+        const classDoc = await getDoc(classRef);
+        const existingStudents = classDoc.exists()
+          ? classDoc.data().students || []
+          : [];
 
-    
-    await setDoc(classRef, { students: allStudents }, { merge: true });
-  });
+        // Check if the student is not already in the existingStudents array
+        if (!existingStudents.includes(auth.currentUser.uid)) {
+          const allStudents = [...existingStudents, auth.currentUser.uid];
+
+          await setDoc(classRef, { students: allStudents }, { merge: true });
+          this.$emit("add-class");
+        }
+      });
     },
-
 
     addClass() {
       this.classes.push({
@@ -107,7 +119,6 @@ export default {
 
 <style scoped>
 .v-form {
-  
   position: absolute;
   z-index: 1;
   margin-left: 25%;
@@ -166,7 +177,6 @@ export default {
 }
 
 .saveBtn {
-
   background-color: #166088;
 }
 

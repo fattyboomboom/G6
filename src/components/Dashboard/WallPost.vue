@@ -15,7 +15,13 @@
 <script>
 // import axios from "axios";
 import { db, auth } from "@/firebase";
-import { collection, addDoc, serverTimestamp, doc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  doc,
+  getDoc,
+} from "firebase/firestore";
 
 export default {
   name: "WallPost",
@@ -37,7 +43,6 @@ export default {
     },
 
     async submitPost() {
-
       if (this.postContent.trim() === "") {
         // Alert the user that the post content cannot be empty
         alert("Post content cannot be empty");
@@ -55,20 +60,22 @@ export default {
 
       // Add the post to the "posts" collection with the profile picture URL, first name, and last name included
       const res = await addDoc(collection(db, "posts"), {
-        content: this.postContent.replace(/fuck|shit|bitch|asshole|ass/gi, " **** "),
+        content: this.postContent.replace(
+          /fuck|shit|bitch|asshole|ass/gi,
+          " **** "
+        ),
         PostDate: serverTimestamp(),
         uid: auth.currentUser.uid,
         isDeleted: false,
         profilePicture: profilePicture,
-        firstName: firstName,
-        lastName: lastName
+        FirstName: firstName,
+        LastName: lastName,
       });
       console.log(res);
 
-        // Clear the textarea content
-        this.postContent = "";
+      // Clear the textarea content
+      this.postContent = "";
     },
-
   },
 };
 </script>
