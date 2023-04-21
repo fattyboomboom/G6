@@ -37,10 +37,10 @@
 </template>
 
 <script>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted } from "vue";
 import { db } from "@/firebase";
 import { getAuth } from "firebase/auth";
-import { collection,addDoc, doc, getDoc } from "firebase/firestore";
+import {  doc, getDoc } from "firebase/firestore";
 
 
 export default {
@@ -82,16 +82,6 @@ onMounted(() => {
       editbtn.value = !editbtn.value;
     }
 
-
-    watch(items, async (newVal) => {
-      // create a reference to the 'classes' collection
-      const classesRef = collection(db, "classes");
-
-      // loop through the new items and add them to the 'classes' collection
-      for (const item of newVal) {
-        await addDoc(classesRef, { name: item });
-      }
-    });
 
     const addingItem = ref(false);
 

@@ -11,7 +11,7 @@
 
 <script>
 import { auth, db } from "@/firebase";
-import { ref, onMounted } from "vue";
+import { ref, onBeforeMount } from "vue";
 import { collection, query, where, getDocs } from "firebase/firestore";
 
 export default {
@@ -24,12 +24,15 @@ export default {
     const userRef = collection(db, "users");
     const q = query(userRef, where("uid", "==", auth.currentUser.uid));
     console.log(q);
-    onMounted(async () => {
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        profileImage.value = doc.data().profilePicture;
+    
+    onBeforeMount(() => {
+      getDocs(q).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          profileImage.value = doc.data().profilePicture;
+        });
       });
     });
+    
 
     return { username, major, profileImage };
   },

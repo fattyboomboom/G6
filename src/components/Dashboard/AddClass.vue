@@ -24,14 +24,7 @@
                 :color="colors[index % colors.length]"
               ></v-text-field>
             </v-col>
-            <v-col cols="12" md="12" class="mb-4">
-              <v-text-field
-                :label="'Class Section ' + (index + 1)"
-                v-model="classData.section"
-                outlined
-                :color="colors[index % colors.length]"
-              ></v-text-field>
-            </v-col>
+           
            
           </v-card-text>
            <v-divider class="mb-2 "></v-divider>
@@ -50,7 +43,7 @@
 
 <script>
 import { db, auth } from "@/firebase";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
 
 export default {
   name: "AddClass",
@@ -82,7 +75,25 @@ export default {
       }));
       const allClasses = [...existingClasses, ...newClasses];
       await updateDoc(userRef, { classes: allClasses });
+      
+      newClasses.forEach(async (classData) => {
+    const classRef = doc(
+      db,
+      "classes",
+      classData.prefix + " " + classData.number
+    );
+    const classDoc = await getDoc(classRef);
+    const existingStudents = classDoc.exists()
+      ? classDoc.data().students || []
+      : [];
+    const allStudents = [...existingStudents, auth.currentUser.uid];
+
+    
+    await setDoc(classRef, { students: allStudents }, { merge: true });
+  });
     },
+
+
     addClass() {
       this.classes.push({
         prefix: "",
