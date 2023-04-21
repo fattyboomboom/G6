@@ -3,27 +3,68 @@
     <h1>Wolf Feed</h1>
     <div class="post-container">
       <VCard
-        v-for="post in posts"
+        v-for="(post, index) in posts"
         :key="post.uid"
         class="post"
         variant="outlined"
       >
         <VCardItem class="post-header">
-          <v-row no-gutters>
-           <v-avatar color="grey-darken-2" size="50"
-                        image="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"></v-avatar>
+          <v-row no-gutters class="align-items-center justify-space-between">
+            <v-avatar
+              color="grey-darken-2"
+              size="50"
+              image="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
+            ></v-avatar>
 
-                        <div class="author-name pt-3 pl-3">{{ `${post.FirstName} ${post.LastName}` }}</div>
-
-            <div class="post-date">
-              <div>
+            <div class="author-name pt-3 mr-auto pl-4">
+              {{ `${post.FirstName} ${post.LastName}` }}
+              <div class="post-date d-flex">
                 {{ formatDistanceToNow(post.PostDate) }} ago
               </div>
             </div>
+
+            <div>
+              <v-btn
+                class="d-flex post-menu"
+                icon="mdi-dots-vertical"
+                variant="plain"
+                color="#78909C"
+                size="x-large"
+                :ripple="false"
+                @click="menu[index] = !menu[index]"
+              ></v-btn>
+            </div>
+
+            <v-expand-transition>
+              <v-card
+                v-show="menu[index]"
+                height="100"
+                width="100"
+                class="elip-menu bg-secondary"
+              ></v-card>
+            </v-expand-transition>
+
           </v-row>
         </VCardItem>
-
         <div class="post-content">{{ post.content }}</div>
+        <!-- <v-row class="d-flex">
+          <v-btn
+            class="d-flex align-self-center mt-8"
+            icon="mdi-trash-can-outline"
+            variant="plain"
+            size="large"
+            color="#C62828"
+            :ripple="false"
+          ></v-btn>
+          <v-btn
+            class="d-flex mt-8"
+            icon="mdi-pencil-outline"
+            variant="plain"
+            size="large"
+            color="#78909C"
+            :ripple="false"
+          ></v-btn> -->
+        <!-- </v-row> -->
       </VCard>
     </div>
   </div>
@@ -38,6 +79,12 @@ import { formatDistanceToNow } from "date-fns";
 export default {
   name: "WolfFeed",
 
+  data() {
+    return {
+      menu: []
+    }
+  },
+
   setup() {
     const posts = ref([]);
     const error = ref(null);
@@ -45,20 +92,20 @@ export default {
     const fetchPosts = async () => {
       try {
         const postRef = collection(db, "posts");
-        
 
-        onSnapshot(postRef, docSnap => {
-          docSnap.docChanges().forEach( change => {
+        onSnapshot(postRef, (docSnap) => {
+          docSnap.docChanges().forEach((change) => {
             posts.value.push(change.doc.data());
           });
-        posts.value.sort((a, b) => b.PostDate - a.PostDate);
-        console.log(posts)
-        })
+
+          posts.value.sort((a, b) => b.PostDate - a.PostDate);
+          console.log(posts);
+        });
       } catch (err) {
         error.value = err.message;
+        console.log(error);
       }
     };
-        
 
     onMounted(() => {
       fetchPosts();
@@ -102,6 +149,10 @@ h1 {
   margin-left: 50%;
   color: #4a6fa5;
 }
+
+.elip-menu {
+  margin-left: 25rem;
+}
 .news-feed {
   display: flex;
   flex-direction: column;
@@ -125,7 +176,7 @@ h1 {
   border: solid;
   border-color: #4a6fa5;
   border-width: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   padding: 10px;
   border-radius: 25px;
 }
@@ -136,10 +187,31 @@ h1 {
 }
 
 ::-webkit-scrollbar {
-  display: none;
+  width: 8px; /* 1px wider than Lion. */
+  /* This is more usable for users trying to click it. */
+  background-color: rgba(0,0,0,0);
+  -webkit-border-radius: 100px;
 }
-/* 
-.avatar {
+
+::-webkit-scrollbar-track,::-webkit-scrollbar-thumb {
+  border: 5px solid transparent;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+  background: rgba(0,0,0,0.5);
+  -webkit-border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb:vertical:active {
+  background: rgba(0,0,0,0.61); /* Some darker color when you click it */
+  -webkit-border-radius: 100px;
+}
+
+::-webkit-scrollbar:hover {
+  background-color: rgba(0, 0, 0, 0.09);
+}
+/* .avatar {
   width: 50px;
   height: 50px;
   margin-right: 10px;
@@ -157,18 +229,23 @@ h1 {
   font-weight: bold;
   color: black;
   font-weight: bold;
+  margin-top: -0.6rem;
 }
 
 .post-date {
   color: black;
   font-size: 14px;
   margin-left: auto;
- 
 }
 
 .post-content {
   margin-top: 2%;
   color: black;
   text-align: center;
+}
+
+.post-menu {
+  margin-top: -.5rem;
+  margin-left: 13rem;
 }
 </style>
