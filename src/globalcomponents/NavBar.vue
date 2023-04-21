@@ -4,10 +4,10 @@
   <v-navigation-drawer  rail color="#e0e1dd"  permanent="">
     <v-list>
       <v-list-item
-        prepend-avatar="https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg"
-        title="Tom Anderson"
-        subtitle="TomA@gmail.com"
-      ></v-list-item>
+  :prepend-avatar="userProfilePicture"
+  title="Tom Anderson"
+  subtitle="TomA@gmail.com"
+></v-list-item>
     </v-list>
     <v-divider color="white"></v-divider>
     <v-list density="compact" nav>
@@ -56,31 +56,48 @@
 </template>
 
 <script>
-import { getAuth, signOut } from "firebase/auth"
-//  import { useRouter } from "vue-router";
+import { ref, onMounted } from "vue";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { getAuth, signOut } from "firebase/auth";
 
 export default {
   name: "NavBar",
   setup() {
-    // const router = useRouter();
+    const userProfilePicture = ref("");
+
+    onMounted(async () => {
+      const auth = getAuth();
+      const uid = auth.currentUser.uid;
+      const db = getFirestore();
+      const userDocRef = doc(db, "users", uid);
+      const userDocSnapshot = await getDoc(userDocRef);
+
+      if (userDocSnapshot.exists()) {
+        userProfilePicture.value = userDocSnapshot.data().profilePicture;
+      } else {
+        console.log("No such user document!");
+      }
+    });
+
+    return {
+      userProfilePicture,
+    };
   },
   methods: {
     Logout() {
-
-        const auth = getAuth();
-        console.log(auth.currentUser)
-        signOut(auth).then(() => {
-          console.log(auth.currentUser)
-          // Sign-out successful.
-          console.log("Sign Out")
-          this.$router.push('/')
-        }).catch((error) => {
-          console.log(error)
+      const auth = getAuth();
+      console.log(auth.currentUser);
+      signOut(auth)
+        .then(() => {
+          console.log(auth.currentUser);
+          console.log("Sign Out");
+          this.$router.push("/");
         })
-    }
-
- 
-  }
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
 };
 </script>
 
