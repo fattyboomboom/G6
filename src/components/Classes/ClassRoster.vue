@@ -1,135 +1,138 @@
 <template>
-    <v-card class="sections" border="true">
+  <v-card class="sections" border="true">
 
-      <h2 style="text-align: center;">Students</h2>
-      <v-divider thickness="2"></v-divider>
-      
-      <v-list-item style="text-align: center;" v-for="(student, index) in studentsData" :key="index">
-                <v-btn class="classButton" elevation="0" style="cursor: pointer; text-transform: none;">
-                    {{ student.FirstName }} {{ student.LastName }}
-                </v-btn>
+    <h2 style="text-align: center;">Students</h2>
+    <v-divider thickness="2"></v-divider>
+
+    <v-list-item style="text-align: center;" v-for="(student, index) in studentsData" :key="index">
+      <v-btn class="classButton" elevation="0" style="cursor: pointer; text-transform: none;">
+        {{ student.FirstName }} {{ student.LastName }}
+      </v-btn>
     </v-list-item>
-      
-        
-      
-      
-    </v-card>
-  </template>
+
+
+
+
+  </v-card>
+</template>
   
   
-  <script>
-  import { ref } from "vue";
-  import { useRoute } from "vue-router";
-  import { db } from "@/firebase";
-  import {
-    collection,
-    query,
-    getDocs,
-    getDoc,
-    where,
-    doc,
-  } from "@firebase/firestore";
-  
-  export default {
-    name: "ClassSessions",
-    setup() {
-      const route = useRoute();
-      const classPrefix = ref(route.params.classPrefix);
-      const classNumber = ref(route.params.classNumber);
-      const students = ref([]);
-      const studentsData = ref([]);
-  
-      const fetchClassData = async (classPrefix, classNumber) => {
-        const querySnapshot = await getDocs(
-          query(
-            collection(db, "classes"),
-            where("prefix", "==", classPrefix),
-            where("classNum", "==", classNumber)
-          )
-        );
-        if (querySnapshot.docs.length > 0) {
-          return querySnapshot.docs[0].data();
-        } else {
-          throw new Error(`Class ${classPrefix} - ${classNumber} not found`);
-        }
-      };
-  
-      const fetchUserData = async (uid) => {
-  const userDocRef = doc(db, "users", uid);
-  const userDoc = await getDoc(userDocRef);
-  if (userDoc.exists()) {
-    return userDoc.data();
-  } else {
-    throw new Error(`User with UID ${uid} not found`);
-  }
+<script>
+import { ref } from "vue";
+import { useRoute } from "vue-router";
+import { db } from "@/firebase";
+import {
+  collection,
+  query,
+  getDocs,
+  getDoc,
+  where,
+  doc,
+} from "@firebase/firestore";
+
+export default {
+  name: "ClassSessions",
+  setup() {
+    const route = useRoute();
+    const classPrefix = ref(route.params.classPrefix);
+    const classNumber = ref(route.params.classNumber);
+    const students = ref([]);
+    const studentsData = ref([]);
+
+    const fetchClassData = async (classPrefix, classNumber) => {
+      const querySnapshot = await getDocs(
+        query(
+          collection(db, "classes"),
+          where("prefix", "==", classPrefix),
+          where("classNum", "==", classNumber)
+        )
+      );
+      if (querySnapshot.docs.length > 0) {
+        return querySnapshot.docs[0].data();
+      } else {
+        throw new Error(`Class ${classPrefix} - ${classNumber} not found`);
+      }
+    };
+
+    const fetchUserData = async (uid) => {
+      const userDocRef = doc(db, "users", uid);
+      const userDoc = await getDoc(userDocRef);
+      if (userDoc.exists()) {
+        return userDoc.data();
+      } else {
+        throw new Error(`User with UID ${uid} not found`);
+      }
+    };
+
+    const getClassData = async () => {
+      const classData = await fetchClassData(
+        classPrefix.value,
+        classNumber.value
+      );
+      students.value = classData.students || [];
+      studentsData.value = await Promise.all(
+        students.value.map(async (uid) => {
+          return await fetchUserData(uid);
+        })
+      );
+    };
+
+    getClassData();
+
+    return { studentsData };
+  },
 };
+</script>
   
-      const getClassData = async () => {
-        const classData = await fetchClassData(
-          classPrefix.value,
-          classNumber.value
-        );
-        students.value = classData.students || [];
-        studentsData.value = await Promise.all(
-          students.value.map(async (uid) => {
-            return await fetchUserData(uid);
-          })
-        );
-      };
-  
-      getClassData();
-  
-      return { studentsData };
-    },
-  };
-  </script>
-  
-  <style scoped>
-  .sections {
-    position: absolute;
-    margin-left: 6%;
-    margin-top: 25%;
-    background-color: #e0e1dd;
-    border: 6px solid #4a6fa5;
-    width: 25%;
-    border-radius: 25px;
-    box-sizing: border-box;
-    align-items: center;
-  }
-  .avatar-container {
+<style scoped>
+.sections {
+  position: absolute;
+  margin-left: 6%;
+  margin-top: 25%;
+  background-color: #e0e1dd;
+  border: 6px solid #4a6fa5;
+  width: 25%;
+  border-radius: 25px;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+.avatar-container {
   display: flex;
   justify-content: center;
- 
-}
-  .v-avatar {
-    width: 70%;
-    height: auto;
-    margin-top: 2%;
-    margin-bottom: 2%;
 
-  }
-  
-  body {
-    background-color: #4a6fa5;
-  }
-  
-  .v-divider {
-    color: black;
-  }
-  
-  h2 {
-    color: black;
-    font-size: 1.5rem;
-    margin-inline: 5%;
-    text-align: left;
-    line-height: 2;
-  }
-  h3 {
-    color: black;
-    font-size: 1.25rem;
-    margin-inline: 5%;
-    text-align: left;
-    line-height: 2;
-  }
-  </style>
+}
+
+.v-avatar {
+  width: 70%;
+  height: auto;
+  margin-top: 2%;
+  margin-bottom: 2%;
+
+}
+
+body {
+  background-color: #4a6fa5;
+}
+
+.v-divider {
+  color: black;
+}
+
+h2 {
+  color: black;
+  font-size: 1.5rem;
+  margin-inline: 5%;
+  text-align: left;
+  line-height: 2;
+}
+
+h3 {
+  color: black;
+  font-size: 1.25rem;
+  margin-inline: 5%;
+  text-align: left;
+  line-height: 2;
+}
+</style>
   

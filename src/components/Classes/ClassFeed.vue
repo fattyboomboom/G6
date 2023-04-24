@@ -10,7 +10,27 @@
                         <span class="ml-5">{{ `${post.FirstName} ${post.LastName}` }}</span>
                     </div>
 
-                    <v-icon>mdi-dots-vertical</v-icon>
+                    <v-menu offset-y>
+                        <template v-slot:activator="{ props }">
+                            <v-btn flat icon="mdi-dots-vertical" v-bind="props">
+                            </v-btn>
+                        </template>
+
+                        <v-list>
+                            <v-list-item v-if="currentUID === post.uid || currentUID === moderatorUID">
+                                <div class="d-flex align-center" style="color:rgb(180, 25, 25)">
+                                    <v-list-item-title>Delete</v-list-item-title>
+                                    <v-icon class="ml-2">mdi-delete</v-icon>
+                                </div>
+                            </v-list-item>
+                            <v-list-item v-else>
+                                <div class="d-flex align-center">
+                                    <v-list-item-title>Report</v-list-item-title>
+                                    <v-icon class="ml-2">mdi-flag</v-icon>
+                                </div>
+                            </v-list-item>
+                        </v-list>
+                    </v-menu>
 
                 </v-card-title>
                 <v-card-text class="text-h6">
@@ -19,7 +39,7 @@
                 <v-card-actions>
                     <v-list-item class="w-100">
 
-                        
+
                         <template v-slot:append>
                             <div class="justify-self-end">
                                 <span class="subtitle me-2">{{ formatDate(post.PostDate) }}</span>
@@ -45,8 +65,9 @@
   
 <script>
 import { ref, onMounted } from "vue";
-import { collection, query, where, onSnapshot, arrayUnion, arrayRemove, updateDoc, doc } from "firebase/firestore";
+import { collection, query, where, onSnapshot, arrayUnion, arrayRemove, updateDoc, doc, getDocs } from "firebase/firestore";
 import { db, auth } from "@/firebase";
+import { onAuthStateChanged } from "firebase/auth"
 import { useRoute } from "vue-router";
 
 export default {
@@ -56,33 +77,68 @@ export default {
         const classPrefix = (route.params.classPrefix);
         const classNumber = (route.params.classNumber);
         const posts = ref([]);
-        const error = ref(null);
+        const error = ref("");
+        const currentUID = ref(null);
+        const moderatorUID = ref(null);
+
         const fetchPosts = async () => {
-  try {
-    const postRef = collection(db, "posts");
-    const q = query(postRef,
-      where("classPrefix", "==", classPrefix),
-      where("classNumber", "==", classNumber),
-      where("postType", "==", "post")
-    );
-    onSnapshot(q, (docSnap) => {
-      posts.value = docSnap.docs.map((doc) => {
-        const data = doc.data();
-        data.id = doc.id;
-        return data;
-      });
-      posts.value.sort((a, b) => b.PostDate - a.PostDate);
-      console.log(posts);
-    });
-  } catch (err) {
-    error.value = err.message;
-  }
-};
+            try {
+                const postRef = collection(db, "posts");
+                const q = query(postRef,
+                    where("classPrefix", "==", classPrefix),
+                    where("classNumber", "==", classNumber),
+                    where("postType", "==", "post")
+                );
+                onSnapshot(q, (docSnap) => {
+                    posts.value = docSnap.docs.map((doc) => {
+                        const data = doc.data();
+                        data.id = doc.id;
+                        return data;
+                    });
+                    posts.value.sort((a, b) => b.PostDate - a.PostDate);
+                    console.log(posts);
+                });
+            } catch (err) {
+                error.value = err.message;
+            }
+        };
+
+        const fetchClassData = async (classPrefix, classNumber) => {
+            const querySnapshot = await getDocs(
+                query(
+                    collection(db, 'classes'),
+                    where("prefix", "==", classPrefix),
+                    where("classNum", "==", classNumber)
+                )
+            );
+            if (querySnapshot.docs.length > 0) {
+                return querySnapshot.docs[0].data();
+            } else {
+                throw new Error(`Class ${classPrefix} - ${classNumber} not found`);
+            }
+        };
+
+
+        const getClassData = async () => {
+            const classData = await fetchClassData(classPrefix, classNumber);
+            moderatorUID.value = classData.moderatorUID;
+        };
+
+
+
         onMounted(() => {
             fetchPosts();
         });
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUID.value = auth.currentUser.uid;
+            } else {
+                currentUID.value = null;
+            }
+        });
 
-        return { posts, error };
+        getClassData();
+        return { posts, error, currentUID, moderatorUID };
     },
     methods: {
         formatTime(timestamp) {
@@ -246,4 +302,5 @@ h1 {
 
     margin-top: -3px;
     transform: scale(1.1);
-}</style>
+}
+</style>

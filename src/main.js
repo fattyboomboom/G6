@@ -35,13 +35,13 @@ export default axios.create({
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    { path: '/bookresell', component:BookResellView, meta: {requiresAuth:true} },
-    { path: '/home', component: HomeView, meta: {requiresAuth:true}  },
-    { path: '/about', component: AboutViewVue, meta: {requiresAuth:true}  },
+    { path: '/bookresell', component: BookResellView, meta: { requiresAuth: true } },
+    { path: '/home', component: HomeView, meta: { requiresAuth: true } },
+    { path: '/about', component: AboutViewVue, meta: { requiresAuth: true } },
     { path: '/', component: WelcomeView },
-    { path: '/explore', component: ExplorePage, meta: {requiresAuth:true}},
-    { path: '/notes', component: NotesView, meta: {requiresAuth:true}  },
-    { path: '/user/:username', component: ProfileView},
+    { path: '/explore', component: ExplorePage, meta: { requiresAuth: true } },
+    { path: '/notes', component: NotesView, meta: { requiresAuth: true } },
+    { path: '/user/:username', component: ProfileView },
     { path: '/classes/:classPrefix([A-Z]{2,4}):classNumber(\\d+)', component: ClassPage }
   ]
 });
@@ -56,12 +56,12 @@ router.beforeEach(async (to) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
   if (requiresAuth && !await getCurrentUser()) {
     return '/';
-  } 
+  }
 })
 
 
-      
-    
+
+
 
 
 
@@ -69,6 +69,6 @@ createApp(App)
   .use(router)
   .use(vuetify)
   .component('filter-menu', FilterMenu)
-  .component('nav-bar', NavBarVue) 
+  .component('nav-bar', NavBarVue)
   .component('listings-filter', ListingsFilter)
   .mount('#app')
