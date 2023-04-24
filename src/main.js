@@ -20,9 +20,13 @@ import ExplorePage from './views/ExplorePage.vue'
 import NotesView from './views/NotesCards.vue'
 import FilterMenu from './globalcomponents/ListingsFilter.vue'
 import NavBarVue from './globalcomponents/NavBar.vue'
+import SuperNavBar from './components/SuperUser/SuperNavBar.vue'
 import ListingsFilter from './globalcomponents/ListingsFilter.vue'
 import SettingsView from './views/SettingsView.vue'
 import ClassPage from './views/ClassPage.vue'
+import SuperClass from './views/SuperClass.vue'
+import SuperUsers from './views/SuperUsers.vue'
+import ReportsView from './views/ReportsView.vue'
 
 import axios from "axios";
 
@@ -43,7 +47,10 @@ const router = createRouter({
     { path: '/profile', component: ProfileView, meta: {requiresAuth:true} },
     { path: '/settings', component: SettingsView, meta: {requiresAuth:true} },
     { path: '/user=:uid', component: ProfileView},
-    { path: '/classes/:classPrefix([A-Z]{2,4}):classNumber(\\d+)', component: ClassPage }
+    { path: '/classes/:classPrefix([A-Z]{2,4}):classNumber(\\d+)', component: ClassPage },
+    {path : '/modifclass', component: SuperClass},
+    {path: '/modifuser', component: SuperUsers, meta: {requiresAuth:true}},
+    {path: '/reports', component: ReportsView, meta: {requiresAuth:true}}
   ]
 });
 
@@ -62,4 +69,5 @@ createApp(App)
   .component('filter-menu', FilterMenu)
   .component('nav-bar', NavBarVue) 
   .component('listings-filter', ListingsFilter)
+  .component('super-nav-nar', SuperNavBar)
   .mount('#app')
