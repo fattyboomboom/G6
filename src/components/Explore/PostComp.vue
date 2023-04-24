@@ -2,13 +2,16 @@
   <div>
 
     <v-card v-for="post in posts" :key="post.id" class="post ml-16 mt-8" max-width="800">
-      <template v-slot:prepend>
-        <v-avatar color="grey-darken-3"
-          image="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"></v-avatar>
-      </template>
-      <v-card-title>
-        {{ `${post.FirstName} ${post.LastName}` }}
+      <v-card-title class="d-flex justify-space-between align-center ">
+        <div>
+          <v-avatar color="grey-darken-3" image="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"></v-avatar>
+          <span class="ml-5">{{ `${ post.FirstName } ${ post.LastName }` }}</span>
+        </div>
+        
+          <v-icon>mdi-dots-vertical</v-icon>
+        
       </v-card-title>
+      
       <v-card-text class="text-h5 py-2">
         {{ post.content }}
       </v-card-text>
@@ -45,11 +48,16 @@ import { collection, onSnapshot, query, where, updateDoc, doc, arrayUnion, array
 import { db, auth } from "@/firebase";
 export default {
   name: "PostComp",
+  data() {
+    return {
+      menu: []
+    }
+  },
+
   setup() {
-    // Reading categories from Firebase
     const posts = ref([]);
     const error = ref(null);
-    // Create a reference to the categories collection in Firebase Firestore
+    
 
   const fetchPosts = async () => {
   try {

@@ -1,31 +1,15 @@
 <template>
-  <div id="app">
-
-    <!-- <v-banner 
-          :sticky="true"
-          lines="three"
-          height="60"
-          class="no-border"
-          
-        >
-      
-            <v-btn @click="updateFilteredPosts()" class="banner-button ml-16" color="Black" elevation="0" >
-              <h1>For You</h1>
-            </v-btn>
-    
-            <v-btn  @click="updateFilteredPostsForYou()" class="banner-button ml-16" color="Black" elevation="0" >
-              <h1>Explore</h1>
-            </v-btn>
-        </v-banner> -->
-
+  <div>
     <v-card v-for="post in posts" :key="post.id" class="post ml-16 mt-8" max-width="800">
-      <template v-slot:prepend>
-        <v-avatar color="grey-darken-3"
-          image="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"></v-avatar>
-      </template>
-      <v-card-title>
-    {{ `${post.FirstName} ${post.LastName}` }}
-  </v-card-title>
+      <v-card-title class="d-flex justify-space-between align-center ">
+        <div>
+          <v-avatar color="grey-darken-3" image="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"></v-avatar>
+          <span class="ml-5">{{ `${ post.FirstName } ${ post.LastName }` }}</span>
+        </div>
+        
+          <v-icon>mdi-dots-vertical</v-icon>
+        
+      </v-card-title>
       <v-card-text class="text-h5 py-2">
         {{ post.content }}
       </v-card-text>

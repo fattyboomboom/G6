@@ -35,33 +35,30 @@
       };
     },
     methods: {
-      currentDate() {
-        const current = new Date();
-        const date =
-          `${
-            current.getMonth() + 1
-          }/${current.getDate()}/${current.getFullYear()}` +
-          " " +
-          `${current.getHours()}:${current.getMinutes()}:${current.getSeconds()}`;
-        return date;
-      },
-     async submitPost() {
-        
-        const res = await addDoc(collection(db, "posts"), {
-          content: this.postContent,
-          PostDate: serverTimestamp(),
-          uid: auth.currentUser.uid,
-          classPrefix: this.classPrefix,
-          classNumber: this.classNumber,
-          firstName: auth.currentUser.displayName.split(' ')[0],
-          lastName: auth.currentUser.displayName.split(' ')[1],
-          postType: "post",
-          section: 1001
-        });
-         console.log(res)
+      async submitPost() {
+  try {
+    if (this.postContent.trim() !== "") {
+      const res = await addDoc(collection(db, "posts"), {
+        content: this.postContent,
+        PostDate: serverTimestamp(),
+        uid: auth.currentUser.uid,
+        classPrefix: this.classPrefix,
+        classNumber: this.classNumber,
+        FirstName: auth.currentUser.displayName.split(' ')[0],
+        LastName: auth.currentUser.displayName.split(' ')[1],
+        postType: "post",
+        likes: []
+      });
+      console.log(res);
 
-        this.postContent = "";
-      },
+      this.postContent = "";
+    } else {
+      console.log("Post content is empty.");
+    }
+  } catch (error) {
+    console.error("Error submitting post:", error);
+  }
+},
     },
   };
   </script>

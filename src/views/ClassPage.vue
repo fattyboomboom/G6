@@ -4,7 +4,8 @@
     <nav-bar></nav-bar>
     <ClassInfo></ClassInfo>
     <!-- <ClassAnnouncements></ClassAnnouncements> -->
-    <ClassSessions></ClassSessions>
+    // <ClassSessions></ClassSessions>
+    <ClassRoster></ClassRoster>
     <ClassPost></ClassPost>
     <ClassFeed></ClassFeed>
     <ClassNotes></ClassNotes>
@@ -18,6 +19,7 @@
   // import ClassAnnouncements from "@/components/Classes/ClassAnnouncements.vue";
   import ClassNotes from "@/components/Classes/ClassNotes.vue"
   import ClassSessions from "@/components/Classes/ClassSessions.vue"
+  import ClassRoster from "@/components/Classes/ClassRoster.vue"
 
   export default {
   name: "ClassPage",
@@ -26,6 +28,7 @@
     ClassPost,
     ClassFeed,
     ClassNotes,
+    ClassRoster,
     ClassSessions
     // ClassAnnouncements
   },

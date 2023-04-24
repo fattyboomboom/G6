@@ -6,7 +6,7 @@
       
       <v-list-item style="text-align: center;" v-for="(session, index) in studySessions" :key="index">
                 <v-btn class="classButton" elevation="0" style="cursor: pointer">
-                    {{ formatDate(session.sessionTime) }} - {{ formatTime(session.sessionTime) }} - ({{ session.sessionSection }})
+                    {{ formatDate(session) }} - {{ formatTime(session) }}
                 </v-btn>
     </v-list-item>
       
@@ -35,8 +35,8 @@ export default {
     const querySnapshot = await getDocs(
         query(
         collection(db, 'classes'),
-        where("classPrefix", "==", classPrefix),
-        where("classNumber", "==", classNumber)
+        where("prefix", "==", classPrefix),
+        where("classNum", "==", classNumber)
         )
     );
     if (querySnapshot.docs.length > 0) {
@@ -77,11 +77,11 @@ export default {
   <style scoped>
   .sections {
     position: absolute;
-    margin-left: 6%;
-    margin-top: 25%;
+    margin-left: 78%;
+    margin-top: 1%;
     background-color: #e0e1dd;
     border: 6px solid #4a6fa5;
-    width: 25%;
+    width: 20%;
     border-radius: 25px;
     box-sizing: border-box;
     align-items: center;

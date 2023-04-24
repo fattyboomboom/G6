@@ -10,7 +10,7 @@
       <v-divider thickness="2"></v-divider>
       <h2 style="text-align: center;">{{ classPrefix }}{{ classNumber }}</h2>
       <v-divider thickness="2"></v-divider>
-      <h3 style="text-align: center;">Students</h3>
+      <h3 style="text-align: center;"> {{ classDesc }}</h3>
   
       
       
@@ -34,13 +34,14 @@ export default {
     const profLastName=ref("");
     const profTitle = ref("");
     const classPhoto = ref("");
+    const classDesc = ref("");
 
     const fetchClassData = async (classPrefix, classNumber) => {
     const querySnapshot = await getDocs(
         query(
         collection(db, 'classes'),
-        where("classPrefix", "==", classPrefix),
-        where("classNumber", "==", classNumber)
+        where("prefix", "==", classPrefix),
+        where("classNum", "==", classNumber)
         )
     );
     if (querySnapshot.docs.length > 0) {
@@ -57,11 +58,12 @@ export default {
     profLastName.value = classData.profLastName;
     classPhoto.value = classData.classPhoto
     profTitle.value = classData.profTitle;
+    classDesc.value = classData.classDesc;
     };
 
     getClassData();
 
-    return { classPrefix, classNumber, profFirstName, profLastName, profTitle, classPhoto};
+    return { classPrefix, classNumber, profFirstName, profLastName, profTitle, classPhoto, classDesc};
   }
 };
 </script>
@@ -112,6 +114,11 @@ export default {
     margin-inline: 5%;
     text-align: left;
     line-height: 2;
+  }
+  .v-avatar{
+    border: solid;
+    border-color: black;
+    border-width: 1px;
   }
   </style>
   
