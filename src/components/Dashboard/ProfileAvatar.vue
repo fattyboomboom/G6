@@ -2,7 +2,7 @@
   <v-card class="avatar" border="true">
     <v-avatar> <v-img :src="profileImage"></v-img> </v-avatar>
     <v-divider thickness="2"></v-divider>
-    <h2>Name: {{ username }}</h2>
+    <h2>Name: {{ firstName }}  {{  lastName }}</h2>
 
     <v-divider thickness="2"></v-divider>
     <h2>Major: {{ major }}</h2>
@@ -17,8 +17,9 @@ import { collection, query, where, onSnapshot } from "firebase/firestore";
 export default {
   name: "ProfileAvatar",
   setup() {
-    const username = ref(auth.currentUser.displayName);
-    const major = ref("Undecided");
+    const firstName= ref("");
+    const lastName = ref("");
+    const major = ref("");
     const profileImage = ref("");
 
     const userRef = collection(db, "users");
@@ -30,6 +31,9 @@ export default {
         onSnapshot(q, (querySnapshot) => {
           querySnapshot.forEach((doc) => {
             profileImage.value = doc.data().profilePicture;
+            major.value = doc.data().Major;
+            firstName.value = doc.data().FirstName;
+            lastName.value = doc.data().LastName;
           });
         });
       } catch (err) {
@@ -42,7 +46,8 @@ export default {
     });
 
     return {
-      username,
+      firstName,
+      lastName,
       major,
       profileImage,
     };
