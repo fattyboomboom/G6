@@ -40,7 +40,7 @@
 import { ref, onMounted } from "vue";
 import { db } from "@/firebase";
 import { getAuth } from "firebase/auth";
-import { doc, onSnapshot } from "firebase/firestore";
+import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 
 export default {
   name: "MyClasses",
@@ -73,8 +73,17 @@ export default {
       fetchPosts();
     });
 
-    function removeClass(index) {
+    async function removeClass(index) {
       items.value.splice(index, 1);
+
+      // Update the classes in Firestore
+      try {
+        await updateDoc(userDocRef, {
+          classes: items.value,
+        });
+      } catch (err) {
+        console.error("Error updating document: ", err);
+      }
     }
 
     function editToggle() {
