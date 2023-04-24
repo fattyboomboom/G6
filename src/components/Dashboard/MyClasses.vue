@@ -9,15 +9,23 @@
 
       <v-list>
         <v-list-item v-for="(item, index) in items" :key="index">
-          
-          
-         <li> <v-btn class="classButton" elevation="0" style="cursor: pointer" :to="'/classes/' + item.prefix + item.number">{{ item.prefix }} {{ item.number }}</v-btn>
-          </li> 
-          <div v-show="!editbtn">
-            <v-btn icon @click="removeClass(index)">
+          <li>
+            <v-btn
+              class="classButton"
+              elevation="0"
+              style="cursor: pointer"
+              :to="'/classes/' + item.prefix + item.number"
+              >{{ item.prefix }} {{ item.number }}
+            </v-btn>
+            <v-btn
+              icon
+              @click="removeClass(index)"
+              class="closeIcon"
+              v-show="!editbtn"
+            >
               <v-icon>mdi-close</v-icon>
             </v-btn>
-          </div>
+          </li>
         </v-list-item>
         <v-list-item v-if="addingItem">
           <v-text-field
@@ -29,15 +37,18 @@
       </v-list>
     </v-list>
 
-    <VBtn class="addclass"  width="50%" rounded="0" @click="$emit('add-class')">Add</VBtn>
+    <VBtn class="addclass" width="50%" rounded="0" @click="$emit('add-class')"
+      >Add</VBtn
+    >
 
-
-    <VBtn class="deleteclass" width="50%" rounded="0" @click="editToggle">Delete</VBtn>
+    <VBtn class="deleteclass" width="50%" rounded="0" @click="editToggle"
+      >Delete</VBtn
+    >
   </v-card>
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { db } from "@/firebase";
 import { getAuth } from "firebase/auth";
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
@@ -52,7 +63,7 @@ export default {
 
     const auth = getAuth();
     const uid = auth.currentUser.uid;
-    const userDocRef = doc(db, 'users', uid);
+    const userDocRef = doc(db, "users", uid);
 
     // Load the initial items from Firebase
     const fetchPosts = async () => {
@@ -68,6 +79,17 @@ export default {
         console.log(err.message);
       }
     };
+
+    const addingItem = ref(false);
+
+    // Add the clickOutside function
+    function clickOutside(event) {
+      const componentEl = document.querySelector(".classcard");
+
+      if (!componentEl.contains(event.target) && !editbtn.value) {
+        editbtn.value = true;
+      }
+    }
 
     onMounted(() => {
       fetchPosts();
@@ -90,7 +112,15 @@ export default {
       editbtn.value = !editbtn.value;
     }
 
-    const addingItem = ref(false);
+    // Add the click event listener on mount and remove it on unmount
+    onMounted(() => {
+      fetchPosts();
+      document.addEventListener("click", clickOutside);
+    });
+
+    onUnmounted(() => {
+      document.removeEventListener("click", clickOutside);
+    });
 
     return {
       newItem,
@@ -177,6 +207,12 @@ input {
 
 .listitem:hover {
   scale: 1.2;
+}
+
+.closeIcon {
+  height: 40%;
+  background-color: red;
+  width: 10%;
 }
 
 .v-card {
