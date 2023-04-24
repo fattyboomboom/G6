@@ -96,7 +96,7 @@ h2 {
 .friendslist {
   position: absolute;
   left: 6%;
-  top: 55%;
+  top: 50%;
   width: 25%;
   border: none;
   border-radius: 25px;
