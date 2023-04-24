@@ -40,8 +40,7 @@
 import { ref, onMounted } from "vue";
 import { db } from "@/firebase";
 import { getAuth } from "firebase/auth";
-import {  doc, getDoc } from "firebase/firestore";
-
+import { doc, onSnapshot } from "firebase/firestore";
 
 export default {
   name: "MyClasses",
@@ -51,26 +50,26 @@ export default {
     const items = ref([]);
     let editbtn = ref(true);
 
-
     const auth = getAuth();
     const uid = auth.currentUser.uid;
     const userDocRef = doc(db, 'users', uid);
-  
+
     // Load the initial items from Firebase
     const fetchPosts = async () => {
-  try {
-    const userDocSnap = await getDoc(userDocRef);
-    if (userDocSnap.exists()) {
-      const data = userDocSnap.data();
-      const classes = data.classes;
-      console.log(classes);
-      items.value = classes;
-    }
-  } catch (err) {
-    console.log(err.message);
-  }
-};
-onMounted(() => {
+      try {
+        onSnapshot(userDocRef, (doc) => {
+          if (doc.exists()) {
+            items.value = doc.data().classes;
+          } else {
+            console.log("No such document!");
+          }
+        });
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+
+    onMounted(() => {
       fetchPosts();
     });
 
@@ -82,14 +81,12 @@ onMounted(() => {
       editbtn.value = !editbtn.value;
     }
 
-
     const addingItem = ref(false);
 
     return {
       newItem,
       items,
       addingItem,
-    
       removeClass,
       editToggle,
       editbtn,
