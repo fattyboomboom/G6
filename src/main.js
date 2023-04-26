@@ -48,8 +48,8 @@ const router = createRouter({
     { path: '/settings', component: SettingsView, meta: {requiresAuth:true} },
     { path: '/user=:uid', component: ProfileView},
     { path: '/classes/:classPrefix([A-Z]{2,4}):classNumber(\\d+)', component: ClassPage },
-    {path : '/modifclass', component: SuperClass, meta: {requiresAuth:true}},
-    {path: '/modifuser', component: SuperUsers, meta: {requiresAuth:true}},
+    {path : '/modifclass', component: SuperClass},
+    {path: '/modifuser', component: SuperUsers},
     {path: '/reports', component: ReportsView}
   ]
 });

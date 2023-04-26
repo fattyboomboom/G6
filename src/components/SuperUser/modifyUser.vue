@@ -1,8 +1,7 @@
 
 <template>
   <div>
-    <super-nav-bar></super-nav-bar>
-    <!-- Your other Vue components go here -->
+
     <v-sheet
             :class="[computedMargin]"
             elevation="4"
@@ -69,7 +68,7 @@
 </template>
 
 <script>
-import SuperNavBar from '@/components/SuperUser/SuperNavBar.vue'
+
 export default {
     data: () => ({
     loaded: false,
@@ -105,8 +104,6 @@ export default {
       // Implement your row action here
       console.log('Row clicked:', item)
     },
-  components: {
-    SuperNavBar
-  }
+
 }
 </script>

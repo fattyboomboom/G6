@@ -23,7 +23,7 @@
                 <v-list-item
                 title="Modify"
                 value="modclass"
-                to="/modifyclass"
+                to="/modifclass"
                 ></v-list-item>
               </v-list>
             </v-menu>
@@ -40,11 +40,11 @@
                 <v-list-item
                 title="Modify"
                 value="moduser"
-                to="/modifyuser"
+                to="/modifuser"
                 ></v-list-item>
               </v-list>
             </v-menu>
-            <v-btn variant= "text" to="/reviewreport" >Review reports</v-btn>
+            <v-btn variant= "text" to="/reports" >Review reports</v-btn>
           </v-card-title>
         </v-card>
 \
