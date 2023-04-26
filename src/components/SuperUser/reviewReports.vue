@@ -1,6 +1,5 @@
 <template>
 
-<super-nav-bar></super-nav-bar>
 
 <v-container fluid>
   <v-card>
@@ -9,7 +8,6 @@
       <v-simple-table>
         <thead>
           <tr>
-            <th class="text-left">ID</th>
             <th class="text-left">Author</th>
             <th class="text-left">Date</th>
             <th class="text-left">Content</th>
@@ -17,10 +15,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="post in posts" :key="post.post_id">
-            <td>{{ post.id }}</td>
-            <td>{{ post.name }}</td>
-            <td>{{ post.date }}</td>
+          <tr v-for="post in posts" :key="post.uid">
+           
+            <td>{{ `${post.FirstName} ${post.LastName}`}}</td> 
+            <td>{{ formatDate (post.PostDate) }}</td>
             <td>{{ post.content }}</td>
             <td class="text-right">
               <v-btn color="indigo">Repeal</v-btn>
@@ -40,84 +38,71 @@
 </template>
 
 <script>
-// import axios from "axios";
-// import { ref, computed } from "vue";
-import SuperNavBar from '@/components/SuperUser/SuperNavBar.vue'
+
+import { ref, onMounted } from "vue";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "@/firebase";
+import { formatDistanceToNow } from "date-fns";
+
 export default {
 name: "SuperUserDash",
-data: () => ({
-posts: [
-    { id: '23', author:'Bob', date: '4/2/2023', content: 'Hi, my name is Bob' },
-    { id: '34', author: 'john', date: '3/28/2023', content: 'Hi, my name is john' },
-    { id: '31', author: 'jane', date: '3/30/2023', content: 'Hi, my name is jane' },
-  ],
-}),
-//   setup() {
-//     const posts = ref([]);
-//     const error = ref(null);
-//     axios
-//       .get("http://localhost:3000/posts")
-//       .then((response) => {
-//         posts.value = response.data;
-//         console.log(response.data);
-//       })
-//       .catch((error) => {
-//         console.log(error);
-//       });
-//     const modalOpen = ref(false);
-//     const className = ref("");
-//     const section = ref("");
-//     const professor = ref("");
-//     const isClassNameValid = computed(() => {
-//       const regex = /^[A-Za-z]{2,4}\d{3}$/;
-//       return regex.test(className.value);
-//     });
-//     const isFormValid = computed(() => {
-//       return (
-//         className.value !== "" && section.value !== "" && professor.value !== ""
-//       );
-//     });
-//     function openModal() {
-//       modalOpen.value = true;
-//     }
-//     function addClass() {
-//   if (isFormValid.value) {
-//     axios.post('http://localhost:3000/add_class', {
-//       class_name: className.value,
-//       section: section.value,
-//       professor: professor.value
-//     })
-//     .then(function (response) {
-//       console.log(response);
-//       modalOpen.value = false;
-//       className.value = "";
-//       section.value = "";
-//       professor.value = "";
-//     })
-//     .catch(function (error) {
-//       console.log(error);
-//     });
-//   } else {
-//     alert("Please fill out all fields before submitting");
-//   }
-// }
-//   return {
-//     posts,
-//     error,
-//     modalOpen,
-//     className,
-//     section,
-//     professor,
-//     openModal,
-//     addClass,
-//     isClassNameValid,
-//     isFormValid,
-//   };
-// },
-components: {
-    SuperNavBar
-  }
-};
+  setup() {
+    const posts = ref([]);
+    const error = ref(null);
+
+    const fetchPosts = async () => {
+      try {
+        const postRef = collection(db, "posts");
+        const q = query(postRef, where("reports", "!=", ""));
+        const querySnapshot = await getDocs(q);
+        const postsArray = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        posts.value = postsArray;
+        console.log(posts.value);
+      } catch (err) {
+        error.value = err.message;
+      }
+    };
+
+    onMounted(() => {
+      fetchPosts();
+    });
+
+    return { posts, error };
+  },
+
+  methods: {
+    formatTime(timestamp) {
+      const date = timestamp.toDate();
+      const hours = date.getHours();
+      const minutes = date.getMinutes().toString().padStart(2, "0");
+      const ampm = hours >= 12 ? "PM" : "AM";
+      const twelveHours = hours % 12 || 12;
+      return `${twelveHours}:${minutes} ${ampm}`;
+    },
+
+    formatDate(timestamp) {
+      const date = timestamp.toDate();
+      const options = { month: "short", day: "numeric", year: "2-digit" };
+      return new Intl.DateTimeFormat("en-US", options).format(date);
+    },
+
+    formatDistanceToNow(timestamp) {
+      const date = timestamp.toDate();
+      return formatDistanceToNow(date);
+    },
+  },
+  computed: {
+    displayedPosts() {
+      return this.posts.slice(0, this.maxPosts);
+    },
+  },
+}
+
+
+
 </script>
 
 
