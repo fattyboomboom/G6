@@ -22,7 +22,7 @@
             <td>{{ post.content }}</td>
             <td class="text-right">
               <v-btn color="indigo">Repeal</v-btn>
-              <v-btn color="red" class="mr-3">Delete</v-btn>
+              <v-btn color="error" class="mr-3">Delete</v-btn>
 
             </td>
           </tr>

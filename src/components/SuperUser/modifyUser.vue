@@ -46,11 +46,11 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="item in filteredUsers" :key="item.name">
-        <td class="border-black">{{ item.name }}</td>
-        <td class="border-black">{{ item.lastName }}</td>
-        <td class="border-black">{{ item.email }}</td>
-        <td class="border-black">{{ item.lastLogin }}</td>
+      <tr v-for="users in users" :key="users.uid">
+        <!-- <td class="border-black">{{ users.FirstName }}</td>
+        <td class="border-black">{{ users.LastName }}</td> -->
+        <td class="border-black">{{ users.AcctEmail }}</td>
+        <td class="border-black">{{ formatDistanceToNow(users.LastLogin) }}</td>
         <td class="border-black">
             <v-btn color="indigo" @click="onButtonClicked(item)">
               Modify
@@ -68,6 +68,10 @@
 </template>
 
 <script>
+import { ref, onMounted } from "vue";
+import { collection, query, getDocs } from "firebase/firestore";
+import { db } from "@/firebase";
+import { formatDistanceToNow } from "date-fns";
 
 export default {
     data: () => ({
@@ -79,31 +83,87 @@ export default {
       { text: 'Last LogIn', value: 'lastLogin' },
     ],
     filteredUsers: [
-      { name: 'John', lastName:'Doe', email: 'john.doe@example.com', lastLogin: '4/2/2023' },
-      { name: 'Jane', lastName: 'Doe', email: 'jane.doe@example.com', lastLogin: '3/28/2023' },
-      { name: 'Bob', lastName: 'Smith', email: 'bob.smith@example.com', lastLogin: '3/30/2023' },
+      // { name: 'John', lastName:'Doe', email: 'john.doe@example.com', lastLogin: '4/2/2023' },
+      // { name: 'Jane', lastName: 'Doe', email: 'jane.doe@example.com', lastLogin: '3/28/2023' },
+      // { name: 'Bob', lastName: 'Smith', email: 'bob.smith@example.com', lastLogin: '3/30/2023' },
     ],
 
-
+    
   }),
 
+  setup() {
+    const users = ref([]);
+    const error = ref(null);
+
+    const fetchUsers = async () => {
+      try {
+        const postRef = collection(db, "accounts");
+        const q = query(postRef);
+        const querySnapshot = await getDocs(q);
+        const usersArray = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        users.value = usersArray;
+        console.log(users.value);
+      } catch (err) {
+        error.value = err.message;
+      }
+    };
+
+    onMounted(() => {
+      fetchUsers();
+    });
+
+    return { users, error };
+  },
+
   methods: {
-    onClick () {
-  this.loading = true
-  setTimeout(() => {
-    this.loading = false
-    const searchText = this.$refs.searchInput.value.toLowerCase()
-    this.filteredUsers = this.filteredUsers.filter(user => {
-      return user.name.toLowerCase().includes(searchText) ||
-             user.email.toLowerCase().includes(searchText)
-    })
-  }, 2000)
-}
-},
-    onButtonClicked (item) {
-      // Implement your row action here
-      console.log('Row clicked:', item)
+    formatTime(timestamp) {
+      const date = timestamp.toDate();
+      const hours = date.getHours();
+      const minutes = date.getMinutes().toString().padStart(2, "0");
+      const ampm = hours >= 12 ? "PM" : "AM";
+      const twelveHours = hours % 12 || 12;
+      return `${twelveHours}:${minutes} ${ampm}`;
     },
 
+    formatDate(timestamp) {
+      const date = timestamp.toDate();
+      const options = { month: "short", day: "numeric", year: "2-digit" };
+      return new Intl.DateTimeFormat("en-US", options).format(date);
+    },
+
+    formatDistanceToNow(timestamp) {
+      const date = timestamp.toDate();
+      return formatDistanceToNow(date);
+    },
+  },
+  computed: {
+    displayedPosts() {
+      return this.posts.slice(0, this.maxPosts);
+    },
+  },
 }
+
+
+//   methods: {
+//     onClick () {
+//   this.loading = true
+//   setTimeout(() => {
+//     this.loading = false
+//     const searchText = this.$refs.searchInput.value.toLowerCase()
+//     this.filteredUsers = this.filteredUsers.filter(user => {
+//       return user.name.toLowerCase().includes(searchText) ||
+//              user.email.toLowerCase().includes(searchText)
+//     })
+//   }, 2000)
+// }
+// },
+//     onButtonClicked (item) {
+      
+//       console.log('Row clicked:', item)
+//     },
+
+// }
 </script>
