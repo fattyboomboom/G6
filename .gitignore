@@ -22,5 +22,9 @@ pnpm-debug.log*
 *.sln
 *.sw?
 
-SendGridAPI.py
+functions
+.firebaserc
+firebase.json
+firestore.indexes.json
+firestore.rules
 src/firebase/index.js

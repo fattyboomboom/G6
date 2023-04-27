@@ -17,13 +17,13 @@
                         </template>
 
                         <v-list>
-                            <v-list-item v-if="currentUID === post.uid || currentUID === moderatorUID">
+                            <v-list-item v-if="currentUID === post.uid || currentUID === moderatorUID" @click="deletePost(post)">
                                 <div class="d-flex align-center" style="color:rgb(180, 25, 25)">
                                     <v-list-item-title>Delete</v-list-item-title>
                                     <v-icon class="ml-2">mdi-delete</v-icon>
                                 </div>
                             </v-list-item>
-                            <v-list-item v-else>
+                            <v-list-item v-else @click="reportPost(post)">
                                 <div class="d-flex align-center">
                                     <v-list-item-title>Report</v-list-item-title>
                                     <v-icon class="ml-2">mdi-flag</v-icon>
@@ -65,7 +65,7 @@
   
 <script>
 import { ref, onMounted } from "vue";
-import { collection, query, where, onSnapshot, arrayUnion, arrayRemove, updateDoc, doc, getDocs } from "firebase/firestore";
+import { collection, query, where, onSnapshot, arrayUnion, arrayRemove, updateDoc, doc, getDocs} from "firebase/firestore";
 import { db, auth } from "@/firebase";
 import { onAuthStateChanged } from "firebase/auth"
 import { useRoute } from "vue-router";
@@ -87,7 +87,8 @@ export default {
                 const q = query(postRef,
                     where("classPrefix", "==", classPrefix),
                     where("classNumber", "==", classNumber),
-                    where("postType", "==", "post")
+                    where("postType", "==", "post"),
+                    where("isDeleted", "==", false)
                 );
                 onSnapshot(q, (docSnap) => {
                     posts.value = docSnap.docs.map((doc) => {
@@ -108,7 +109,8 @@ export default {
                 query(
                     collection(db, 'classes'),
                     where("prefix", "==", classPrefix),
-                    where("classNum", "==", classNumber)
+                    where("classNum", "==", classNumber),
+                    where("isDeleted", "==", false)
                 )
             );
             if (querySnapshot.docs.length > 0) {
@@ -200,7 +202,41 @@ export default {
             } catch (error) {
                 console.error("Error updating likes: ", error);
             }
-        }
+        },
+
+        async reportPost(post) {
+            try {
+
+                console.log(post)
+                const uid = auth.currentUser.uid;
+
+                const postRef = doc(db, "posts", post.id);
+
+                // Like the post by adding the user's UID to the likes array
+                await updateDoc(postRef, {
+                    reports: arrayUnion(uid),
+                });
+
+                post.reports.push(uid);
+            } catch (error) {
+                console.error("Error adding report: ", error);
+            }
+        },
+        async deletePost(post) {
+            try {
+                
+                const postRef = doc(db, "posts", post.id);
+
+                // Like the post by adding the user's UID to the likes array
+                await updateDoc(postRef, {
+                    isDeleted: true,
+                });
+
+                post.isDeleted = true;
+            } catch (error) {
+                console.error("Error adding report: ", error);
+            }
+        },
 
 
     },

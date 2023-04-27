@@ -47,7 +47,9 @@
         FirstName: auth.currentUser.displayName.split(' ')[0],
         LastName: auth.currentUser.displayName.split(' ')[1],
         postType: "post",
-        likes: []
+        likes: [],
+        isDeleted: false,
+        reports:[]
       });
       console.log(res);
 
