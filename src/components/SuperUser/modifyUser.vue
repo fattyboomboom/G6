@@ -32,12 +32,6 @@
     <thead>
       <tr>
         <th class="text-left">
-          Name
-        </th>
-        <th class="text-left">
-          Last Name
-        </th>
-        <th class="text-left">
           Email
         </th>
         <th class="text-left">
