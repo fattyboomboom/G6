@@ -47,8 +47,6 @@
     </thead>
     <tbody>
       <tr v-for="users in users" :key="users.uid">
-        <!-- <td class="border-black">{{ users.FirstName }}</td>
-        <td class="border-black">{{ users.LastName }}</td> -->
         <td class="border-black">{{ users.AcctEmail }}</td>
         <td class="border-black">{{ formatDistanceToNow(users.LastLogin) }}</td>
         <td class="border-black">
@@ -78,7 +76,6 @@ export default {
     loaded: false,
     loading: false,
     headers: [
-      { text: 'Name', value: 'name' },
       { text: 'Email', value: 'email' },
       { text: 'Last LogIn', value: 'lastLogin' },
     ],

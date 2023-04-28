@@ -2,7 +2,7 @@
 
 
         <v-card>
-          <v-card-title class="bg-black d-flex justify-space-between">
+          <v-card-title class="bg-homebanner d-flex justify-space-between">
             <v-spacer></v-spacer>
             <span class="text-center">Super User</span>
 

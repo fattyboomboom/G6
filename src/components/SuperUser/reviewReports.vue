@@ -22,7 +22,7 @@
             <td>{{ post.content }}</td>
             <td class="text-right">
               <v-btn color="indigo">Repeal</v-btn>
-              <v-btn color="error" class="mr-3">Delete</v-btn>
+              <v-btn color="error" class="mr-3" @click="deletePost(post)">Delete</v-btn>
 
             </td>
           </tr>
@@ -40,7 +40,7 @@
 <script>
 
 import { ref, onMounted } from "vue";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where,  doc, updateDoc, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase";
 import { formatDistanceToNow } from "date-fns";
 
@@ -53,13 +53,20 @@ name: "SuperUserDash",
     const fetchPosts = async () => {
       try {
         const postRef = collection(db, "posts");
-        const q = query(postRef, where("reports", "!=", ""));
-        const querySnapshot = await getDocs(q);
-        const postsArray = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        posts.value = postsArray;
+        const q = query(postRef, where("isDeleted", "==", false));
+        onSnapshot(q, (docSnap) => {
+                    posts.value = docSnap.docs.map((doc) => {
+                        const data = doc.data();
+                        data.id = doc.id;
+                        return data;
+                    });
+        // const querySnapshot = await getDocs(q);
+        // const postsArray = querySnapshot.docs.map((doc) => ({
+        //   id: doc.id,
+        //   ...doc.data(),
+        // }));
+      });
+        
         console.log(posts.value);
       } catch (err) {
         error.value = err.message;
@@ -93,12 +100,24 @@ name: "SuperUserDash",
       const date = timestamp.toDate();
       return formatDistanceToNow(date);
     },
+
+    async deletePost(post) {
+    try {        
+    const postRef = doc(db, "posts", post.id)
+    await updateDoc(postRef, {
+    isDeleted: true,
+    });
+    post.isDeleted = true;
+     } catch (error) {
+    console.error("Error adding report: ", error); }
   },
   computed: {
     displayedPosts() {
       return this.posts.slice(0, this.maxPosts);
     },
   },
+
+}
 }
 
 

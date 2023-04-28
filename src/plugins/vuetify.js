@@ -25,6 +25,7 @@ const myCustomTheme = {
     info: '#2196F3',
     login: '#669bbc',
     warning: '#FB8C00',
+    homebanner: '#4a6fa5'
   }
 }
 
