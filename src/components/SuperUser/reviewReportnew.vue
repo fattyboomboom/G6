@@ -13,16 +13,16 @@
       >
         <v-card-text>
           <v-text-field
-          ref="searchInput"
-            :loading="loading"
-            density="default"
-            variant="solo"
-            label="Search reports by name or content"
-            append-inner-icon="mdi-magnify"
-            single-line
-            hide-details
-            @click:append-inner="onClick"
-          ></v-text-field>
+  v-model="searchInput"
+  :loading="loading"
+  density="default"
+  variant="solo"
+  label="Search users by name or email"
+  append-inner-icon="mdi-magnify"
+  single-line
+  hide-details
+  @click:append-inner="onClick"
+></v-text-field>
         </v-card-text>
       </v-card>
       </v-sheet>
@@ -45,7 +45,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="post in posts" :key="post.uid">
+        <tr v-for="post in filteredPosts" :key="post.uid">
           <td class="border-black">{{ `${post.FirstName} ${post.LastName}`}}</td>
           <td class="border-black">{{ formatDate (post.PostDate) }}</td>
           <td class="border-black">{{ post.content }}</td>
@@ -74,7 +74,12 @@ import { formatDistanceToNow } from "date-fns";
 
 export default {
 name: "SuperUserDash",
-  setup() {
+data: () => ({
+    searchInput:'',
+    loaded: false,
+    loading: false,
+}),
+setup() {
     const posts = ref([]);
     const error = ref(null);
 
@@ -133,11 +138,31 @@ name: "SuperUserDash",
     post.isDeleted = true;
      } catch (error) {
     console.error("Error adding report: ", error); }
+    
+  },
+  onClick() {
+    this.loading = true;
+    setTimeout(() => {
+      this.loading = false;
+      this.$refs.searchInput.focus();
+    }, 2000);
+  },
+
+  onButtonClicked(user) {
+    console.log("Row clicked:", user);
   },
   computed: {
     displayedPosts() {
       return this.posts.slice(0, this.maxPosts);
     },
+    filteredPosts() {
+    const searchText = this.searchInput.toLowerCase();
+  return this.users.filter(
+    (user) =>
+      user.AcctEmail.toLowerCase().includes(searchText) ||
+      user.LastLogin.toString().toLowerCase().includes(searchText)
+  );
+  },
   },
 
 }
