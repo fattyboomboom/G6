@@ -11,10 +11,10 @@
             <v-menu>
 
               <template v-slot:activator="{ props }">
-                <v-btn variant= "text" v-bind="props">Class</v-btn>
+                <v-btn variant= "text" v-bind="props" to="/modifclass">Class</v-btn>
               </template>
 
-              <v-list>
+              <!-- <v-list>
                 <v-list-item
                 title="Add"
                 value="addclass"
@@ -25,13 +25,13 @@
                 value="modclass"
                 to="/modifclass"
                 ></v-list-item>
-              </v-list>
+              </v-list> -->
             </v-menu>
              <v-menu>
               <template v-slot:activator="{ props }">
-                <v-btn variant= "text" v-bind="props">User</v-btn>
+                <v-btn variant= "text" v-bind="props" to="/modifuser">User</v-btn>
               </template>
-                 <v-list>
+                 <!-- <v-list>
                 <v-list-item
                 title="Add"
                 value="adduser"
@@ -42,7 +42,7 @@
                 value="moduser"
                 to="/modifuser"
                 ></v-list-item>
-              </v-list>
+              </v-list> -->
             </v-menu>
             <v-btn variant= "text" to="/reports" >Review reports</v-btn>
           </v-card-title>

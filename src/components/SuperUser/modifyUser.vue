@@ -14,16 +14,16 @@
     >
       <v-card-text>
         <v-text-field
-        ref="searchInput"
-          :loading="loading"
-          density="default"
-          variant="solo"
-          label="Search users by name or email"
-          append-inner-icon="mdi-magnify"
-          single-line
-          hide-details
-          @click:append-inner="onClick"
-        ></v-text-field>
+  v-model="searchInput"
+  :loading="loading"
+  density="default"
+  variant="solo"
+  label="Search users by name or email"
+  append-inner-icon="mdi-magnify"
+  single-line
+  hide-details
+  @click:append-inner="onClick"
+></v-text-field>
       </v-card-text>
     </v-card>
     </v-sheet>
@@ -35,12 +35,12 @@
           Email
         </th>
         <th class="text-left">
-          Last LogIn
+          Last Login
         </th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="users in users" :key="users.uid">
+      <tr v-for="users in filteredUsers" :key="users.uid">
         <td class="border-black">{{ users.AcctEmail }}</td>
         <td class="border-black">{{ formatDistanceToNow(users.LastLogin) }}</td>
         <td class="border-black">
@@ -60,26 +60,23 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted} from "vue";
 import { collection, query, getDocs } from "firebase/firestore";
 import { db } from "@/firebase";
 import { formatDistanceToNow } from "date-fns";
 
 export default {
     data: () => ({
+    searchInput:'',
     loaded: false,
     loading: false,
     headers: [
       { text: 'Email', value: 'email' },
-      { text: 'Last LogIn', value: 'lastLogin' },
-    ],
-    filteredUsers: [
-      // { name: 'John', lastName:'Doe', email: 'john.doe@example.com', lastLogin: '4/2/2023' },
-      // { name: 'Jane', lastName: 'Doe', email: 'jane.doe@example.com', lastLogin: '3/28/2023' },
-      // { name: 'Bob', lastName: 'Smith', email: 'bob.smith@example.com', lastLogin: '3/30/2023' },
+      { text: 'Last Login', value: 'lastLogin' },
     ],
 
-    
+
+      
   }),
 
   setup() {
@@ -129,12 +126,28 @@ export default {
       const date = timestamp.toDate();
       return formatDistanceToNow(date);
     },
+    onClick() {
+    this.loading = true;
+    setTimeout(() => {
+      this.loading = false;
+      this.$refs.searchInput.focus();
+    }, 2000);
+  },
+
+  onButtonClicked(user) {
+    console.log("Row clicked:", user);
+  },
   },
   computed: {
-    displayedPosts() {
-      return this.posts.slice(0, this.maxPosts);
-    },
+  filteredUsers() {
+    const searchText = this.searchInput.toLowerCase();
+  return this.users.filter(
+    (user) =>
+      user.AcctEmail.toLowerCase().includes(searchText) ||
+      user.LastLogin.toString().toLowerCase().includes(searchText)
+  );
   },
+},
 }
 
 

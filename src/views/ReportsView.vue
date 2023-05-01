@@ -5,7 +5,7 @@
   </template>
   
   <script>
-import ReviewReports from "@/components/SuperUser/reviewReports.vue";
+import ReviewReports from "@/components/SuperUser/reviewReportnew.vue";
 import NavBar from '@/globalcomponents/NavBar.vue';
 import SuperNavBar from '@/components/SuperUser/SuperNavBar.vue'
   
