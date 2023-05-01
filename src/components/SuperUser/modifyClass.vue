@@ -54,8 +54,16 @@
           
 
           <td class="border-black">
-              <v-btn color="indigo" @click="onButtonClicked(item)">
-                Add
+            <v-combobox
+            v-model="selectedUser"
+             label="Select Moderator"
+            :items= "usersEmail"
+             variant="solo-filled"
+            ></v-combobox>
+            </td>
+            <td class="border-black">
+              <v-btn color="indigo">
+               Add
               </v-btn>
             </td>
         </tr>
@@ -74,11 +82,17 @@ import { db } from "@/firebase";
       loaded: false,
       loading: false,
       searchInput: '',
+      
+
     }),
 
     setup() {
     const classes = ref([]);
     const error = ref(null);
+    const users = ref([]);
+    const selectedUser = ref(null);
+    const usersEmail = ref([]);
+
 
 
     const fetchClas = async () => {
@@ -97,11 +111,29 @@ import { db } from "@/firebase";
       }
     };
 
+    const fetchUsers = async () => {
+      try {
+        const postRef = collection(db, "accounts");
+        const q = query(postRef);
+        const querySnapshot = await getDocs(q);
+        const usersArray = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        users.value = usersArray;
+        usersEmail.value = usersArray.map(user => user.AcctEmail);
+        console.log(users.value);
+      } catch (err) {
+        error.value = err.message;
+      }
+    };
+
     onMounted(() => {
       fetchClas();
+      fetchUsers();
     });
 
-    return { classes, error };
+    return { classes, error, users, selectedUser, usersEmail };
   },
   computed: {
  
