@@ -44,8 +44,16 @@
         <td class="border-black">{{ users.AcctEmail }}</td>
         <td class="border-black">{{ formatDistanceToNow(users.LastLogin) }}</td>
         <td class="border-black">
+            <v-combobox
+            v-model="selectedUser"
+             label="Select Permits"
+            :items= "[ 'SuperUser', 'Moderator', 'Student']"
+             variant="solo-filled"
+            ></v-combobox>
+            </td>
+        <td class="border-black">
             <v-btn color="indigo" @click="onButtonClicked(item)">
-              Modify
+              Modify Permits
             </v-btn>
           </td>
           <td class="border-black">
