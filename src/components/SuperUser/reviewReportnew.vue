@@ -62,7 +62,7 @@
       </tbody>
     </v-table>
   
-  </template>
+</template>
 
 <script>
 

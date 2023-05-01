@@ -6794,10 +6794,10 @@
     "@vue/compiler-sfc" "2.7.14"
     "csstype" "^3.1.0"
 
-"vuetify@^3.0.0-beta.4", "vuetify@^3.1.4":
-  "integrity" "sha512-6ERm2a0bJyMLjmRKTifN501o3MsCVp9agtoZsORw1b3X29ycTdXOJdRMEADaDSv59dBWwUVv3WqHcWzCG4Gwfw=="
-  "resolved" "https://registry.npmjs.org/vuetify/-/vuetify-3.1.4.tgz"
-  "version" "3.1.4"
+"vuetify@^3.0.0-beta.4", "vuetify@^3.2.1":
+  "integrity" "sha512-XOGfDuDGG4j/dJSu73JrkfrGB141LoiLyoZecGtUou24xMf17Rnk+pzOH+YYRVgQ7HFc4kG95DzFmAXS5ysEGA=="
+  "resolved" "https://registry.npmjs.org/vuetify/-/vuetify-3.2.1.tgz"
+  "version" "3.2.1"
 
 "watchpack@^2.4.0":
   "integrity" "sha512-Lcvm7MGST/4fup+ifyKi2hjyIAwcdI4HRgtvTpIUxBRhB+RFtUh8XtDOxUfctVCnhVi+QQj49i91OyvzkJl6cg=="

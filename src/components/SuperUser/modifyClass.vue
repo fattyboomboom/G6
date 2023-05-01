@@ -18,7 +18,7 @@
             :loading="loading"
             density="default"
             variant="solo"
-            label="Search class by name, section or prof"
+            label="Search class by prefix or number"
             append-inner-icon="mdi-magnify"
             single-line
             hide-details
@@ -32,13 +32,16 @@
       <thead>
         <tr>
           <th class="text-left">
-            Name
+            Prefix
           </th>
           <th class="text-left">
-            Section
+            Number
           </th>
           <th class="text-left">
-            Professor
+            Students
+          </th>
+          <th class="text-left">
+            Moderator
           </th>
 
         </tr>
@@ -46,28 +49,23 @@
       <tbody>
         <tr v-for="clas in classes" :key="clas.uid">
           <td class="border-black">{{ clas.prefix }}</td>
-          <!-- <td class="border-black">{{ clas.section }}</td> -->
-          <!-- <td class="border-black">{{ clas.prof }}</td> -->
+          <td class="border-black">{{ clas.classNum}}</td>
+          <td class="border-black">{{ clas.students.length}}</td>
+          
 
           <td class="border-black">
               <v-btn color="indigo" @click="onButtonClicked(item)">
-                Modify
-              </v-btn>
-            </td>
-            <td class="border-black">
-              <v-btn color="error" @click="onButtonClicked(item)">
-                Delete
+                Add
               </v-btn>
             </td>
         </tr>
       </tbody>
     </v-table>
-
-  </template>
+</template>
 
   <script>
 import { ref, onMounted } from "vue";
-import { collection, query, where, getDocs,limit } from "firebase/firestore";
+import { collection, query,  getDocs, where} from "firebase/firestore";
 import { db } from "@/firebase";
 
   
@@ -75,23 +73,17 @@ import { db } from "@/firebase";
       data: () => ({
       loaded: false,
       loading: false,
-      headers: [
-        { text: 'Name', value: 'name' },
-        { text: 'Section', value: 'section' },
-        { text: 'Professor', value: 'prof' },
-      ],
-      filteredUsers: [
-      ],
     }),
 
     setup() {
     const classes = ref([]);
     const error = ref(null);
 
+
     const fetchClas = async () => {
       try {
         const postRef = collection(db, "classes");
-        const q = query(postRef,where("moderatorUID", "==", ""),where("students", "!=", ""),limit(10));
+        const q = query(postRef, where ("moderatorUID", "!=" , null));
         const querySnapshot = await getDocs(q);
         const clasArray = querySnapshot.docs.map((doc) => ({
           id: doc.id,
@@ -110,24 +102,6 @@ import { db } from "@/firebase";
 
     return { classes, error };
   },
-    //methods: {
-     // onClick () {
-    //this.loading = true
-    //setTimeout(() => {
-     // this.loading = false
-     // const searchText = this.$refs.searchInput.value.toLowerCase()
-      //this.filteredUsers = this.filteredUsers.filter(user => {
-        //return user.name.toLowerCase().includes(searchText) ||
-          //     user.prof.toLowerCase().includes(searchText) ||
-            //    user.section.toLowerCase().includes(searchText)
-      //})
-    //}, 2000)
-  //}
-  //},
-    //  onButtonClicked (item) {
-        // Implement your row action here
-      //  console.log('Row clicked:', item)
-      //},
   
   }
   </script>
