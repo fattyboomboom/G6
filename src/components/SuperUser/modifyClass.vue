@@ -14,7 +14,8 @@
       >
         <v-card-text>
           <v-text-field
-          ref="searchInput"
+            ref="searchInput"
+            v-model="searchInput"
             :loading="loading"
             density="default"
             variant="solo"
@@ -22,7 +23,6 @@
             append-inner-icon="mdi-magnify"
             single-line
             hide-details
-            @click:append-inner="onClick"
           ></v-text-field>
         </v-card-text>
       </v-card>
@@ -47,7 +47,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="clas in classes" :key="clas.uid">
+        <tr v-for="clas in filteredClasses" :key="clas.uid">
           <td class="border-black">{{ clas.prefix }}</td>
           <td class="border-black">{{ clas.classNum}}</td>
           <td class="border-black">{{ clas.students.length}}</td>
@@ -73,6 +73,7 @@ import { db } from "@/firebase";
       data: () => ({
       loaded: false,
       loading: false,
+      searchInput: '',
     }),
 
     setup() {
@@ -102,6 +103,16 @@ import { db } from "@/firebase";
 
     return { classes, error };
   },
-  
+  computed: {
+ 
+ filteredClasses() {
+ const searchText = this.searchInput.toLowerCase();
+  return this.classes.filter(
+ (clas) =>
+   clas.prefix.toLowerCase().includes(searchText) ||
+   clas.classNum.toString().toLowerCase().includes(searchText)
+);
+},
+},
   }
   </script>

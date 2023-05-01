@@ -36,6 +36,7 @@
         <th class="text-left">
           Last Login
         </th>
+        <th class="text-left">Actions</th>
       </tr>
     </thead>
     <tbody>

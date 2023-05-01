@@ -38,7 +38,7 @@
           <th class="text-left">
             Content
             </th>  
-            <th class="text-center">
+            <th class="text-left">
             Actions
             </th>
         </tr>
