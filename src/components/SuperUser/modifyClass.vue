@@ -114,7 +114,7 @@ import { db } from "@/firebase";
     const fetchUsers = async () => {
       try {
         const postRef = collection(db, "accounts");
-        const q = query(postRef);
+        const q = query(postRef,where ("moderator", "==", true));
         const querySnapshot = await getDocs(q);
         const usersArray = querySnapshot.docs.map((doc) => ({
           id: doc.id,
