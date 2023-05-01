@@ -81,10 +81,6 @@ import { db } from "@/firebase";
         { text: 'Professor', value: 'prof' },
       ],
       filteredUsers: [
-        //{ name: 'CS425', section: '1234124', prof: 'Vinh Le' },
-        //{ name: 'CS426', section: '43532', prof: 'Devrin Lee'},
-        //{ name: 'CHS360', section: '234656', prof: 'Bob Burgers' },
-        //{ name: 'CH201', section: '984958', prof: 'John Doe'},
       ],
     }),
 

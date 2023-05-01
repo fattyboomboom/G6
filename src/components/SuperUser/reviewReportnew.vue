@@ -1,32 +1,31 @@
 <template>
     <div>
-  
       <v-sheet
-              :class="[computedMargin]"
-              elevation="4"
-              rounded
-            >
+        :class="[computedMargin]"
+        elevation="4"
+        rounded
+      >
       <v-card
         class="mx-auto"
         color="grey-lighten-3"
         max-width="400"
       >
-        <v-card-text>
-          <v-text-field
-  v-model="searchInput"
-  :loading="loading"
-  density="default"
-  variant="solo"
-  label="Search users by name or email"
-  append-inner-icon="mdi-magnify"
-  single-line
-  hide-details
-  @click:append-inner="onClick"
-></v-text-field>
-        </v-card-text>
-      </v-card>
-      </v-sheet>
-    </div>
+      <v-card-text>
+        <v-text-field
+          ref="searchInput"
+          v-model="searchInput"
+          :loading="loading"
+          density="default"
+          variant="solo"
+          label="Search reports by name or content"
+          append-inner-icon="mdi-magnify"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-card-text>
+    </v-card>
+  </v-sheet>
+</div>
       <v-table style="margin-left: 3.5rem;">
       <thead>
         <tr>
@@ -88,11 +87,11 @@ setup() {
         const postRef = collection(db, "posts");
         const q = query(postRef, where("isDeleted", "==", false));
         onSnapshot(q, (docSnap) => {
-                    posts.value = docSnap.docs.map((doc) => {
-                        const data = doc.data();
-                        data.id = doc.id;
-                        return data;
-                    });
+          posts.value = docSnap.docs.map((doc) => {
+          const data = doc.data();
+          data.id = doc.id;
+          return data;
+      });
       });
         
         console.log(posts.value);
@@ -140,58 +139,24 @@ setup() {
     console.error("Error adding report: ", error); }
     
   },
-  onClick() {
-    this.loading = true;
-    setTimeout(() => {
-      this.loading = false;
-      this.$refs.searchInput.focus();
-    }, 2000);
-  },
 
-  onButtonClicked(user) {
-    console.log("Row clicked:", user);
+  onButtonClicked(post) {
+    console.log("Row clicked:", post);
+  },
   },
   computed: {
-    displayedPosts() {
-      return this.posts.slice(0, this.maxPosts);
-    },
+ 
     filteredPosts() {
     const searchText = this.searchInput.toLowerCase();
-  return this.users.filter(
-    (user) =>
-      user.AcctEmail.toLowerCase().includes(searchText) ||
-      user.LastLogin.toString().toLowerCase().includes(searchText)
+  return this.posts.filter(
+    (post) =>
+      post.FirstName.toLowerCase().includes(searchText) ||
+      post.LastName.toLowerCase().includes(searchText) ||
+      post.content.toLowerCase().includes(searchText)
   );
   },
   },
 
 }
-}
-
-
 
 </script>
-
-
-
-<!-- <style scoped>
-.v-card {
-max-width: 80%;
-margin: 5px auto;
-}
-td {
-padding: 10px;
-}
-.v-btn {
-margin: 0 10px;
-}
-.text-right {
-text-align: right;
-}
-tbody tr {
-border-top: 1px solid lightgray;
-}
-.black {
-background-color: #000000;
-}
-</style> -->

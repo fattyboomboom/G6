@@ -22,7 +22,6 @@
   append-inner-icon="mdi-magnify"
   single-line
   hide-details
-  @click:append-inner="onClick"
 ></v-text-field>
       </v-card-text>
     </v-card>
@@ -126,13 +125,6 @@ export default {
       const date = timestamp.toDate();
       return formatDistanceToNow(date);
     },
-    onClick() {
-    this.loading = true;
-    setTimeout(() => {
-      this.loading = false;
-      this.$refs.searchInput.focus();
-    }, 2000);
-  },
 
   onButtonClicked(user) {
     console.log("Row clicked:", user);
