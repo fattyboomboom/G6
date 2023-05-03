@@ -60,10 +60,12 @@
              :items="usersEmail"
               label="Select Moderator"
               variant="solo-filled"
+              @click = logUser(users)
+              v-model = "selectedUser"
             ></v-select>
             </td>
             <td class="border-black">
-              <v-btn color="indigo">
+              <v-btn @click = onAddModeratorClick(selectedUser,clas) color="indigo">
                Add
               </v-btn>
             </td>
@@ -74,7 +76,7 @@
 
   <script>
 import { ref, onMounted } from "vue";
-import { collection, query,  getDocs, where} from "firebase/firestore";
+import { collection, query,  getDocs, where, updateDoc, doc} from "firebase/firestore";
 import { db } from "@/firebase";
 
   
@@ -83,6 +85,7 @@ import { db } from "@/firebase";
       loaded: false,
       loading: false,
       searchInput: '',
+      selectedUser : '',
       
 
     }),
@@ -91,7 +94,6 @@ import { db } from "@/firebase";
     const classes = ref([]);
     const error = ref(null);
     const users = ref([]);
-    const selectedUser = ref(null);
     const usersEmail = ref([]);
 
 
@@ -133,8 +135,8 @@ import { db } from "@/firebase";
       fetchClas();
       fetchUsers();
     });
-
-    return { classes, error, users, selectedUser, usersEmail };
+console.log(usersEmail);
+    return { classes, error, users, usersEmail };
   },
   computed: {
  
@@ -147,8 +149,21 @@ import { db } from "@/firebase";
 );
 },
 },
-
+methods: {
+  async onAddModeratorClick(selectedUser, clas){
+    console.log(selectedUser.uid);
+    try {        
+    const postRef = doc(db, "classes", clas.id)
+    await updateDoc(postRef, {
+    moderatorUID: selectedUser.uid,
+    });
+     } catch (error) {
+    console.error("Error adding report: ", error); }
+    },
   }
+  
+}
+  
 </script>
 //done terribly by Melanie Bazgan, goodluck fixing this mess
 //melaniebazgan@gmail.com
