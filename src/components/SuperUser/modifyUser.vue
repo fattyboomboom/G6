@@ -56,12 +56,31 @@
             ></v-combobox> -->
 
         <td class="border-black">
-            <v-btn color="indigo" v-if="users.isModerator===true" @click="demoteUser(users)">Demote</v-btn>
-            <v-btn color="indigo" v-if="users.isModerator===false" @click="promoteUser(users)">Promote</v-btn>
+            <v-btn class="custom-button" color="indigo"  v-if="users.isModerator===true" @click="demoteUser(users)">Demote</v-btn>
+            <v-btn class="custom-button" color="indigo"  v-if="users.isModerator===false" @click="promoteUser(users)">Promote</v-btn>
           </td>
           <td class="border-black">
-            <v-btn color="error" @click="deleteUser(users)">
+            <v-btn
+            class="custom-button"
+             color="error" @click="showModal = true">
               Delete
+              <v-icon
+            end
+            icon="mdi-cancel"
+          ></v-icon>
+          <v-dialog v-model="showModal" max-width="500px">
+        <v-card>
+        <v-card-title class="headline">Confirm Delete</v-card-title>
+        <v-card-text>
+          Are you sure you want to delete this user?
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="green" text @click="deleteUser(users)">Yes</v-btn>
+          <v-btn color="red" text @click="showModal = false">No</v-btn>
+          
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
             </v-btn>
           </td>
       </tr>
@@ -82,11 +101,14 @@ export default {
     searchInput:'',
     loaded: false,
     loading: false,
+    showModal: false,
     headers: [
       { text: 'Email', value: 'email' },
       { text: 'Last Login', value: 'lastLogin' },
     ],
-
+    
+    
+    
 
       
   }),
@@ -176,6 +198,7 @@ export default {
         isDeleted: true,
       });
       user.isDeleted = true;
+      this.showModal = false;
     } catch (err) {
       console.log(err.message);
     }
@@ -217,6 +240,12 @@ export default {
 
 // }
 </script>
+<style>
+.custom-button {
+  width: 110px;
+  height: 50px;
 
+}
+</style>
 //done terribly by Melanie Bazgan, goodluck fixing this mess
 //melaniebazgan@gmail.com

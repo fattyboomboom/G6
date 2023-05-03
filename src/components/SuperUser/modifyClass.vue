@@ -54,6 +54,7 @@
 
           <td class="border-black">
     <v-select
+      class="custom-dropdown"
       :value="selectedUser"
       @input="selectedUser = $event"
       :items="usersEmail"
@@ -62,7 +63,7 @@
     ></v-select>
   </td>
   <td class="border-black">
-    <v-btn @click="onAddModeratorClick(event, clas)" color="indigo">
+    <v-btn class="custom-button" @click="onAddModeratorClick(event, clas)" color="indigo">
       Add
     </v-btn>
             </td>
@@ -99,7 +100,7 @@ import { db } from "@/firebase";
     const fetchClas = async () => {
       try {
         const postRef = collection(db, "classes");
-        const q = query(postRef, where ("moderatorUID", "!=" , null));
+        const q = query(postRef, where ("moderatorUID", "!=" , ""));
         const querySnapshot = await getDocs(q);
         const clasArray = querySnapshot.docs.map((doc) => ({
           id: doc.id,
@@ -165,5 +166,17 @@ methods: {
 }
   
 </script>
+<style>
+.custom-button {
+  width: 110px;
+  height: 50px;
+
+}
+/* .custom-dropdown {
+  width: 200px;
+  height: 50px;
+} */
+</style>
+
 //done terribly by Melanie Bazgan, goodluck fixing this mess
 //melaniebazgan@gmail.com

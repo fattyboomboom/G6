@@ -49,13 +49,31 @@
           <td class="border-black">{{ formatDate (post.PostDate) }}</td>
           <td class="border-black">{{ post.content }}</td>
           <td class="border-black">
-              <v-btn color="indigo" @click="deletePost(post)">
+              <v-btn class="custom-button" color="indigo" @click="repealPost(post)">
                 Repeal
               </v-btn>
             </td>
             <td class="border-black">
-              <v-btn color="error" @click="repealPost(post)">
+              <v-btn class="custom-button" color="error" @click="showModal = true">
                 Delete
+                
+              <v-icon
+            end
+            icon="mdi-cancel"
+          ></v-icon>
+          <v-dialog v-model="showModal" max-width="500px">
+        <v-card>
+        <v-card-title class="headline">Confirm Delete</v-card-title>
+        <v-card-text>
+          Are you sure you want to delete this post?
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="green" text @click="deletePost(post)">Yes</v-btn>
+          <v-btn color="red" text @click="showModal = false">No</v-btn>
+          
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
               </v-btn>
             </td>
         </tr>
@@ -77,6 +95,7 @@ data: () => ({
     searchInput:'',
     loaded: false,
     loading: false,
+    showModal: false,
 }),
 setup() {
     const posts = ref([]);
@@ -135,6 +154,7 @@ setup() {
     isDeleted: true,
     });
     post.isDeleted = true;
+    this.showModal= false;
      } catch (error) {
     console.error("Error adding report: ", error); }
     },
@@ -173,5 +193,12 @@ setup() {
 }
 
 </script>
+<style>
+.custom-button {
+  width: 110px;
+  height: 50px;
+
+}
+</style>
 //done terribly by Melanie Bazgan, goodluck fixing this mess
 //melaniebazgan@gmail.com
