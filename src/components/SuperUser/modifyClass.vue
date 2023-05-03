@@ -54,12 +54,13 @@
           
 
           <td class="border-black">
-            <v-combobox
-            v-model="selectedUser"
-             label="Select Moderator"
-            :items= "usersEmail"
-             variant="solo-filled"
-            ></v-combobox>
+            <v-select
+            :value="selectedUser"
+            @input="selectedUser = $event"
+             :items="usersEmail"
+              label="Select Moderator"
+              variant="solo-filled"
+            ></v-select>
             </td>
             <td class="border-black">
               <v-btn color="indigo">
@@ -146,7 +147,8 @@ import { db } from "@/firebase";
 );
 },
 },
+
   }
-  </script>
+</script>
 //done terribly by Melanie Bazgan, goodluck fixing this mess
 //melaniebazgan@gmail.com
