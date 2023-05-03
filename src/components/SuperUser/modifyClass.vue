@@ -1,4 +1,3 @@
-
 <template>
     <div>
     
@@ -54,20 +53,18 @@
           
 
           <td class="border-black">
-            <v-select
-            :value="selectedUser"
-            @input="selectedUser = $event"
-             :items="usersEmail"
-              label="Select Moderator"
-              variant="solo-filled"
-              @click = logUser(users)
-              v-model = "selectedUser"
-            ></v-select>
-            </td>
-            <td class="border-black">
-              <v-btn @click = onAddModeratorClick(selectedUser,clas) color="indigo">
-               Add
-              </v-btn>
+    <v-select
+      :value="selectedUser"
+      @input="selectedUser = $event"
+      :items="usersEmail"
+      label="Select Moderator"
+      variant="solo-filled"
+    ></v-select>
+  </td>
+  <td class="border-black">
+    <v-btn @click="onAddModeratorClick(event, clas)" color="indigo">
+      Add
+    </v-btn>
             </td>
         </tr>
       </tbody>
@@ -86,6 +83,7 @@ import { db } from "@/firebase";
       loading: false,
       searchInput: '',
       selectedUser : '',
+      
       
 
     }),
@@ -150,16 +148,18 @@ console.log(usersEmail);
 },
 },
 methods: {
-  async onAddModeratorClick(selectedUser, clas){
-    console.log(selectedUser.uid);
-    try {        
-    const postRef = doc(db, "classes", clas.id)
+  async onAddModeratorClick(event, clas) {
+    const { selectedUser } = this;
+  console.log(selectedUser.uid);
+  try {
+    const postRef = doc(db, "classes", clas.id);
     await updateDoc(postRef, {
-    moderatorUID: selectedUser.uid,
+      moderatorUID: selectedUser.uid,
     });
-     } catch (error) {
-    console.error("Error adding report: ", error); }
-    },
+  } catch (error) {
+    console.error("Error adding report: ", error);
+  }
+},
   }
   
 }

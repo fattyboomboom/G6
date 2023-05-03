@@ -72,7 +72,7 @@
 
 <script>
 import { ref, onMounted} from "vue";
-import { collection, query, doc, updateDoc,where, onSnapshot } from "firebase/firestore";
+import { collection, query,  doc, updateDoc,where, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase";
 import { formatDistanceToNow } from "date-fns";
 
