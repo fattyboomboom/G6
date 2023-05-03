@@ -54,7 +54,7 @@
               </v-btn>
             </td>
             <td class="border-black">
-              <v-btn color="error" @click="deletePost(post)">
+              <v-btn color="error" @click="repealPost(post)">
                 Delete
               </v-btn>
             </td>
@@ -144,8 +144,9 @@ setup() {
     const postRef = doc(db, "posts", post.id)
     await updateDoc(postRef, {
     isDeleted: false,
+    reports:null,
     });
-    post.isDeleted = false;
+    // post.isDeleted = false;
      } catch (error) {
       console.error("Error adding report: ", error); }
      }
