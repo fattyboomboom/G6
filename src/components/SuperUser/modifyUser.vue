@@ -72,7 +72,7 @@
 
 <script>
 import { ref, onMounted} from "vue";
-import { collection, query, getDocs, doc, updateDoc,where } from "firebase/firestore";
+import { collection, query, doc, updateDoc,where, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase";
 import { formatDistanceToNow } from "date-fns";
 
@@ -99,12 +99,14 @@ export default {
       try {
         const userRef = collection(db, "accounts");
         const q = query(userRef,where ("isDeleted", "==", false));
-        const querySnapshot = await getDocs(q);
-        const usersArray = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        users.value = usersArray;
+         onSnapshot(q, (docSnap) =>{
+          users.value = docSnap.docs.map((doc) => {
+            const data = doc.data();
+            data.id = doc.id;
+            return data;
+          });
+        });
+        // users.value = usersArray;
         console.log(users.value);
       } catch (err) {
         error.value = err.message;
