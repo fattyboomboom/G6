@@ -27,6 +27,7 @@ import ClassPage from './views/ClassPage.vue'
 import SuperClass from './views/SuperClass.vue'
 import SuperUsers from './views/SuperUsers.vue'
 import ReportsView from './views/ReportsView.vue'
+import noPermitsVue from './components/SuperUser/noPermits.vue'
 
 import axios from "axios";
 
@@ -50,7 +51,9 @@ const router = createRouter({
     { path: '/classes/:classPrefix([A-Z]{2,4}):classNumber(\\d+)', component: ClassPage },
     {path : '/modifclass', component: SuperClass},
     {path: '/modifuser', component: SuperUsers},
-    {path: '/reports', component: ReportsView}
+    {path: '/reports', component: ReportsView},
+    {path: '/nopermits', component: noPermitsVue}
+
   ]
 });
 
