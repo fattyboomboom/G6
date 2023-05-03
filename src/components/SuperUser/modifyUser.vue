@@ -36,6 +36,9 @@
         <th class="text-left">
           Last Login
         </th>
+        <th class="text-left">
+          Current Status
+        </th>
         <th class="text-left">Actions</th>
       </tr>
     </thead>
@@ -43,21 +46,21 @@
       <tr v-for="users in filteredUsers" :key="users.uid">
         <td class="border-black">{{ users.AcctEmail }}</td>
         <td class="border-black">{{ formatDistanceToNow(users.LastLogin) }}</td>
-        <td class="border-black">
-            <v-combobox
+        <td class="border-black" v-if="users.isModerator===true">Moderator</td>
+        <td class="border-black" v-if="users.isModerator===false">Student</td>
+            <!-- <v-combobox
             v-model="selectedUser"
              label="Select Permits"
             :items= "[ 'SuperUser', 'Moderator', 'Student']"
              variant="solo-filled"
-            ></v-combobox>
-            </td>
+            ></v-combobox> -->
+
         <td class="border-black">
-            <v-btn color="indigo" @click="onButtonClicked(item)">
-              Modify Permits
-            </v-btn>
+            <v-btn color="indigo" v-if="users.isModerator===true" @click="demoteUser(users)">Demote</v-btn>
+            <v-btn color="indigo" v-if="users.isModerator===false" @click="promoteUser(users)">Promote</v-btn>
           </td>
           <td class="border-black">
-            <v-btn color="error" @click="onButtonClicked(item)">
+            <v-btn color="error" @click="deleteUser(users)">
               Delete
             </v-btn>
           </td>
@@ -69,9 +72,10 @@
 
 <script>
 import { ref, onMounted} from "vue";
-import { collection, query, getDocs } from "firebase/firestore";
+import { collection, query, getDocs, doc, updateDoc,where } from "firebase/firestore";
 import { db } from "@/firebase";
 import { formatDistanceToNow } from "date-fns";
+
 
 export default {
     data: () => ({
@@ -93,8 +97,8 @@ export default {
 
     const fetchUsers = async () => {
       try {
-        const postRef = collection(db, "accounts");
-        const q = query(postRef);
+        const userRef = collection(db, "accounts");
+        const q = query(userRef,where ("isDeleted", "==", false));
         const querySnapshot = await getDocs(q);
         const usersArray = querySnapshot.docs.map((doc) => ({
           id: doc.id,
@@ -138,7 +142,46 @@ export default {
   onButtonClicked(user) {
     console.log("Row clicked:", user);
   },
+  async demoteUser(user){
+    console.log(user.AcctEmail);
+    try{
+      const userRef = doc(db, "accounts", user.AcctEmail);
+      await updateDoc(userRef, {
+        isModerator: false,
+      });
+      user.isModerator = false;
+    } catch (err) {
+      console.log(err.message);
+    }
   },
+  async promoteUser(user){
+    console.log(user.AcctEmail);
+    try{
+      const userRef = doc(db, "accounts", user.AcctEmail);
+      await updateDoc(userRef, {
+        isModerator: true,
+      });
+      user.isModerator = true;
+    } catch (err) {
+      console.log(err.message);
+    }
+  },
+  async deleteUser(user){
+    console.log(user.AcctEmail);
+    try{
+      const userRef = doc(db, "accounts", user.AcctEmail);
+      await updateDoc(userRef, {
+        isDeleted: true,
+      });
+      user.isDeleted = true;
+    } catch (err) {
+      console.log(err.message);
+    }
+ 
+  },
+
+  },
+  
   computed: {
   filteredUsers() {
     const searchText = this.searchInput.toLowerCase();
@@ -172,3 +215,6 @@ export default {
 
 // }
 </script>
+
+//done terribly by Melanie Bazgan, goodluck fixing this mess
+//melaniebazgan@gmail.com

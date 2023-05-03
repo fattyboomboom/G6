@@ -58,3 +58,5 @@
   margin-left: 23%;
 }
 </style>
+//done terribly by Melanie Bazgan, goodluck fixing this mess
+//melaniebazgan@gmail.com

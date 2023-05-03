@@ -137,13 +137,25 @@ setup() {
     post.isDeleted = true;
      } catch (error) {
     console.error("Error adding report: ", error); }
+    },
     
+    async repealPost(post) {
+    try {
+    const postRef = doc(db, "posts", post.id)
+    await updateDoc(postRef, {
+    isDeleted: false,
+    });
+    post.isDeleted = false;
+     } catch (error) {
+      console.error("Error adding report: ", error); }
+     }
+
   },
 
   onButtonClicked(post) {
     console.log("Row clicked:", post);
   },
-  },
+  
   computed: {
  
     filteredPosts() {
@@ -160,3 +172,5 @@ setup() {
 }
 
 </script>
+//done terribly by Melanie Bazgan, goodluck fixing this mess
+//melaniebazgan@gmail.com

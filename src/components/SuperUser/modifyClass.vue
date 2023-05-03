@@ -148,3 +148,5 @@ import { db } from "@/firebase";
 },
   }
   </script>
+//done terribly by Melanie Bazgan, goodluck fixing this mess
+//melaniebazgan@gmail.com
