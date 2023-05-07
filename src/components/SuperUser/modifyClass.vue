@@ -96,7 +96,7 @@ import { db } from "@/firebase";
     const usersEmail = ref([]);
 
 
-
+// fetches all classes that have a moderator
     const fetchClas = async () => {
       try {
         const postRef = collection(db, "classes");
@@ -112,7 +112,7 @@ import { db } from "@/firebase";
         error.value = err.message;
       }
     };
-
+// fetches all moderators and not deleted users
     const fetchUsers = async () => {
       try {
         const postRef = collection(db, "accounts");
@@ -138,7 +138,7 @@ console.log(usersEmail);
     return { classes, error, users, usersEmail };
   },
   computed: {
- 
+ //search bar
  filteredClasses() {
  const searchText = this.searchInput.toLowerCase();
   return this.classes.filter(
@@ -149,6 +149,7 @@ console.log(usersEmail);
 },
 },
 methods: {
+  //this doesnt work yet
   async onAddModeratorClick(event, clas) {
     const { selectedUser } = this;
   console.log(selectedUser.uid);

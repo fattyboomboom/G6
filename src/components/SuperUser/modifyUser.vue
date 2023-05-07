@@ -116,7 +116,7 @@ export default {
   setup() {
     const users = ref([]);
     const error = ref(null);
-
+//query for users, if the user is deleted its not shown
     const fetchUsers = async () => {
       try {
         const userRef = collection(db, "accounts");
@@ -166,6 +166,7 @@ export default {
   onButtonClicked(user) {
     console.log("Row clicked:", user);
   },
+  //user demotion, if the user is a moderator, they are demoted to a student
   async demoteUser(user){
     console.log(user.AcctEmail);
     try{
@@ -178,6 +179,7 @@ export default {
       console.log(err.message);
     }
   },
+  //user promotion, if the user is a student, they are promoted to a moderator
   async promoteUser(user){
     console.log(user.AcctEmail);
     try{
@@ -190,6 +192,7 @@ export default {
       console.log(err.message);
     }
   },
+  //user deletion, if the user is deleted, they are no longer shown in the table
   async deleteUser(user){
     console.log(user.AcctEmail);
     try{
@@ -208,6 +211,7 @@ export default {
   },
   
   computed: {
+    //search bar
   filteredUsers() {
     const searchText = this.searchInput.toLowerCase();
   return this.users.filter(

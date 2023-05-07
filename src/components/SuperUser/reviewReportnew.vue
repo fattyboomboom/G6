@@ -100,7 +100,7 @@ data: () => ({
 setup() {
     const posts = ref([]);
     const error = ref(null);
-
+// fetches posts from firebase
     const fetchPosts = async () => {
       try {
         const postRef = collection(db, "posts");
@@ -146,7 +146,7 @@ setup() {
       const date = timestamp.toDate();
       return formatDistanceToNow(date);
     },
-
+//deletes post from firebase
     async deletePost(post) {
     try {        
     const postRef = doc(db, "posts", post.id)
@@ -158,7 +158,7 @@ setup() {
      } catch (error) {
     console.error("Error adding report: ", error); }
     },
-    
+    //repears post from firebase, sets isDeleted to false, and removes reports count
     async repealPost(post) {
     try {
     const postRef = doc(db, "posts", post.id)
@@ -178,7 +178,7 @@ setup() {
   },
   
   computed: {
- 
+ //search bar
     filteredPosts() {
     const searchText = this.searchInput.toLowerCase();
   return this.posts.filter(
